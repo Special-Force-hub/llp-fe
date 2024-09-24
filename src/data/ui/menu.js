@@ -152,8 +152,8 @@ const menuData = [
     name: 'Resource Center',
     icon: 'ion-ios-information-circle-outline',
     linkParent: 'https://www.leapeasy.com/resource',
-    isExternal: true
-  }
+    isExternal: true,
+  },
 ];
 
 export default menuData;

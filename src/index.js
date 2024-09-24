@@ -6,8 +6,12 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
 import { ReduxRouter } from '@lagunovsky/redux-react-router';
-import configureStore from './redux/configureStore';
+import configureStore from './store/configureStore';
 import history from 'utils/history';
+
+import { createGlobalStyle } from 'styled-components';
+import { global } from '@leapeasy/ui-kit';
+const GlobalStyle = createGlobalStyle`${global.GlobalStyle}`;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -18,10 +22,11 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ReduxRouter history={history} routerSelector={(state) => state.toJS().router}>
+        <GlobalStyle />
         <App />
       </ReduxRouter>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function
