@@ -61,14 +61,15 @@ function* send2FACode({ payload }) {
 
 function* updateAuthentication({ payload }) {
   try {
-    yield put(successNotif('loading'));
+    yield put(setLoading(true));
 
     const response = yield updatePassword(payload);
     yield refreshUser();
 
-    yield put(successNotif(response.message));
+    yield put(setLoading(false));
   } catch (error) {
-    yield put(failedNotif(error.response.data.message));
+    yield put(setError(error.response.data.message));
+    yield put(setLoading(false));
   }
 }
 

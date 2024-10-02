@@ -1,4 +1,4 @@
-function UpdatePassword() {
+export const Setup2FA = () => {
   return (
     <div className="App">
       <header className="App-header">
@@ -13,6 +13,4 @@ function UpdatePassword() {
       </header>
     </div>
   );
-}
-
-export default UpdatePassword;
+};

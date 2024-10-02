@@ -1,46 +1,42 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthLayoutContainer } from 'components/Layouts/AuthLayout';
+import { useNavigate } from 'react-router-dom';
 import { Typography, Input, Button, IconGraphy, colors, styles, Alert } from '@leapeasy/ui-kit';
+import { logOut, setError, updateAuth } from 'store/actions/authActions';
+import { useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { setResetResult, resetPasswordAction, setError } from 'store/actions/authActions';
 import { validatePassword } from 'utils/validations';
 
-export const ResetForm = () => {
-  const { token } = useParams();
-
+export const UpdatePassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const loading = useSelector((state) => state.getIn(['auth', 'loading']));
-  const resetResult = useSelector((state) => state.getIn(['auth', 'resetResult']));
   const error = useSelector((state) => state.getIn(['auth', 'error']));
 
-  const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [valid, setValid] = useState({
-    password: false,
+    newPassword: false,
     confirmPassword: false,
   });
 
   useEffect(() => {
-    dispatch(setResetResult(''));
     dispatch(setError(''));
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    }
   }, []);
 
   const onClickSubmit = useCallback(() => {
-    dispatch(resetPasswordAction({ password, token }));
-  }, [password, token]);
+    dispatch(updateAuth({ old_pwd: oldPassword, new_pwd: newPassword }));
+  }, [oldPassword, newPassword]);
 
-  useEffect(() => {
-    if (resetResult === 'success') {
-      navigate('/login');
-    }
-  }, [resetResult]);
-
-  const passwordNotMatch = password !== confirmPassword;
+  const passwordNotMatch = newPassword !== confirmPassword;
 
   return (
     <AuthLayoutContainer showGrayLogo>
@@ -52,11 +48,15 @@ export const ResetForm = () => {
           paddingRight: '12px',
         }}
         onClick={() => {
-          navigate('/login');
+          dispatch(logOut());
+
+          setTimeout(() => {
+            navigate('/login');
+          });
         }}
       >
         <IconGraphy icon="Arrow.ArrowBack" width={11} height={11} />
-        Back to Login
+        Back to Log in
       </Button>
 
       <Box
@@ -81,13 +81,28 @@ export const ResetForm = () => {
         <Box sx={{ border: '1px solid #F8F4F9', height: '0px' }} />
 
         <Input
-          label="New Password"
-          value={password}
+          label="Old Password"
+          value={oldPassword}
           onChange={(e) => {
-            setPassword(e.target.value);
+            setOldPassword(e.target.value);
+          }}
+          type="password"
+          minWidth="100%"
+          fullWidth
+          size="medium"
+          icon={<IconGraphy icon="Security.Lock" />}
+          showCopy={false}
+          showHelperOnTyping={false}
+        />
+
+        <Input
+          label="New Password"
+          value={newPassword}
+          onChange={(e) => {
+            setNewPassword(e.target.value);
             setValid({
               ...valid,
-              password: validatePassword(e.target.value),
+              newPassword: validatePassword(e.target.value),
             });
           }}
           type="password"
@@ -95,9 +110,11 @@ export const ResetForm = () => {
           fullWidth
           size="medium"
           icon={<IconGraphy icon="Security.Lock" />}
-          errorType={password && !valid.password ? 'error' : password ? 'success' : undefined}
+          errorType={
+            newPassword && !valid.newPassword ? 'error' : newPassword ? 'success' : undefined
+          }
           helperMessage={
-            password && !valid.password
+            newPassword && !valid.newPassword
               ? 'Must contain 1 number, 1 special character, and at lease 8 characters'
               : ''
           }
@@ -148,7 +165,8 @@ export const ResetForm = () => {
         style={{ minWidth: '100%' }}
         disabled={
           loading ||
-          !password ||
+          !oldPassword ||
+          !newPassword ||
           !confirmPassword ||
           !valid.password ||
           !valid.confirmPassword ||
