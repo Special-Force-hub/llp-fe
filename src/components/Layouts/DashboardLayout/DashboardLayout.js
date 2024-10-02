@@ -1,17 +1,44 @@
 import React, { useEffect } from 'react';
-import { Box, Grid } from '@mui/material';
-import { Typography, styles, colors } from '@leapeasy/ui-kit';
+import { Box } from '@mui/material';
+import { styles, colors } from '@leapeasy/ui-kit';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from 'components/Sidebar';
 import { Topbar } from 'components/Topbar';
 import { BreadCrumbs } from 'components/BreadCrumbs';
+import { useDispatch, useSelector } from 'react-redux';
+import { primaryMenu, secondaryMenu } from 'data/ui/menu';
+import { openMenuItem } from 'store/actions/uiActions';
 
 export default ({ children }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const token = localStorage.getItem('token');
   const currentUser = JSON.parse(localStorage.getItem('user'));
 
+  // update selected menu item when router changes
+  const router = useSelector((state) => state.getIn(['router']));
+  useEffect(() => {
+    for (const menuList of [primaryMenu, secondaryMenu]) {
+      for (const menuItem of menuList) {
+        if (menuItem.child) {
+          for (const childItem of menuItem.child) {
+            if (childItem.link === router.location.pathname) {
+              dispatch(openMenuItem(`${menuItem.key}.${childItem.key}`));
+              return;
+            }
+          }
+        } else {
+          if (menuItem.link === router.location.pathname) {
+            dispatch(openMenuItem(menuItem.key));
+            return;
+          }
+        }
+      }
+    }
+  }, [router]);
+
+  // redirect back to login if not authenticated yet
   useEffect(() => {
     if (!token || !currentUser || currentUser.require2FA || currentUser.requirePasswordUpdate) {
       navigate('/login');
@@ -24,11 +51,26 @@ export default ({ children }) => {
     <Box display="flex" sx={{ width: '100%', minHeight: '100vh' }}>
       <Sidebar />
 
-      <Box sx={{ flexGrow: 1, background: colors.purple[100] }}>
+      <Box
+        sx={{ flexGrow: 1, background: colors.purple[100], minHeight: '100%' }}
+        display="flex"
+        flexDirection="column"
+      >
         <Topbar />
         <BreadCrumbs />
 
-        <Box>{children}</Box>
+        <Box
+          sx={{
+            margin: '0px 8px 8px 8px',
+            padding: '20px 28px',
+            borderRadius: `${styles.borderRadius.large}px`,
+            background: 'white',
+            border: `1px solid ${colors.black[300]}`,
+            flexGrow: 1,
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

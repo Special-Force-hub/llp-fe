@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { Box, Collapse, Icon } from '@mui/material';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Box, Collapse } from '@mui/material';
 import { Typography, colors, IconGraphy } from '@leapeasy/ui-kit';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -165,9 +165,13 @@ export const Menu = ({ data }) => {
 
   const activeMenu = useSelector((state) => state.getIn(['ui', 'menuItem'])) || 'dashboard';
 
-  const [selectedParentMenu, setSelectedParentMenu] = useState(
-    activeMenu.includes('.') ? activeMenu.slice(0, activeMenu.indexOf('.')) : null,
-  );
+  const [selectedParentMenu, setSelectedParentMenu] = useState();
+
+  useEffect(() => {
+    setSelectedParentMenu(
+      activeMenu.includes('.') ? activeMenu.slice(0, activeMenu.indexOf('.')) : null,
+    );
+  }, [activeMenu]);
 
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const role = currentUser['role'];
