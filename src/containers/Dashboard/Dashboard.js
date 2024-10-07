@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { Typography, colors, Loading } from '@leapeasy/ui-kit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import {
   getUserCountAction,
@@ -14,9 +13,9 @@ import {
 } from 'store/actions/reportActions';
 import { BuildingCount } from './Reports/BuildingCount';
 import { UserCount } from './Reports/UserCount';
+import { AdminReport } from './Reports/Admin';
 
 export const Dashboard = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const adminReportData = useSelector((state) => state.getIn(['report', 'adminAppReport']));
@@ -39,7 +38,7 @@ export const Dashboard = () => {
     dispatch(getFlaggedCancelReportAction());
   }, []);
 
-  if (!currentUser) return null;
+  if (!currentUser) return <DashboardLayoutContainer />;
 
   return (
     <DashboardLayoutContainer>
@@ -49,10 +48,14 @@ export const Dashboard = () => {
         </Typography>
 
         {((!userCount || !buildingCount) && <Loading size="medium" isPathVisible />) || (
-          <Box display="flex" flexDirection="column" gap="20px">
-            <UserCount data={userCount.toJS().data} />
-            <BuildingCount data={buildingCount.toJS().data} />
-          </Box>
+          <>
+            <Box display="flex" flexDirection="column" gap="20px">
+              <UserCount data={userCount.toJS().data} />
+              <BuildingCount data={buildingCount.toJS().data} />
+            </Box>
+
+            {adminReportData && <AdminReport data={adminReportData.toJS().data} />}
+          </>
         )}
       </Box>
     </DashboardLayoutContainer>

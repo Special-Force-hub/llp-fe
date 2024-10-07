@@ -11,7 +11,7 @@ export const ReportCard = ({ onClick, title, count }) => {
         border: `1px solid ${colors.black[300]}`,
         background: 'white',
         overflow: 'hidden',
-        flexGrow: 1,
+        flex: '1 1 0%',
       }}
       onClick={onClick}
     >
@@ -30,6 +30,7 @@ export const ReportCard = ({ onClick, title, count }) => {
         }}
         display="flex"
         justifyContent="space-between"
+        alignItems="center"
       >
         <Typography variant="h3" style={{ color: colors.purple[900], fontWeight: '500' }}>
           {count}
