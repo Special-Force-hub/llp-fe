@@ -54,12 +54,15 @@ export const TotalClaimChart = ({ data }) => {
   }
 
   const yearList = [];
-  for (
-    let i = monthlyAggregates[0].year;
-    i <= monthlyAggregates[monthlyAggregates.length - 1].year;
-    i++
-  ) {
-    yearList.push(i);
+
+  if (monthlyAggregates.length) {
+    for (
+      let i = monthlyAggregates[0].year;
+      i <= monthlyAggregates[monthlyAggregates.length - 1].year;
+      i++
+    ) {
+      yearList.push(i);
+    }
   }
 
   return (
