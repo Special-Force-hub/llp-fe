@@ -7,6 +7,7 @@ import { TotalClaimChart } from 'elements/Charts/TotalClaimChart';
 import { ClaimPaymentsChart } from 'elements/Charts/ClaimPaymentsChart';
 import { ClaimFileStatusChart } from 'elements/Charts/ClaimFileStatusChart';
 import { GrossRentChart } from 'elements/Charts/GrossRentChart';
+import { ApplicationVolume6MonthsChart } from 'elements/Charts/ApplicationVolume6MonthsChart';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminReport = ({ data }) => {
@@ -40,6 +41,7 @@ export const AdminReport = ({ data }) => {
       <ClaimPaymentsChart data={data} />
       <ClaimFileStatusChart data={data} />
       <GrossRentChart data={data} />
+      <ApplicationVolume6MonthsChart data={data} />
     </Box>
   );
 };

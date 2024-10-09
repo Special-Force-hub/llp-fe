@@ -34,7 +34,18 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
       }),
     );
 
-  const totalClaims = {};
+  const totalClaims = {
+    open_test_claim: 0,
+    open_pending_decision: 0,
+    open_pending_payment: 0,
+    closed_denied: 0,
+    closed_paid: 0,
+    closed_incident_only: 0,
+    closed_partial_denial: 0,
+    closed_duplicate: 0,
+    closed_inactive: 0,
+    incident_only: 0,
+  };
   let sum = 0;
 
   for (const aggregate of monthlyAggregates) {
@@ -47,6 +58,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
       sum += aggregate[key];
     }
   }
+
+  if (!sum) sum = 1;
 
   return (
     <Chart
