@@ -6,6 +6,7 @@ import { AppDistribution } from 'elements/Charts/AppDistribution';
 import { TotalClaimChart } from 'elements/Charts/TotalClaimChart';
 import { ClaimPaymentsChart } from 'elements/Charts/ClaimPaymentsChart';
 import { ClaimFileStatusChart } from 'elements/Charts/ClaimFileStatusChart';
+import { GrossRentChart } from 'elements/Charts/GrossRentChart';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminReport = ({ data }) => {
@@ -38,6 +39,7 @@ export const AdminReport = ({ data }) => {
       <TotalClaimChart data={data} />
       <ClaimPaymentsChart data={data} />
       <ClaimFileStatusChart data={data} />
+      <GrossRentChart data={data} />
     </Box>
   );
 };

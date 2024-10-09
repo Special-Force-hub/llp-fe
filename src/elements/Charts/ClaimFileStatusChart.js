@@ -112,8 +112,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             />
 
             <ChartFooterChard
-              backgroundColor="#ECECFD"
-              activeColor={'#4840E9'}
+              backgroundColor={colors.tomato[25]}
+              activeColor={colors.tomato[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(totalClaims.closed_incident_only).toLocaleString()}
@@ -126,7 +126,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: '#4840E9',
+                      background: colors.tomato[100],
                     }}
                   />
 
@@ -181,8 +181,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             />
 
             <ChartFooterChard
-              backgroundColor="#FCF0F8"
-              activeColor={'#E66FB7'}
+              backgroundColor={colors.parisGreen[25]}
+              activeColor={colors.parisGreen[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage05).toLocaleString()}
@@ -195,7 +195,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: '#E66FB7',
+                      background: colors.parisGreen[100],
                     }}
                   />
 
@@ -220,8 +220,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             }}
           >
             <ChartFooterChard
-              backgroundColor="#ECF9F4"
-              activeColor={colors.parisGreen[100]}
+              backgroundColor={colors.warmBlue[25]}
+              activeColor={colors.warmBlue[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage00).toLocaleString()}
@@ -234,7 +234,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: colors.parisGreen[100],
+                      background: colors.warmBlue[100],
                     }}
                   />
 
@@ -250,8 +250,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             />
 
             <ChartFooterChard
-              backgroundColor="#ECECFD"
-              activeColor={'#4840E9'}
+              backgroundColor={colors.sunglow[50]}
+              activeColor={colors.sunglow[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage04).toLocaleString()}
@@ -264,7 +264,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: '#4840E9',
+                      background: colors.sunglow[100],
                     }}
                   />
 
@@ -289,8 +289,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             }}
           >
             <ChartFooterChard
-              backgroundColor={colors.purpleIrish[25]}
-              activeColor={colors.purpleIrish[100]}
+              backgroundColor={colors.magentaRed[25]}
+              activeColor={colors.magentaRed[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage02A).toLocaleString()}
@@ -303,7 +303,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: colors.purpleIrish[100],
+                      background: colors.magentaRed[100],
                     }}
                   />
 
@@ -319,8 +319,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             />
 
             <ChartFooterChard
-              backgroundColor="#FCF0F8"
-              activeColor={'#E66FB7'}
+              backgroundColor={colors.warmBlue[50]}
+              activeColor={colors.warmBlue[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage05).toLocaleString()}
@@ -333,7 +333,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: '#E66FB7',
+                      background: colors.warmBlue[100],
                     }}
                   />
 
@@ -358,8 +358,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             }}
           >
             <ChartFooterChard
-              backgroundColor={colors.purpleIrish[25]}
-              activeColor={colors.purpleIrish[100]}
+              backgroundColor={colors.sunglow[25]}
+              activeColor={colors.sunglow[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage02A).toLocaleString()}
@@ -372,7 +372,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: colors.purpleIrish[100],
+                      background: colors.sunglow[100],
                     }}
                   />
 
@@ -388,8 +388,8 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
             />
 
             <ChartFooterChard
-              backgroundColor="#FCF0F8"
-              activeColor={'#E66FB7'}
+              backgroundColor={colors.magentaRed[50]}
+              activeColor={colors.magentaRed[100]}
               title={
                 <Typography variant="h4" style={{ fontWeight: '500', color: colors.purple[900] }}>
                   {Number(data.stage05).toLocaleString()}
@@ -402,7 +402,7 @@ export const ClaimFileStatusChart = ({ data, onClickItem }) => {
                       width: '6px',
                       height: '6px',
                       borderRadius: '3px',
-                      background: '#E66FB7',
+                      background: colors.magentaRed[100],
                     }}
                   />
 
