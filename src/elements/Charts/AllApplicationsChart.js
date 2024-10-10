@@ -1,6 +1,6 @@
 import { Chart, ChartFooterChard, Typography, colors, IconGraphy } from '@leapeasy/ui-kit';
 
-export const AppStageChart = ({ data, onClickItem }) => {
+export const AllApplicationsChart = ({ data, onClickItem }) => {
   const sum =
     data.stage00 + data.stage02A + data.stage04 + data.stage05 + data.stage06 + data.cancelledCount;
 

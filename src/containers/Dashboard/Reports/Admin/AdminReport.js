@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { AppStageChart } from 'elements/Charts/AppStageChart';
+import { AllApplicationsChart } from 'elements/Charts/AllApplicationsChart';
 import { AppTypeChart } from 'elements/Charts/AppTypeChart';
 import { AppPerformanceReview } from 'elements/Charts/AppPerformanceReview';
 import { AppDistribution } from 'elements/Charts/AppDistribution';
@@ -8,6 +8,9 @@ import { ClaimPaymentsChart } from 'elements/Charts/ClaimPaymentsChart';
 import { ClaimFileStatusChart } from 'elements/Charts/ClaimFileStatusChart';
 import { GrossRentChart } from 'elements/Charts/GrossRentChart';
 import { ApplicationVolume6MonthsChart } from 'elements/Charts/ApplicationVolume6MonthsChart';
+import { ApplicationStageChart } from 'elements/Charts/ApplicationStageChart';
+import { DeclinesByReasonChart } from 'elements/Charts/DeclinesByReasonChart';
+import { CancellationsByCancellationReasonChart } from 'elements/Charts/CancellationsByCancellationReasonChart';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminReport = ({ data }) => {
@@ -17,7 +20,7 @@ export const AdminReport = ({ data }) => {
     <Box display="flex" flexDirection="column" gap="24px">
       <Box display="flex" justifyContent="space-between" gap="20px">
         <Box flex="1 1 0%">
-          <AppStageChart
+          <AllApplicationsChart
             data={data}
             onClickItem={(stage) => {
               navigate('/property/applications');
@@ -42,6 +45,9 @@ export const AdminReport = ({ data }) => {
       <ClaimFileStatusChart data={data} />
       <GrossRentChart data={data} />
       <ApplicationVolume6MonthsChart data={data} />
+      <ApplicationStageChart data={data} />
+      <DeclinesByReasonChart data={data} />
+      <CancellationsByCancellationReasonChart data={data} />
     </Box>
   );
 };

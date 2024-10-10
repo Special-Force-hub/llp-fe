@@ -1,14 +1,5 @@
 import { Box } from '@mui/material';
-import {
-  CustomBarChart,
-  Typography,
-  colors,
-  IconGraphy,
-  Avatar,
-  styles,
-  Dropdown,
-} from '@leapeasy/ui-kit';
-import { useState } from 'react';
+import { CustomBarChart, Typography, colors, IconGraphy, Avatar, styles } from '@leapeasy/ui-kit';
 
 export const ApplicationVolume6MonthsChart = ({ data }) => {
   const sixMonths = data.sixmonthApp;
@@ -110,10 +101,7 @@ export const ApplicationVolume6MonthsChart = ({ data }) => {
           <CustomBarChart
             chartWidth="100%"
             chartHeight={200}
-            data={data.appChartData2.slice(
-              new Date().getMonth() - 5,
-              new Date().getMonth() + 1,
-            )}
+            data={data.appChartData2.slice(new Date().getMonth() - 5, new Date().getMonth() + 1)}
             colors={{
               Approved: colors.tomato[100],
             }}
