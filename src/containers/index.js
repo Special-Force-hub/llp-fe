@@ -47,7 +47,9 @@ const AppRoutes = () => {
 
       {/** property pages */}
       <Route path="/property">
-        <Route exact path="buildings" element={<Buildings />} />
+        <Route exact path="buildings" element={<Buildings />} >
+          {/* <Route exact path="Chelsea Apartment" element={<DetailPage />} /> */}
+        </Route>
         <Route exact path="applications" element={<Applications />} />
         <Route exact path="policies" element={<Policies />} />
         <Route exact path="cancel-policies" element={<FlaggedCancellations />} />
