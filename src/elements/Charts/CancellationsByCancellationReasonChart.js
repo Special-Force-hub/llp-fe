@@ -118,7 +118,7 @@ export const CancellationsByCancellationReasonChart = ({ data }) => {
       gap="12px"
     >
       <Box display="flex" gap="16px">
-        <Avatar size="large" iconImage={<IconGraphy icon="EditorLayout.AutoAwesomeMotion" />} />
+        <Avatar size="large" iconImage={<IconGraphy icon="FileFolder.ContentCancel" />} />
         <Box>
           <Typography variant="h4" style={{ color: colors.purple[900], fontWeight: '400' }}>
             Cancellations by Cancellation Reason
@@ -158,7 +158,7 @@ export const CancellationsByCancellationReasonChart = ({ data }) => {
           <Table>
             <TableHead sx={{ background: '#F9F8F9' }}>
               <TableRow>
-                <TableCell></TableCell>
+                <TableCell sx={{ width: '24px' }}></TableCell>
                 <TableCell variant="head" className="p-2">
                   Stage
                 </TableCell>

@@ -11,6 +11,8 @@ import { ApplicationVolume6MonthsChart } from 'elements/Charts/ApplicationVolume
 import { ApplicationStageChart } from 'elements/Charts/ApplicationStageChart';
 import { DeclinesByReasonChart } from 'elements/Charts/DeclinesByReasonChart';
 import { CancellationsByCancellationReasonChart } from 'elements/Charts/CancellationsByCancellationReasonChart';
+import { ExpiringPoliciesChart } from 'elements/Charts/ExpiringPoliciesChart';
+import { CoverageChart } from 'elements/Charts/CoverageChart';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminReport = ({ data }) => {
@@ -43,6 +45,17 @@ export const AdminReport = ({ data }) => {
       <TotalClaimChart data={data} />
       <ClaimPaymentsChart data={data} />
       <ClaimFileStatusChart data={data} />
+
+      <Box display="flex" justifyContent="space-between" gap="20px">
+        <Box flex="1 1 0%">
+          <ExpiringPoliciesChart data={data} onClickItem={() => navigate('/property/policies')} />
+        </Box>
+
+        <Box flex="1 1 0%">
+          <CoverageChart data={data} />
+        </Box>
+      </Box>
+
       <GrossRentChart data={data} />
       <ApplicationVolume6MonthsChart data={data} />
       <ApplicationStageChart data={data} />

@@ -14,25 +14,7 @@ import { useState } from 'react';
 export const TotalClaimChart = ({ data }) => {
   const [year, setYear] = useState(new Date().getFullYear());
 
-  const monthlyAggregates =
-    data.claimCountsByMonth ||
-    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(
-      (month) => ({
-        year: 2024,
-        month,
-        total: 10,
-        closed_partial_denial: 1,
-        closed_duplicate: 2,
-        incident_only: 1,
-        closed_paid: 2,
-        open_test_claim: 1,
-        closed_denied: 2,
-        open_pending_payment: 1,
-        closed_inactive: 0,
-        open_pending_decision: 0,
-        closed_incident_only: 0,
-      }),
-    );
+  const monthlyAggregates = data.claimCountsByMonth;
 
   let closedClaims = 0;
   let openClaims = 0;

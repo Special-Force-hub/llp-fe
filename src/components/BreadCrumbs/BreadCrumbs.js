@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { BreadCrumbs as BreadCrumbsComponent } from '@leapeasy/ui-kit';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { primaryMenu, secondaryMenu } from 'data/ui/menu';
 import { useNavigate } from 'react-router-dom';

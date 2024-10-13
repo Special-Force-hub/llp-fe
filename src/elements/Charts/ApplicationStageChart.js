@@ -141,7 +141,7 @@ export const ApplicationStageChart = ({ data }) => {
           <Table>
             <TableHead sx={{ background: '#F9F8F9' }}>
               <TableRow>
-                <TableCell></TableCell>
+                <TableCell sx={{ width: '24px' }}></TableCell>
                 <TableCell variant="head" className="p-2">
                   Stage
                 </TableCell>
