@@ -1,45 +1,67 @@
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
-import { Tooltip } from '@leapeasy/ui-kit';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import {
   getBuildingAction,
-  getFilteredDataAction,
-  setBuildingAction,
+  // getFilteredDataAction,
+  // setBuildingAction,
 } from 'store/actions/propertyActions';
-import { BuildingTable } from 'components/BuildingTable/BuildingTable';
+import { BuildingTable } from 'components/BuildingTable';
 
-export const Buildings = props => {
-  const { filter } = props;
+export const Buildings = (props) => {
   const dispatch = useDispatch();
 
+  const [filter, setFilter] = useState({
+    options: {},
+    searchText: '',
+    searchPlaceholder: 'Search Building..',
+  });
+
+  const [sortOptions, setSortOptions] = useState({});
+  const [pagination, setPagination] = useState({
+    pageNumber: 0,
+    rowsPerPage: 12,
+    maxVisiblePageItems: 6,
+    onUpdate: (value) => {
+      if (value === -1) value = 0;
+      setPagination((prev) => ({ ...prev, pageNumber: value }));
+    },
+    showPageNumberInput: 6,
+  });
+
+  const buildings = useSelector((state) => state.getIn(['property', 'building']));
+
   useEffect(() => {
-    if (filter) {
-      let filterData;
-      if (filter === 'Event Process') {
-        filterData = { building_type: ['Event Process'] };
-      } else if (filter === 'Auto Enroll') {
-        filterData = { building_type: ['Auto Enroll'] };
-      } else if (filter === 'Active Leap Unit Building') {
-        filterData = 'active_leap_units';
-      }
-      dispatch(setBuildingAction(null));
-      dispatch(
-        getFilteredDataAction({
-          filterData,
-          title: 'building',
-        }),
-      );
-    } else {
-      dispatch(getBuildingAction({ filter }));
-    }
-  }, []);
+    dispatch(
+      getBuildingAction({
+        filter,
+        offset: pagination.pageNumber * pagination.rowsPerPage,
+        limit: pagination.rowsPerPage,
+      }),
+    );
+  }, [filter, pagination]);
+
+  if (!buildings) return <DashboardLayoutContainer />;
+
+  const buildingsJSON = buildings.toJS();
 
   return (
     <DashboardLayoutContainer>
       <Box>
-        <BuildingTable />
+        <BuildingTable
+          buildings={buildingsJSON.data}
+          filter={filter}
+          onChangeFilter={setFilter}
+          pagination={{
+            ...pagination,
+            totalItems: buildingsJSON.total,
+            totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
+          }}
+          onChangePagination={setPagination}
+          sortOptions={sortOptions}
+          onChangeSort={setSortOptions}
+        />
       </Box>
     </DashboardLayoutContainer>
   );

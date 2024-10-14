@@ -30,8 +30,8 @@ import { successNotif, failedNotif } from '../actions/notifActions';
 
 function* getBuildingSaga({ payload }) {
   try {
-    const data = yield getBuilding(payload);
-    yield put(setBuildingAction(data));
+    const response = yield getBuilding(payload);
+    yield put(setBuildingAction(response));
   } catch (error) {
     yield put(errMsg(error.response));
   }

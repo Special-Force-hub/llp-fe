@@ -4,14 +4,17 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { Table, Badge } from '@leapeasy/ui-kit';
 import { fullWidth } from 'validator/lib/isFullWidth';
-import { getFilteredDataAction, searchDBAction, getAppAction, setAppAction } from 'store/actions/propertyActions';
+import {
+  getFilteredDataAction,
+  searchDBAction,
+  getAppAction,
+  setAppAction,
+} from 'store/actions/propertyActions';
 import { setDocTitleAction, setDocFileAction } from 'store/actions/documentActions';
 
 import { getDemoData } from 'utils/helpers';
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
-import icon from './../../../Icons.png'
 export const Applications = (props) => {
-
   const { filter, filterId, dataType } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -82,23 +85,46 @@ export const Applications = (props) => {
       const appData = applications.toJS().data || [];
       appData.forEach((app) => {
         data.push([
-          <Badge background="#F3F1F4" color="sunglow" label={app.stage} rounded textSize="medium" />,
-          <Badge background="#F3F1F4" color="warmBlue" label={app.app_type} rounded textSize="medium" />,
+          <Badge
+            background="#F3F1F4"
+            color="sunglow"
+            label={app.stage}
+            rounded
+            textSize="medium"
+          />,
+          <Badge
+            background="#F3F1F4"
+            color="warmBlue"
+            label={app.app_type}
+            rounded
+            textSize="medium"
+          />,
           isDemo ? getDemoData('building-name') : app.apartment_building_name,
           isDemo ? getDemoData('rider-id') : app.rider_id,
           isDemo ? getDemoData('tenant-name') : app.tenant_1_name,
-          app.gross_monthly_rent ? "$" + parseFloat(app.gross_monthly_rent) : 0,
+          app.gross_monthly_rent ? '$' + parseFloat(app.gross_monthly_rent) : 0,
           new Date(app.sf_createdDate).toISOString().slice(0, 10),
           app.lease_start_date,
           app.lease_end_date,
-          <Badge background="#F3F1F4" color="parisGreen" label={app.active_lease} rounded textSize="medium" />,
+          <Badge
+            background="#F3F1F4"
+            color="parisGreen"
+            label={app.active_lease}
+            rounded
+            textSize="medium"
+          />,
           app.total_number_of_tenants,
-          <img src={icon} alt='icon' />,
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <circle cx="12" cy="5" r="2" fill="#8E3C96" />
             <circle cx="12" cy="12" r="2" fill="#8E3C96" />
             <circle cx="12" cy="19" r="2" fill="#8E3C96" />
-          </svg>
+          </svg>,
         ]);
       });
       setTableData(data);
@@ -259,7 +285,6 @@ export const Applications = (props) => {
     handleMenuClose();
   };
 
-
   return (
     <DashboardLayoutContainer>
       <Box>
@@ -274,14 +299,14 @@ export const Applications = (props) => {
                 filterOptions: [
                   {
                     text: '1',
-                    value: 1
+                    value: 1,
                   },
                   {
                     text: '2',
-                    value: 2
-                  }
-                ]
-              }
+                    value: 2,
+                  },
+                ],
+              },
             },
             {
               name: 'Type',
@@ -292,73 +317,73 @@ export const Applications = (props) => {
                 filterOptions: [
                   {
                     text: '1',
-                    value: 1
+                    value: 1,
                   },
                   {
                     text: '2',
-                    value: 2
-                  }
-                ]
-              }
+                    value: 2,
+                  },
+                ],
+              },
             },
             {
               name: 'Building Name',
               options: {
                 flex: '225px 1 1',
-                sort: true
-              }
+                sort: true,
+              },
             },
             {
               name: 'Policy ID',
               options: {
-                sort: true
-              }
+                sort: true,
+              },
             },
             {
-              name: 'Name'
+              name: 'Name',
             },
             {
-              name: 'Rent/M'
+              name: 'Rent/M',
             },
             {
               name: 'Create date',
             },
             {
-              name: 'L/Start Date'
+              name: 'L/Start Date',
             },
             {
-              name: 'L/End Date'
+              name: 'L/End Date',
             },
             {
-              name: 'L/Active'
+              name: 'L/Active',
             },
             {
               name: 'Tenants',
               options: {
-                flex: "40px 1 1"
-              }
+                flex: '40px 1 1',
+              },
             },
             {
               name: 'Detail',
               options: {
-                flex: "30px 1 1"
-              }
+                flex: '30px 1 1',
+              },
             },
             {
               name: '',
               options: {
-                flex: "30px 1 1",
-              }
-            }
+                flex: '30px 1 1',
+              },
+            },
           ]}
           data={paginatedData}
           filter={{
             options: {},
-            searchPlaceholder: 'Search Building..'
+            searchPlaceholder: 'Search Building..',
           }}
-          onChangeFilter={() => { }}
+          onChangeFilter={() => {}}
           onChangeRowsPerPage={handleRowsPerPageChange}
-          onClickRow={() => { }}
+          onClickRow={() => {}}
           overflowEllipsis={false}
           pagination={{
             currentPage: page,
@@ -373,8 +398,7 @@ export const Applications = (props) => {
           rowsPerPageOptions={[10, 15, 20]}
           style={{ width: '100%' }}
           title="Applications"
-        >
-        </Table>
+        ></Table>
       </Box>
     </DashboardLayoutContainer>
   );

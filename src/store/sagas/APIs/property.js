@@ -1,7 +1,7 @@
 import { api, getAuthHeader } from './help';
 
-export const getBuilding = async () => {
-  const response = await api.get('/property/buildings', getAuthHeader());
+export const getBuilding = async (payload) => {
+  const response = await api.post('/property/buildings', payload, getAuthHeader());
   return response.data;
 };
 
