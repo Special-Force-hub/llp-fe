@@ -44,8 +44,6 @@ export const BuildingTable = ({
   }, [buildings, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-    console.log("tableMeta", tableMeta);
-
     navigate(`/property/buildings/Chelsea Apartment`);
   };
 
