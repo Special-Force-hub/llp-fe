@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
-import { Table, Badge } from '@leapeasy/ui-kit';
+import { IconGraphy, Table, Badge } from '@leapeasy/ui-kit';
 import { fullWidth } from 'validator/lib/isFullWidth';
 import {
   getFilteredDataAction,
@@ -14,12 +15,14 @@ import { setDocTitleAction, setDocFileAction } from 'store/actions/documentActio
 
 import { getDemoData } from 'utils/helpers';
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
+
 export const Applications = (props) => {
   const { filter, filterId, dataType } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowData, setRowData] = useState(null);
-  const [tableData, setTableData] = useState(null);
+  const [tableData, setTableData] = useState([]);
+  const [paginatedData, setPaginatedData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [quickType, setQuickType] = useState(null);
@@ -35,51 +38,8 @@ export const Applications = (props) => {
 
   const applications = useSelector((state) => state.getIn(['property', 'application']));
 
-  // useEffect(() => {
-  //   const data = [];
-  //   if (applications) {
-  //     applications.toJS().data.forEach((app) => {
-  //       data.push([
-  //         // app.stage,
-  //         <Badge
-  //           background="#F3F1F4"
-  //           color="sunglow"
-  //           label={app.stage}
-  //           rounded
-  //           textSize="medium"
-  //         />,
-  //         <Badge
-  //           background="#F3F1F4"
-  //           color="warmBlue"
-  //           label={app.app_type}
-  //           rounded
-  //           textSize="medium"
-  //         />,
-  //         // app.app_type,
-  //         isDemo ? getDemoData('building-name') : app.apartment_building_name,
-  //         isDemo ? getDemoData('rider-id') : app.rider_id,
-  //         isDemo ? getDemoData('tenant-name') : app.tenant_1_name,
-  //         app.gross_monthly_rent ? parseFloat(app.gross_monthly_rent) : 0,
-  //         new Date(app.sf_createdDate).toISOString().slice(0, 10),
-  //         // app.risk_class,
-  //         app.lease_start_date,
-  //         app.lease_end_date,
-  //         // app.active_lease,
-  //         <Badge
-  //           background="#F3F1F4"
-  //           color="parisGreen"
-  //           label={app.active_lease}
-  //           rounded
-  //           textSize="medium"
-  //         />,
-  //         app.total_number_of_tenants,
-  //         app.stage,
-  //       ]);
-  //     });
-  //     setTableData(data);
-  //   }
-  // }, [applications, isDemo]);
   useEffect(() => {
+    
     const data = [];
     if (applications) {
       const appData = applications.toJS().data || [];
@@ -114,22 +74,30 @@ export const Applications = (props) => {
             textSize="medium"
           />,
           app.total_number_of_tenants,
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="12" cy="5" r="2" fill="#8E3C96" />
-            <circle cx="12" cy="12" r="2" fill="#8E3C96" />
-            <circle cx="12" cy="19" r="2" fill="#8E3C96" />
-          </svg>,
+          // <img src={icon} alt="icon" />,
+          // <svg
+          //   width="24"
+          //   height="24"
+          //   viewBox="0 0 24 24"
+          //   fill="none"
+          //   xmlns="http://www.w3.org/2000/svg"
+          // >
+          //   <circle cx="12" cy="5" r="2" fill="#8E3C96" />
+          //   <circle cx="12" cy="12" r="2" fill="#8E3C96" />
+          //   <circle cx="12" cy="19" r="2" fill="#8E3C96" />
+          // </svg>,
+          <Link to="detail"><IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} /></Link>,
+          <IconGraphy icon={'EditorLayout.MoreVert'} style={{ color: '#702572' }} onClick={()=>{}} />,
         ]);
       });
       setTableData(data);
+      console.log('tableData: ', tableData);
     }
   }, [applications, isDemo]);
+
+  useEffect(() => {
+    console.log("paginatedData: ", paginatedData)
+  }, [paginatedData])
 
   useEffect(() => {
     if (filter) {
@@ -168,6 +136,17 @@ export const Applications = (props) => {
       dispatch(getAppAction());
     }
   }, []);
+
+  useEffect(() => {
+    // Ensure tableData is not empty before slicing
+    if (tableData && tableData.length > 0) {
+      const paginatedSlice = tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+      setPaginatedData(paginatedSlice);
+      console.log('page: ', page);
+      console.log('rowsPerPage: ', rowsPerPage);
+      console.log('Updated paginatedData: ', paginatedData);
+    }
+  }, [tableData, page, rowsPerPage]); // This will trigger whenever tableData, page, or rowsPerPage changes.
 
   const handleQuickButton = (event, value) => {
     setQuickType(value);
@@ -210,17 +189,15 @@ export const Applications = (props) => {
   // };
   const handlePageChange = (newPage) => {
     setPage(newPage);
+    console.log('handlepagechange: ', newPage);
   };
 
-  const handleRowsPerPageChange = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Reset to the first page whenever rows per page changes
+  const handleRowsPerPageChange = (numberOfRowsPerPage) => {
+    console.log(paginatedData);
+    setRowsPerPage(numberOfRowsPerPage);
+    // setPage(0); // Reset to the first page whenever rows per page changes
   };
-
   // Get the current slice of data for the table
-  const paginatedData = tableData
-    ? tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    : [];
   const handleClaimData = () => {
     setClaimData(quickData);
     handleMenuClose();
@@ -350,9 +327,35 @@ export const Applications = (props) => {
             },
             {
               name: 'L/Start Date',
+              options: {
+                filter: true,
+                filterOptions: [
+                  {
+                    date: '1',
+                    value: 1,
+                  },
+                  {
+                    text: '2',
+                    value: 2,
+                  },
+                ],
+              },
             },
             {
               name: 'L/End Date',
+              options: {
+                filter: true,
+                filterOptions: [
+                  {
+                    text: '1',
+                    value: 1,
+                  },
+                  {
+                    text: '2',
+                    value: 2,
+                  },
+                ],
+              },
             },
             {
               name: 'L/Active',
@@ -361,18 +364,37 @@ export const Applications = (props) => {
               name: 'Tenants',
               options: {
                 flex: '40px 1 1',
+                filter: true,
+                filterOptions: [
+                  {
+                    text: '1',
+                    value: 1,
+                  },
+                  {
+                    text: '2',
+                    value: 2,
+                  },
+                ],
               },
             },
             {
               name: 'Detail',
               options: {
-                flex: '30px 1 1',
+                flex: '57px 1 1',
+                sort: true,
+                // customBodyRenderer: () => (
+                //   <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={()=>{}} />
+                // ),
               },
             },
             {
               name: '',
               options: {
-                flex: '30px 1 1',
+                flex: '57px 1 1',
+                sort: true,
+                // customBodyRenderer: () => (
+                //   <IconGraphy icon={'EditorLayout.MoreVert'} style={{ color: '#702572' }} onClick={()=>{}} />
+                // ),
               },
             },
           ]}
@@ -390,7 +412,7 @@ export const Applications = (props) => {
             maxVisiblePageItems: 6,
             onUpdate: handlePageChange,
             pageNumber: page,
-            rowsPerPage,
+            rowsPerPage: rowsPerPage,
             showPageNumberInput: true,
             totalItems: tableData ? tableData.length : 0,
             totalPages: Math.ceil((tableData ? tableData.length : 0) / rowsPerPage),

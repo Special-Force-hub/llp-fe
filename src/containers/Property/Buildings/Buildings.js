@@ -7,7 +7,7 @@ import {
   // getFilteredDataAction,
   // setBuildingAction,
 } from 'store/actions/propertyActions';
-import { BuildingTable } from 'components/BuildingTable';
+import { BuildingTable } from 'components/property/BuildingTable';
 
 export const Buildings = (props) => {
   const dispatch = useDispatch();

@@ -13,6 +13,7 @@ import {
 } from 'store/actions/reportActions';
 import { AllApplicationsChart } from "elements/Charts/AllApplicationsChart";
 import { AppTypeChart } from "elements/Charts/AppTypeChart";
+import { DetailCard } from "elements/ReportCard/DetailCard";
 
 const rateData = [
   {
@@ -89,7 +90,8 @@ export const DetailPage = (props) => {
           Chelsea Apartments
         </Typography>
       </Box>
-      <Box>
+      <DetailCard />
+      <Box marginTop="20px">
         <Grid>
           <Tab title='Report' icon='General.Report' isSelected={selected === 1} onClick={() => setSelected(1)} />
           <Tab title='Applications' icon='HomePlaces.MapsHomeWork' isSelected={selected === 2} onClick={() => setSelected(2)} />

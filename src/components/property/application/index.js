@@ -1,0 +1,1 @@
+export { ApplicationsDetail } from './ApplicationsDetail';
