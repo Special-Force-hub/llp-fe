@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
 import { Typography, Badge, Tooltip } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
@@ -13,6 +14,8 @@ export const BuildingTable = ({
   sortOptions,
   onChangeSort,
 }) => {
+
+  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
@@ -160,7 +163,7 @@ export const BuildingTable = ({
             flex: '5px 1 1',
             sort: true,
             customBodyRenderer: () => (
-              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} />
+              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={() => navigate("/property/buildings/Chelsea Apartment")} />
             ),
           },
           key: 'detail',
