@@ -8,6 +8,7 @@ import { UpdatePassword } from './Auth/UpdatePassword';
 
 import { Dashboard } from './Dashboard';
 import { Buildings } from './Property/Buildings';
+import { DetailPage } from 'components/BuildingTable/DetailPage';
 import { Applications } from './Property/Applications';
 import { Policies } from './Property/Policies';
 import { FlaggedCancellations } from './Property/FlaggedCancellations';
@@ -47,9 +48,8 @@ const AppRoutes = () => {
 
       {/** property pages */}
       <Route path="/property">
-        <Route exact path="buildings" element={<Buildings />} >
-          {/* <Route exact path="Chelsea Apartment" element={<DetailPage />} /> */}
-        </Route>
+        <Route exact path="buildings" element={<Buildings />} />
+        <Route exact path="buildings/Chelsea Apartment" element={<DetailPage />} />
         <Route exact path="applications" element={<Applications />} />
         <Route exact path="policies" element={<Policies />} />
         <Route exact path="cancel-policies" element={<FlaggedCancellations />} />

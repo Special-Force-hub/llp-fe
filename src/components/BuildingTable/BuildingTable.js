@@ -43,6 +43,12 @@ export const BuildingTable = ({
     }
   }, [buildings, isDemo]);
 
+  const goDetailPage = (tableMeta) => {
+    console.log("tableMeta", tableMeta);
+
+    navigate(`/property/buildings/Chelsea Apartment`);
+  };
+
   return (
     <Table
       columns={[
@@ -162,8 +168,8 @@ export const BuildingTable = ({
           options: {
             flex: '5px 1 1',
             sort: true,
-            customBodyRenderer: () => (
-              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={() => navigate("/property/buildings/Chelsea Apartment")} />
+            customBodyRenderer: (value, tableMeta) => (
+              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={() => goDetailPage(tableMeta)} />
             ),
           },
           key: 'detail',
