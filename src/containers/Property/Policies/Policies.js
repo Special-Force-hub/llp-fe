@@ -15,7 +15,7 @@ export const Policies = (props) => {
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search Building..',
+    searchPlaceholder: 'Search Policy..',
   });
 
   const [sortOptions, setSortOptions] = useState({});

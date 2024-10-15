@@ -18,7 +18,7 @@ export const Applications = (props) => {
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search Building..',
+    searchPlaceholder: 'Search Application..',
   });
 
   const [sortOptions, setSortOptions] = useState({});
