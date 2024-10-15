@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { primaryMenu, secondaryMenu } from 'data/ui/menu';
 import { openMenuItem } from 'store/actions/uiActions';
 
-export default ({ children }) => {
+export default ({ children, shouldShowCard = true }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -70,12 +70,16 @@ export default ({ children }) => {
 
         <Box
           sx={{
-            margin: '0px 8px 8px 8px',
-            padding: '20px 28px',
-            borderRadius: `${styles.borderRadius.large}px`,
-            background: 'white',
-            border: `1px solid ${colors.black[300]}`,
             flexGrow: 1,
+            margin: '0px 8px 8px 8px',
+            ...(shouldShowCard
+              ? {
+                  padding: '20px 28px',
+                  borderRadius: `${styles.borderRadius.large}px`,
+                  background: 'white',
+                  border: `1px solid ${colors.black[300]}`,
+                }
+              : {}),
           }}
         >
           {children}

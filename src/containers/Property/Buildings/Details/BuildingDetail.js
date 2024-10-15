@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import {
-  getAppAction,
   getClaimAction,
   getBuildingDelegationAction,
-  getPolicyAction,
   getPolicyCancelAction,
   getBuildingInvoiceAction,
 } from 'store/actions/propertyActions';
@@ -80,13 +78,8 @@ export const BuildingDetail = () => {
       onClickBack();
       return;
     }
-
-    // const buildingId = detailsJSON.data.building_id;
-
-    // dispatch(getAppAction(buildingId));
     // dispatch(getClaimAction(buildingId));
     // dispatch(getBuildingDelegationAction(buildingId));
-    // dispatch(getPolicyAction({ id: buildingId, role: 'building' }));
     // dispatch(getPolicyCancelAction({ id: buildingId, role: 'building' }));
     // dispatch(getBuildingInvoiceAction(buildingId));
   }, [onClickBack, details]);
@@ -95,28 +88,44 @@ export const BuildingDetail = () => {
 
   const building = detailsJSON.data;
   return (
-    <DashboardLayoutContainer>
+    <DashboardLayoutContainer shouldShowCard={false}>
       <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: '15px',
-        }}
+        padding="24px"
+        gap="10px"
+        display="flex"
+        flexDirection="column"
+        border="1px solid #EAEAEA"
+        sx={{ background: 'white' }}
+        borderRadius="12px"
       >
-        <Box sx={{ cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
-          <IconGraphy icon="Arrow.ArrowBack" onClick={onClickBack} />
-        </Box>
-        <Typography
-          variant="h3"
-          style={{ color: colors.purple[900], fontWeight: '500', padding: '5px 5px 5px 15px' }}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '15px',
+          }}
         >
-          {building.name}
-        </Typography>
+          <Box sx={{ cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
+            <IconGraphy icon="Arrow.ArrowBack" onClick={onClickBack} />
+          </Box>
+          <Typography
+            variant="h3"
+            style={{ color: colors.purple[900], fontWeight: '500', padding: '5px 5px 5px 15px' }}
+          >
+            {building.name}
+          </Typography>
+        </Box>
+
+        <DetailCard />
       </Box>
 
-      <DetailCard />
-
-      <Box marginTop="20px">
+      <Box
+        padding="24px 12px"
+        borderRadius="12px"
+        border="1px solid #EAEAEA"
+        mt={1}
+        sx={{ background: 'white' }}
+      >
         <Grid>
           {TABS.map((tab, index) => (
             <Tab
@@ -128,15 +137,17 @@ export const BuildingDetail = () => {
           ))}
         </Grid>
 
-        {selectedTab === 0 && (
-          <ReportTab building={building} onNavigateToApplications={() => setSelectedTab(1)} />
-        )}
-        {selectedTab === 1 && <ApplicationTab building={building} />}
-        {selectedTab === 2 && <PolicyTab building={building} />}
-        {selectedTab === 3 && <ClaimTab building={building} />}
-        {selectedTab === 4 && <InvoiceTab building={building} />}
-        {selectedTab === 5 && <DetailsTab building={building} />}
-        {selectedTab === 6 && <CancellationsTab building={building} />}
+        <Box marginTop="20px">
+          {selectedTab === 0 && (
+            <ReportTab building={building} onNavigateToApplications={() => setSelectedTab(1)} />
+          )}
+          {selectedTab === 1 && <ApplicationTab building={building} />}
+          {selectedTab === 2 && <PolicyTab building={building} />}
+          {selectedTab === 3 && <ClaimTab building={building} />}
+          {selectedTab === 4 && <InvoiceTab building={building} />}
+          {selectedTab === 5 && <DetailsTab building={building} />}
+          {selectedTab === 6 && <CancellationsTab building={building} />}
+        </Box>
       </Box>
     </DashboardLayoutContainer>
   );

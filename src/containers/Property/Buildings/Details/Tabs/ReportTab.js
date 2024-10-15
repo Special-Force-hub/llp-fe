@@ -43,7 +43,7 @@ export const ReportTab = ({ building, onNavigateToApplications }) => {
 
   return (
     <>
-      <Box display="flex" justifyContent="space-between" marginTop="15px">
+      <Box display="flex" justifyContent="space-between">
         <RateCard
           item={{
             title: 'Building Approval Rate',

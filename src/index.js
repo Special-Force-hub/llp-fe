@@ -19,14 +19,12 @@ const initialState = {};
 const store = configureStore(initialState, history);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ReduxRouter history={history} routerSelector={(state) => state.toJS().router}>
-        <GlobalStyle />
-        <App />
-      </ReduxRouter>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <ReduxRouter history={history} routerSelector={(state) => state.toJS().router}>
+      <GlobalStyle />
+      <App />
+    </ReduxRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

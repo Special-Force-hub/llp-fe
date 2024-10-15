@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { getAppAction } from 'store/actions/propertyActions';
+import { getAppAction, setAppAction } from 'store/actions/propertyActions';
 import { ApplicationTable } from 'components/Property/ApplicationTable';
 
 export const ApplicationTab = ({ building }) => {
@@ -26,13 +26,15 @@ export const ApplicationTab = ({ building }) => {
   });
 
   useEffect(() => {
-    dispatch(getAppAction({
-      buildingId: building.building_id,
-      filter,
-      offset: pagination.pageNumber * pagination.rowsPerPage,
-      limit: pagination.rowsPerPage,
-    }));
-  }, [dispatch, building.building_id, filter, pagination]);
+    dispatch(
+      getAppAction({
+        buildingId: building.building_id,
+        filter,
+        offset: pagination.pageNumber * pagination.rowsPerPage,
+        limit: pagination.rowsPerPage,
+      }),
+    );
+  }, [building.building_id, filter, pagination]);
 
   const applications = useSelector((state) => state.getIn(['property', 'application']));
 
