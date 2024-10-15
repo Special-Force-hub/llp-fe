@@ -5,8 +5,8 @@ export const getBuilding = async (payload) => {
   return response.data;
 };
 
-export const getApp = async (buildingId) => {
-  const response = await api.get('/property/application?buildingId=' + buildingId, getAuthHeader());
+export const getApp = async (payload) => {
+  const response = await api.post('/property/application', payload, getAuthHeader());
   return response.data;
 };
 

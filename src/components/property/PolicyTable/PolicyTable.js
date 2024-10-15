@@ -40,7 +40,6 @@ export const PolicyTable = ({
       });
 
       setTableData(data);
-      console.log('policydata', data);
     }
   }, [policies, isDemo]);
 

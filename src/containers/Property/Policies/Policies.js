@@ -59,8 +59,8 @@ export const Policies = (props) => {
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: policiesJSON.data.length,
-            totalPages: Math.ceil(policiesJSON.data.length / pagination.rowsPerPage),
+            totalItems: policiesJSON.total,
+            totalPages: Math.ceil(policiesJSON.total / pagination.rowsPerPage),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}
