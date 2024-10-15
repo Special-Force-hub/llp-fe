@@ -1,2 +1,2 @@
 export { Buildings } from './Buildings';
-export { BuildingDetail } from './BuildingDetail';
+export { BuildingDetail } from './Details';

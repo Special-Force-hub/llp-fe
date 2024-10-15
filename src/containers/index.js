@@ -8,7 +8,7 @@ import { UpdatePassword } from './Auth/UpdatePassword';
 
 import { Dashboard } from './Dashboard';
 import { Buildings } from './Property/Buildings';
-import { BuildingDetail } from './Property/Buildings/BuildingDetail';
+import { BuildingDetail } from './Property/Buildings/Details/BuildingDetail';
 import { Applications } from './Property/Applications';
 import { ApplicationsDetail } from './Property/Applications/ApplicationDetail';
 import { Policies } from './Property/Policies';

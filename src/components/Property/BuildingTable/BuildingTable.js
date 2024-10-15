@@ -1,5 +1,5 @@
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
-import { Typography, Badge, Tooltip } from '@leapeasy/ui-kit';
+import { Typography, Badge } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
@@ -73,9 +73,9 @@ export const BuildingTable = ({
                 label={
                   !value
                     ? 'undefined'
-                    : value == 'Auto Enroll'
+                    : value === 'Auto Enroll'
                       ? 'AE'
-                      : value == 'Event Process'
+                      : value === 'Event Process'
                         ? 'EP'
                         : 'AE EP'
                 }
@@ -146,7 +146,7 @@ export const BuildingTable = ({
             customBodyRenderer: (value) => (
               <Badge
                 background="#F3F1F4"
-                color={value == 'true' ? 'parisGreen' : 'tomato'}
+                color={value === 'true' ? 'parisGreen' : 'tomato'}
                 label={value}
                 rounded
                 textSize="medium"

@@ -43,20 +43,23 @@ export const Buildings = (props) => {
         limit: pagination.rowsPerPage,
       }),
     );
-  }, [filter, pagination]);
+  }, [filter, pagination, dispatch]);
 
-  const onClickBuilding = useCallback((building) => {
-    dispatch(
-      openDetails({
-        type: 'building',
-        data: building,
-      }),
-    );
+  const onClickBuilding = useCallback(
+    (building) => {
+      dispatch(
+        openDetails({
+          type: 'building',
+          data: building,
+        }),
+      );
 
-    setTimeout(() => {
-      navigate('/property/buildings/detail');
-    });
-  }, []);
+      setTimeout(() => {
+        navigate('/property/buildings/detail');
+      });
+    },
+    [dispatch, navigate],
+  );
 
   if (!buildings) return <DashboardLayoutContainer />;
 

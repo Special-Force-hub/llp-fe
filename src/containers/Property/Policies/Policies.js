@@ -30,10 +30,6 @@ export const Policies = (props) => {
     showPageNumberInput: 6,
   });
 
-  useEffect(() => {
-    console.log('pagination: ', pagination);
-  }, [pagination]);
-
   const policies = useSelector((state) => state.getIn(['property', 'policy']));
 
   useEffect(() => {
@@ -65,6 +61,7 @@ export const Policies = (props) => {
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
+          onClickPolicy={() => {}}
         />
       </Box>
     </DashboardLayoutContainer>

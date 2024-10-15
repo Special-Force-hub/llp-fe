@@ -62,7 +62,13 @@ export const BreadCrumbs = () => {
   const currentItem = menuItems.length ? menuItems[menuItems.length - 1].name : null;
 
   const onClickItem = (item) => {
-    if (item === menuItems[0] || (item === menuItems[menuItems.length - 1] && !detailsItem)) return;
+    if (
+      item === menuItems[0] ||
+      (item === menuItems[menuItems.length - 1] && !detailsItem) ||
+      item === detailsItem
+    ) {
+      return;
+    }
 
     dispatch(openDetails(null));
     setTimeout(() => {
