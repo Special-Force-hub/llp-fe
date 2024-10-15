@@ -10,7 +10,7 @@ import {
   setAppAction,
 } from 'store/actions/propertyActions';
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
-import { ApplicationTable } from 'components/property/application';
+import { ApplicationTable } from 'components/Property/Application';
 
 export const Applications = (props) => {
   const dispatch = useDispatch();

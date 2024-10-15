@@ -1,0 +1,1 @@
+export { BuildingTable } from './BuildingTable';

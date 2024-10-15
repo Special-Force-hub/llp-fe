@@ -1,0 +1,1 @@
+export { PolicyTable } from './PolicyTable';

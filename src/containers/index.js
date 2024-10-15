@@ -8,9 +8,9 @@ import { UpdatePassword } from './Auth/UpdatePassword';
 
 import { Dashboard } from './Dashboard';
 import { Buildings } from './Property/Buildings';
-import { DetailPage } from 'components/property/BuildingTable/DetailPage';
+import { DetailPage } from 'components/Property/BuildingTable/DetailPage';
 import { Applications } from './Property/Applications';
-import { ApplicationsDetail } from 'components/property/application';
+import { ApplicationsDetail } from 'components/Property/Application';
 import { Policies } from './Property/Policies';
 import { FlaggedCancellations } from './Property/FlaggedCancellations';
 import { Claims } from './Property/Claims';
