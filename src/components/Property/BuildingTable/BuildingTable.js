@@ -42,6 +42,7 @@ export const BuildingTable = ({
   }, [buildings, isDemo]);
 
   const goDetailPage = (tableMeta) => {
+
     const selectedBuilding = buildings.find(
       (building) => building.id === tableMeta[tableMeta.length - 1],
     );

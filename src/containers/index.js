@@ -13,7 +13,9 @@ import { Applications } from './Property/Applications';
 import { ApplicationsDetail } from './Property/Applications/ApplicationDetail';
 import { Policies } from './Property/Policies';
 import { FlaggedCancellations } from './Property/FlaggedCancellations';
-import { Claims } from './Property/Claims';
+import { FlaggedCancellationsDetail } from './Property/FlaggedCancellations';
+// import { Claims } from './Property/Claims';
+import { Claims } from './Property/Claims/Claims';
 import { Invoice } from './Invoice';
 import { Treeview } from './User/Treeview';
 import { UserByRole } from './User/UserByRole';
@@ -55,6 +57,7 @@ const AppRoutes = () => {
         <Route exact path="applications/detail" element={<ApplicationsDetail />} />
         <Route exact path="policies" element={<Policies />} />
         <Route exact path="cancel-policies" element={<FlaggedCancellations />} />
+        <Route exact path="cancel-policies/detail" element={<FlaggedCancellationsDetail />} />
         <Route exact path="claims" element={<Claims />} />
       </Route>
 
