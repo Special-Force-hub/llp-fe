@@ -39,7 +39,6 @@ export const Applications = (props) => {
   const applications = useSelector((state) => state.getIn(['property', 'application']));
 
   useEffect(() => {
-    
     const data = [];
     if (applications) {
       const appData = applications.toJS().data || [];
@@ -86,8 +85,14 @@ export const Applications = (props) => {
           //   <circle cx="12" cy="12" r="2" fill="#8E3C96" />
           //   <circle cx="12" cy="19" r="2" fill="#8E3C96" />
           // </svg>,
-          <Link to="detail"><IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} /></Link>,
-          <IconGraphy icon={'EditorLayout.MoreVert'} style={{ color: '#702572' }} onClick={()=>{}} />,
+          <Link to="detail">
+            <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} />
+          </Link>,
+          <IconGraphy
+            icon={'EditorLayout.MoreVert'}
+            style={{ color: '#702572' }}
+            onClick={() => {}}
+          />,
         ]);
       });
       setTableData(data);
@@ -96,8 +101,8 @@ export const Applications = (props) => {
   }, [applications, isDemo]);
 
   useEffect(() => {
-    console.log("paginatedData: ", paginatedData)
-  }, [paginatedData])
+    console.log('paginatedData: ', paginatedData);
+  }, [paginatedData]);
 
   useEffect(() => {
     if (filter) {

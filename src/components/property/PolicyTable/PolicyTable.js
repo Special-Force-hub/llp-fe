@@ -14,7 +14,6 @@ export const PolicyTable = ({
   sortOptions,
   onChangeSort,
 }) => {
-
   const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
@@ -41,12 +40,11 @@ export const PolicyTable = ({
       });
 
       setTableData(data);
-      console.log("policydata", data);
+      console.log('policydata', data);
     }
   }, [policies, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-
     navigate(`/property/buildings/Chelsea Apartment`);
   };
 
@@ -61,11 +59,7 @@ export const PolicyTable = ({
             customBodyRenderer: (value) => (
               <Badge
                 color={value ? 'sunglow' : 'tomato'}
-                label={
-                  !value
-                    ? 'undefined'
-                    : '2 issued'
-                }
+                label={!value ? 'undefined' : '2 issued'}
                 rounded
                 textSize="medium"
               />
@@ -221,7 +215,11 @@ export const PolicyTable = ({
             flex: '5px 1 1',
             sort: true,
             customBodyRenderer: (value, tableMeta) => (
-              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={() => goDetailPage(tableMeta)} />
+              <IconGraphy
+                icon={'FileFolder.Description'}
+                style={{ color: '#702572' }}
+                onClick={() => goDetailPage(tableMeta)}
+              />
             ),
           },
           key: 'detail',
@@ -232,7 +230,10 @@ export const PolicyTable = ({
             flex: '5px 1 1',
             sort: true,
             customBodyRenderer: () => (
-              <IconGraphy icon={'EditorLayout.MoreVert'} style={{ color: '#702572', text_align: 'center' }} />
+              <IconGraphy
+                icon={'EditorLayout.MoreVert'}
+                style={{ color: '#702572', text_align: 'center' }}
+              />
             ),
           },
           key: 'more',

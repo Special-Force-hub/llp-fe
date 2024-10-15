@@ -14,7 +14,6 @@ export const BuildingTable = ({
   sortOptions,
   onChangeSort,
 }) => {
-
   const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
@@ -167,7 +166,11 @@ export const BuildingTable = ({
             flex: '5px 1 1',
             sort: true,
             customBodyRenderer: (value, tableMeta) => (
-              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} onClick={() => goDetailPage(tableMeta)} />
+              <IconGraphy
+                icon={'FileFolder.Description'}
+                style={{ color: '#702572' }}
+                onClick={() => goDetailPage(tableMeta)}
+              />
             ),
           },
           key: 'detail',

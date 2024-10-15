@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { Typography } from '@leapeasy/ui-kit';
 
-export const DetailCard = ({ }) => {
+export const DetailCard = ({}) => {
   return (
     <Box
       display={'flex'}
@@ -45,9 +45,7 @@ export const DetailCard = ({ }) => {
         paddingX={2}
       >
         <Box width={'min-content'} margin={'auto'} whiteSpace={'nowrap'}>
-          <Typography style={{ color: '#A39AA9', marginBottom: 8 }}>
-            Months Remaining
-          </Typography>
+          <Typography style={{ color: '#A39AA9', marginBottom: 8 }}>Months Remaining</Typography>
           <Typography style={{ color: '#2E0F40' }}>14</Typography>
         </Box>
       </Box>
@@ -73,9 +71,7 @@ export const DetailCard = ({ }) => {
         paddingX={2}
       >
         <Box width={'min-content'} margin={'auto'} whiteSpace={'nowrap'}>
-          <Typography style={{ color: '#A39AA9', marginBottom: 8 }}>
-            Application Type
-          </Typography>
+          <Typography style={{ color: '#A39AA9', marginBottom: 8 }}>Application Type</Typography>
           <Typography style={{ color: '#2E0F40' }}>Rent Guaranty</Typography>
         </Box>
       </Box>

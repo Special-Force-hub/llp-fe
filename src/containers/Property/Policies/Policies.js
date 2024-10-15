@@ -31,8 +31,8 @@ export const Policies = (props) => {
   });
 
   useEffect(() => {
-    console.log("pagination: ", pagination);
-  }, [pagination])
+    console.log('pagination: ', pagination);
+  }, [pagination]);
 
   const policies = useSelector((state) => state.getIn(['property', 'policy']));
 
