@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
 import { Typography, Badge, Tooltip } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
@@ -13,8 +12,8 @@ export const BuildingTable = ({
   onChangePagination,
   sortOptions,
   onChangeSort,
+  onClickBuilding,
 }) => {
-  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
@@ -34,7 +33,7 @@ export const BuildingTable = ({
           building.student_housing,
           building.dispositioned.toString(),
           isDemo ? getDemoData('landlord-name') : building.landlord_name,
-          '',
+          building.id,
         ]);
       });
 
@@ -43,7 +42,13 @@ export const BuildingTable = ({
   }, [buildings, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-    navigate(`/property/buildings/Chelsea Apartment`);
+    const selectedBuilding = buildings.find(
+      (building) => building.id === tableMeta[tableMeta.length - 1],
+    );
+
+    if (selectedBuilding) {
+      onClickBuilding(selectedBuilding);
+    }
   };
 
   return (

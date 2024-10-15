@@ -14,6 +14,7 @@ export const ApplicationTable = ({
   onChangePagination,
   sortOptions,
   onChangeSort,
+  onClickApplication,
 }) => {
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
@@ -36,7 +37,7 @@ export const ApplicationTable = ({
           app.active_lease,
           app.total_number_of_tenants,
           '',
-          '',
+          app.id,
         ]);
       });
 
@@ -45,7 +46,13 @@ export const ApplicationTable = ({
   }, [applications, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-    navigate(`/property/applications/detail`);
+    const selectedApplication = applications.find(
+      (application) => application.id === tableMeta[tableMeta.length - 1],
+    );
+
+    if (selectedApplication) {
+      onClickApplication(selectedApplication);
+    }
   };
 
   return (

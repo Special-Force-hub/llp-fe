@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Grid, IconGraphy, Tab, Typography, colors } from '@leapeasy/ui-kit';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   getAppReportAction,
   getBuildingCountAction,
@@ -14,6 +14,7 @@ import {
 import { AllApplicationsChart } from 'elements/Charts/AllApplicationsChart';
 import { AppTypeChart } from 'elements/Charts/AppTypeChart';
 import { DetailCard } from 'elements/ReportCard/DetailCard';
+import { openDetails } from 'store/actions/uiActions';
 
 const rateData = [
   {
@@ -81,18 +82,25 @@ export const BuildingDetail = (props) => {
   const buildingCount = useSelector((state) => state.getIn(['report', 'buildingCount']));
   const landlordCount = useSelector((state) => state.getIn(['report', 'landlordCount']));
 
+  const onClickBack = useCallback(() => {
+    dispatch(openDetails(null));
+
+    setTimeout(() => {
+      navigate(-1);
+    });
+  }, []);
   return (
     <DashboardLayoutContainer>
       <Box
         sx={{
-          cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           marginBottom: '15px',
         }}
-        onClick={() => navigate(-1)}
       >
-        <IconGraphy icon="Arrow.ArrowBack" />
+        <Box sx={{ cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
+          <IconGraphy icon="Arrow.ArrowBack" onClick={onClickBack} />
+        </Box>
         <Typography
           variant="h3"
           style={{ color: colors.purple[900], fontWeight: '500', padding: '5px 5px 5px 15px' }}
@@ -100,7 +108,9 @@ export const BuildingDetail = (props) => {
           Chelsea Apartments
         </Typography>
       </Box>
+
       <DetailCard />
+
       <Box marginTop="20px">
         <Grid>
           <Tab
@@ -146,6 +156,7 @@ export const BuildingDetail = (props) => {
             onClick={() => setSelected(7)}
           />
         </Grid>
+
         {selected === 1 && (
           <>
             <Box display="flex" justifyContent="space-between" marginTop="15px">

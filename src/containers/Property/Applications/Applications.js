@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
@@ -10,10 +9,12 @@ import {
   setAppAction,
 } from 'store/actions/propertyActions';
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
+import { useNavigate } from 'react-router-dom';
 import { ApplicationTable } from 'components/Property/Application';
 
 export const Applications = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [filter, setFilter] = useState({
     options: {},
@@ -45,6 +46,10 @@ export const Applications = (props) => {
     );
   }, [filter, pagination]);
 
+  const onClickApplication = useCallback((application) => {
+    navigate('/property/applications/detail');
+  }, []);
+
   if (!applications) return <DashboardLayoutContainer />;
 
   const applicationsJSON = applications.toJS();
@@ -64,6 +69,7 @@ export const Applications = (props) => {
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
+          onClickApplication={onClickApplication}
         />
       </Box>
     </DashboardLayoutContainer>

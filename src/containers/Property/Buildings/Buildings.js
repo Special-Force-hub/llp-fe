@@ -1,16 +1,19 @@
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   getBuildingAction,
   // getFilteredDataAction,
   // setBuildingAction,
 } from 'store/actions/propertyActions';
+import { openDetails } from 'store/actions/uiActions';
 import { BuildingTable } from 'components/Property/BuildingTable';
+import { useNavigate } from 'react-router-dom';
 
 export const Buildings = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [filter, setFilter] = useState({
     options: {},
@@ -42,6 +45,19 @@ export const Buildings = (props) => {
     );
   }, [filter, pagination]);
 
+  const onClickBuilding = useCallback((building) => {
+    dispatch(
+      openDetails({
+        type: 'building',
+        data: building,
+      }),
+    );
+
+    setTimeout(() => {
+      navigate('/property/buildings/detail');
+    });
+  }, []);
+
   if (!buildings) return <DashboardLayoutContainer />;
 
   const buildingsJSON = buildings.toJS();
@@ -61,6 +77,7 @@ export const Buildings = (props) => {
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
+          onClickBuilding={onClickBuilding}
         />
       </Box>
     </DashboardLayoutContainer>

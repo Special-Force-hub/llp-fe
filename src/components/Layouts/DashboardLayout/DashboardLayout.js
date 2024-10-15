@@ -18,25 +18,34 @@ export default ({ children }) => {
 
   // update selected menu item when router changes
   const router = useSelector((state) => state.getIn(['router']));
+  const activeMenu = useSelector((state) => state.getIn(['ui', 'menuItem'])) || 'dashboard';
+
   useEffect(() => {
     for (const menuList of [primaryMenu, secondaryMenu]) {
       for (const menuItem of menuList) {
         if (menuItem.child) {
           for (const childItem of menuItem.child) {
-            if (childItem.link === router.location.pathname) {
-              dispatch(openMenuItem(`${menuItem.key}.${childItem.key}`));
+            if (router.location.pathname.includes(childItem.link)) {
+              const newKey = `${menuItem.key}.${childItem.key}`;
+
+              if (newKey !== activeMenu) {
+                dispatch(openMenuItem(newKey));
+              }
               return;
             }
           }
         } else {
-          if (menuItem.link === router.location.pathname) {
-            dispatch(openMenuItem(menuItem.key));
+          if (router.location.pathname.includes(menuItem.link)) {
+            if (menuItem.key !== activeMenu) {
+              dispatch(openMenuItem(menuItem.key));
+            }
+
             return;
           }
         }
       }
     }
-  }, [router]);
+  }, [router, activeMenu]);
 
   // redirect back to login if not authenticated yet
   useEffect(() => {

@@ -50,7 +50,7 @@ const AppRoutes = () => {
       {/** property pages */}
       <Route path="/property">
         <Route exact path="buildings" element={<Buildings />} />
-        <Route exact path="buildings/Chelsea Apartment" element={<BuildingDetail />} />
+        <Route exact path="buildings/detail" element={<BuildingDetail />} />
         <Route exact path="applications" element={<Applications />} />
         <Route exact path="applications/detail" element={<ApplicationsDetail />} />
         <Route exact path="policies" element={<Policies />} />
