@@ -57,7 +57,7 @@ const RateCard = ({ item }) => {
   );
 };
 
-export const DetailPage = (props) => {
+export const BuildingDetail = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

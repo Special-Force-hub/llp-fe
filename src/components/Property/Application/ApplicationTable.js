@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
 import { setDocTitleAction, setDocFileAction } from 'store/actions/documentActions';
+import { useNavigate } from 'react-router-dom';
 
 export const ApplicationTable = ({
   applications,
@@ -16,6 +17,7 @@ export const ApplicationTable = ({
 }) => {
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
+  const navigate = useNavigate();
 
   useEffect(() => {
     const data = [];
@@ -41,6 +43,10 @@ export const ApplicationTable = ({
       setTableData(data);
     }
   }, [applications, isDemo]);
+
+  const goDetailPage = (tableMeta) => {
+    navigate(`/property/applications/detail`);
+  };
 
   return (
     <Table
@@ -196,8 +202,12 @@ export const ApplicationTable = ({
           options: {
             flex: '57px 1 1',
             sort: false,
-            customBodyRenderer: (_) => (
-              <IconGraphy icon={'FileFolder.Description'} style={{ color: '#702572' }} />
+            customBodyRenderer: (_, tableMeta) => (
+              <IconGraphy
+                icon={'FileFolder.Description'}
+                style={{ color: '#702572' }}
+                onClick={() => goDetailPage(tableMeta)}
+              />
             ),
           },
           key: 'detail',
