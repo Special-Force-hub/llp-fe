@@ -266,4 +266,4 @@ export const ApplicationTable = ({
       title="Applications"
     />
   );
-}
+};

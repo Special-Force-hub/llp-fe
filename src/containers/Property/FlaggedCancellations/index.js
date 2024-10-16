@@ -1,2 +1,2 @@
 export { FlaggedCancellations } from './FlaggedCancellations';
-export { FlaggedCancellationsDetail } from "./FlaggedCancellationsDetail"
+export { FlaggedCancellationsDetail } from './FlaggedCancellationsDetail';

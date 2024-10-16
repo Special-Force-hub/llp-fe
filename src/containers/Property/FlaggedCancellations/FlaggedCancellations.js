@@ -13,7 +13,7 @@ export const FlaggedCancellations = () => {
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search Flagged Cancellations...',
+    searchPlaceholder: 'Search ...',
   });
 
   const [sortOptions, setSortOptions] = useState({});
@@ -28,7 +28,7 @@ export const FlaggedCancellations = () => {
     showPageNumberInput: 6,
   });
 
-  const FlaggedCancellations = useSelector((state) => state.getIn(['property', 'policy-cancel']));
+  const flaggedCancellations = useSelector((state) => state.getIn(['property', 'policy-cancel']));
 
   useEffect(() => {
     dispatch(
@@ -41,7 +41,6 @@ export const FlaggedCancellations = () => {
   }, [filter, pagination]);
 
   const onClickCancelPolicies = useCallback((FlaggedCancellation) => {
-
     dispatch(
       openDetails({
         type: 'flagged-cancellation',
@@ -50,27 +49,27 @@ export const FlaggedCancellations = () => {
     );
 
     setTimeout(() => {
-      console.log("/property/cancel-policies/detail");
+      console.log('/property/cancel-policies/detail');
 
       navigate('/property/cancel-policies/detail');
     });
   }, []);
 
-  if (!FlaggedCancellations) return <DashboardLayoutContainer />;
+  if (!flaggedCancellations) return <DashboardLayoutContainer />;
 
-  const FlaggedCancellationJSON = FlaggedCancellations.toJS();
+  const flaggedCancellationsJSON = flaggedCancellations.toJS();
 
   return (
     <DashboardLayoutContainer>
       <Box>
         <FlaggedCancellationTable
-          FlaggedCancellations={FlaggedCancellationJSON.data}
+          flaggedCancellations={flaggedCancellationsJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: FlaggedCancellationJSON.total,
-            totalPages: Math.ceil(FlaggedCancellationJSON.total / pagination.rowsPerPage),
+            totalItems: flaggedCancellationsJSON.total,
+            totalPages: Math.ceil(flaggedCancellationsJSON.total / pagination.rowsPerPage),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}

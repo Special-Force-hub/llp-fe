@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
 
-export const ClaimsTable = ({
+export const ClaimTable = ({
   claims,
   filter,
   onChangeFilter,
@@ -60,7 +60,7 @@ export const ClaimsTable = ({
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
-                color={(value != 'Closed' ? 'parisGreen' : 'tomato')}
+                color={value != 'Closed' ? 'parisGreen' : 'tomato'}
                 label={value}
                 rounded
                 textSize="medium"
@@ -112,7 +112,7 @@ export const ClaimsTable = ({
           name: 'Claim Num.',
           options: {
             flex: '80px 1 1',
-            
+
             sort: true,
             filter: true,
             filterOptions: [
@@ -136,7 +136,7 @@ export const ClaimsTable = ({
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
-                color='purpleIrish'
+                color="purpleIrish"
                 label={value}
                 rounded
                 textSize="medium"

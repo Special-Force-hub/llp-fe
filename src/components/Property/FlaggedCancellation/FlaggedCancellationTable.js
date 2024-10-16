@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
 
 export const FlaggedCancellationTable = ({
-  FlaggedCancellations,
+  flaggedCancellations,
   filter,
   onChangeFilter,
   pagination,
@@ -19,36 +19,34 @@ export const FlaggedCancellationTable = ({
 
   useEffect(() => {
     const data = [];
-    if (FlaggedCancellations) {
-      FlaggedCancellations.forEach((FlaggedCancellation) => {
+    if (flaggedCancellations) {
+      flaggedCancellations.forEach((item) => {
         data.push([
           '',
-          FlaggedCancellation.policy_flag || '',
-          FlaggedCancellation.is_cancelled ? 'Cancelled' : 'Active',
-          isDemo ? getDemoData('rider-id') : FlaggedCancellation.rider_id,
-          isDemo ? getDemoData('tenant-name') : FlaggedCancellation.tenant_1_name,
-          isDemo ? getDemoData('building-name') : FlaggedCancellation.apartment_building_name,
-          FlaggedCancellation.coverage_start_date,
-          FlaggedCancellation.coverage_end_date,
-          FlaggedCancellation.app_type,
-          FlaggedCancellation.id
-          // FlaggedCancellation.is_cancelled,
+          item.policy_flag || '',
+          item.is_cancelled ? 'Cancelled' : 'Active',
+          isDemo ? getDemoData('rider-id') : item.rider_id,
+          isDemo ? getDemoData('tenant-name') : item.tenant_1_name,
+          isDemo ? getDemoData('building-name') : item.apartment_building_name,
+          item.coverage_start_date,
+          item.coverage_end_date,
+          item.app_type,
+          item.id,
+          // item.is_cancelled,
         ]);
       });
 
       setTableData(data);
     }
-  }, [FlaggedCancellations, isDemo]);
+  }, [flaggedCancellations, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-
-    const selectedFlaggedCancellation = FlaggedCancellations.find(
-      (FlaggedCancellation) => FlaggedCancellation.id === tableMeta[tableMeta.length - 1],
+    const selecteditem = flaggedCancellations.find(
+      (item) => item.id === tableMeta[tableMeta.length - 1],
     );
 
-    if (selectedFlaggedCancellation) {
-
-      onClickCancelPolicies(selectedFlaggedCancellation);
+    if (selecteditem) {
+      onClickCancelPolicies(selecteditem);
     }
   };
 
@@ -56,24 +54,11 @@ export const FlaggedCancellationTable = ({
     <Table
       columns={[
         {
-          name:
-            <Checkbox
-              description=""
-              indeterminate
-              label=""
-              onClick={() => { }}
-              readonly
-            />,
+          name: <Checkbox description="" indeterminate label="" onClick={() => {}} readonly />,
           options: {
-            flex: "5px 1 1",
+            flex: '5px 1 1',
             sort: true,
-            customBodyRenderer: (value) => (
-              <Checkbox
-                description=""
-                label=""
-                onClick={() => { }}
-              />
-            ),
+            customBodyRenderer: (value) => <Checkbox description="" label="" onClick={() => {}} />,
           },
           key: '',
         },
@@ -86,7 +71,7 @@ export const FlaggedCancellationTable = ({
               <Badge
                 background="rgba(243, 241, 244, 1)"
                 color="neutral"
-                label={value == "green" ? "Possible Claim" : "Possible Cancellation"}
+                label={value == 'green' ? 'Possible Claim' : 'Possible Cancellation'}
                 rounded
                 textSize="medium"
               />
@@ -103,7 +88,7 @@ export const FlaggedCancellationTable = ({
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
-                color={value == "Cancelled" ? 'magentaRed' : 'parisGreen'}
+                color={value == 'Cancelled' ? 'magentaRed' : 'parisGreen'}
                 label={value}
                 rounded
                 textSize="medium"
@@ -208,7 +193,7 @@ export const FlaggedCancellationTable = ({
               <IconGraphy
                 icon={'EditorLayout.MoreVert'}
                 style={{ color: '#702572' }}
-              // onClick={() => goDetailPage(tableMeta)}
+                // onClick={() => goDetailPage(tableMeta)}
               />
             ),
           },

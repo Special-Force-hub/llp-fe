@@ -8,8 +8,7 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { getClaimAction } from 'store/actions/propertyActions';
 import { openDetails } from 'store/actions/uiActions';
 
-import { ClaimsTable } from './ClaimsTable';
-import { JsonData } from './json';
+import { ClaimTable } from 'components/Property/ClaimTable';
 
 export const Claims = () => {
   const dispatch = useDispatch();
@@ -37,13 +36,11 @@ export const Claims = () => {
 
   useEffect(() => {
     dispatch(
-      getClaimAction(
-        {
-          filter,
-          offset: pagination.pageNumber * pagination.rowsPerPage,
-          limit: pagination.rowsPerPage,
-        }
-      ),
+      getClaimAction({
+        filter,
+        offset: pagination.pageNumber * pagination.rowsPerPage,
+        limit: pagination.rowsPerPage,
+      }),
     );
   }, [filter, pagination]);
 
@@ -67,8 +64,8 @@ export const Claims = () => {
   return (
     <DashboardLayoutContainer>
       <Box>
-        <ClaimsTable
-          claims={JsonData.data}
+        <ClaimTable
+          claims={claimsJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{

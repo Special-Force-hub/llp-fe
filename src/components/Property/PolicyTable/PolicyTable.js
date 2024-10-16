@@ -51,9 +51,7 @@ export const PolicyTable = ({
   }, [policies, isDemo, shouldShowBuildingName]);
 
   const goDetailPage = (tableMeta) => {
-    const selectedPolicy = policies.find(
-      (policy) => policy.id === tableMeta[tableMeta.length - 1],
-    );
+    const selectedPolicy = policies.find((policy) => policy.id === tableMeta[tableMeta.length - 1]);
 
     if (selectedPolicy) {
       onClickPolicy(selectedPolicy);

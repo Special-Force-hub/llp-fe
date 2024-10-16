@@ -2,9 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { PolicyTable } from 'components/Property/PolicyTable';
-import {
-  getPolicyAction,
-} from 'store/actions/propertyActions';
+import { getPolicyAction } from 'store/actions/propertyActions';
 
 export const PolicyTab = ({ building }) => {
   const dispatch = useDispatch();
@@ -28,14 +26,16 @@ export const PolicyTab = ({ building }) => {
   });
 
   useEffect(() => {
-    dispatch(getPolicyAction({
-      filter,
-      offset: pagination.pageNumber * pagination.rowsPerPage,
-      limit: pagination.rowsPerPage,
+    dispatch(
+      getPolicyAction({
+        filter,
+        offset: pagination.pageNumber * pagination.rowsPerPage,
+        limit: pagination.rowsPerPage,
 
-      role: 'building',
-      id: building.building_id
-    }));
+        role: 'building',
+        id: building.building_id,
+      }),
+    );
   }, [dispatch, building.building_id, filter, pagination]);
 
   const policies = useSelector((state) => state.getIn(['property', 'policy']));
