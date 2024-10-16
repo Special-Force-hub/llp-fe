@@ -2,6 +2,7 @@ import { IconGraphy, Table } from '@leapeasy/ui-kit';
 import { Typography, Badge, Tooltip } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { Box } from '@mui/material';
 import { getDemoData } from 'utils/helpers';
 
 export const ClaimTable = ({
@@ -72,15 +73,18 @@ export const ClaimTable = ({
         {
           name: 'File Status',
           options: {
+            flex: '120px 1 1',
             filter: true,
             customBodyRenderer: (value) => (
-              <Badge
-                background="rgba(243, 241, 244, 1)"
-                color={value == 'Open - Pending Decision' ? 'sunglow' : 'neutral'}
-                label={value}
-                rounded
-                textSize="medium"
-              />
+              <Box textAlign="center">
+                <Badge
+                  background="#F3F1F4"
+                  color={value == 'Open - Pending Decision' ? 'sunglow' : 'neutral'}
+                  label={value}
+                  rounded
+                  textSize="medium"
+                />
+              </Box>
             ),
             filterOptions: [
               {
@@ -134,13 +138,15 @@ export const ClaimTable = ({
             sort: true,
             flex: '80px 1 1',
             customBodyRenderer: (value) => (
-              <Badge
-                background="rgba(243, 241, 244, 1)"
-                color="purpleIrish"
-                label={value}
-                rounded
-                textSize="medium"
-              />
+              <Box textAlign="center">
+                <Badge
+                  background="rgba(243, 241, 244, 1)"
+                  color="purpleIrish"
+                  label={value}
+                  rounded
+                  textSize="medium"
+                />
+              </Box>
             ),
             filter: true,
             filterOptions: [
