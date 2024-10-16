@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getAppAction, setAppAction } from 'store/actions/propertyActions';
-import { ApplicationTable } from 'components/Property/ApplicationTable';
+import { ApplicationTable } from 'components/Tables/ApplicationTable';
 
 export const ApplicationTab = ({ building }) => {
   const dispatch = useDispatch();

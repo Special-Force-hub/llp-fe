@@ -7,7 +7,7 @@ import {
   // getFilteredDataAction,
   // setBuildingAction,
 } from 'store/actions/propertyActions';
-import { PolicyTable } from 'components/Property/PolicyTable';
+import { PolicyTable } from 'components/Tables/PolicyTable';
 
 export const Policies = (props) => {
   const dispatch = useDispatch();

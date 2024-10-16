@@ -8,7 +8,7 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { getClaimAction } from 'store/actions/propertyActions';
 import { openDetails } from 'store/actions/uiActions';
 
-import { ClaimTable } from 'components/Property/ClaimTable';
+import { ClaimTable } from 'components/Tables/ClaimTable';
 
 export const Claims = () => {
   const dispatch = useDispatch();

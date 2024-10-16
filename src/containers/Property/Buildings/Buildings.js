@@ -8,7 +8,7 @@ import {
   // setBuildingAction,
 } from 'store/actions/propertyActions';
 import { openDetails } from 'store/actions/uiActions';
-import { BuildingTable } from 'components/Property/BuildingTable';
+import { BuildingTable } from 'components/Tables/BuildingTable';
 import { useNavigate } from 'react-router-dom';
 
 export const Buildings = (props) => {

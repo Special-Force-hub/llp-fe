@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box, Grid } from '@mui/material';
 import { IconGraphy, Typography, colors } from '@leapeasy/ui-kit';
-import { DetailCard } from 'elements/ReportCard/DetailCard';
+import { DetailCard } from './DetailCard';
+import { useDispatch, useSelector } from 'react-redux';
 
-export const ApplicationsDetail = (props) => {
+export const ApplicationDetail = (props) => {
   const navigate = useNavigate();
+
+  const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
   return (
     <DashboardLayoutContainer>
@@ -28,6 +31,7 @@ export const ApplicationsDetail = (props) => {
             Shaun Ray Miles
           </Typography>
         </Box>
+
         <Box
           sx={{
             marginBottom: '10px',
@@ -37,8 +41,9 @@ export const ApplicationsDetail = (props) => {
             border: `1px solid ${colors.black[300]}`,
           }}
         >
-          <DetailCard />
+          <DetailCard application={{}} isDemo={true} />
         </Box>
+
         <Box
           sx={{
             margin: '',
@@ -66,6 +71,7 @@ export const ApplicationsDetail = (props) => {
             ))}
           </Grid>
         </Box>
+
         <Box
           sx={{
             marginTop: '10px',

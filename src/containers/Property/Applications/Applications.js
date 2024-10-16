@@ -10,7 +10,7 @@ import {
 } from 'store/actions/propertyActions';
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
 import { useNavigate } from 'react-router-dom';
-import { ApplicationTable } from 'components/Property/ApplicationTable';
+import { ApplicationTable } from 'components/Tables/ApplicationTable';
 
 export const Applications = (props) => {
   const dispatch = useDispatch();

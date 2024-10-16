@@ -6,14 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import {
-  getClaimAction,
   getBuildingDelegationAction,
-  getPolicyCancelAction,
   getBuildingInvoiceAction,
 } from 'store/actions/propertyActions';
 
 import { openDetails } from 'store/actions/uiActions';
-import { DetailCard } from 'elements/ReportCard/DetailCard';
+import { DetailCard } from './DetailCard';
 import {
   ReportTab,
   ApplicationTab,
@@ -61,6 +59,7 @@ export const BuildingDetail = () => {
 
   const [selectedTab, setSelectedTab] = useState(0);
 
+  const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
   const details = useSelector((state) => state.getIn(['ui', 'details'])) || null;
   const detailsJSON = details ? details.toJS() : null;
 
@@ -78,9 +77,8 @@ export const BuildingDetail = () => {
       onClickBack();
       return;
     }
-    // dispatch(getClaimAction(buildingId));
+
     // dispatch(getBuildingDelegationAction(buildingId));
-    // dispatch(getPolicyCancelAction({ id: buildingId, role: 'building' }));
     // dispatch(getBuildingInvoiceAction(buildingId));
   }, [onClickBack, details]);
 
@@ -116,7 +114,7 @@ export const BuildingDetail = () => {
           </Typography>
         </Box>
 
-        <DetailCard />
+        <DetailCard building={building} isDemo={isDemo} />
       </Box>
 
       <Box

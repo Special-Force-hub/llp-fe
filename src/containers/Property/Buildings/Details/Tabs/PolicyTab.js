@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { PolicyTable } from 'components/Property/PolicyTable';
+import { PolicyTable } from 'components/Tables/PolicyTable';
 import { getPolicyAction } from 'store/actions/propertyActions';
 
 export const PolicyTab = ({ building }) => {

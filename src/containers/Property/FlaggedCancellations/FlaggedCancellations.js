@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPolicyCancelAction } from 'store/actions/propertyActions';
 import { openDetails } from 'store/actions/uiActions';
-import { FlaggedCancellationTable } from 'components/Property/FlaggedCancellation';
+import { FlaggedCancellationTable } from 'components/Tables/FlaggedCancellation';
 
 export const FlaggedCancellations = () => {
   const dispatch = useDispatch();
