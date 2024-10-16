@@ -36,9 +36,9 @@ function* onGetQBOAuth() {
   yield takeLatest(types.GET_QBOAUTH, getQBOAuthSaga);
 }
 
-function* getInvoiceListSaga(data) {
+function* getInvoiceListSaga({ payload }) {
   try {
-    const res = yield getInvoiceList(data);
+    const res = yield getInvoiceList(payload);
     yield put(setInvoiceListAction(res));
   } catch (error) {
     console.log(error);

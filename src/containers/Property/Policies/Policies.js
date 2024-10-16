@@ -7,7 +7,7 @@ import {
   // getFilteredDataAction,
   // setBuildingAction,
 } from 'store/actions/propertyActions';
-import { PolicyTable } from 'components/Property/PolicyTable';
+import { PolicyTable } from 'components/Tables/PolicyTable';
 
 export const Policies = (props) => {
   const dispatch = useDispatch();
@@ -29,10 +29,6 @@ export const Policies = (props) => {
     },
     showPageNumberInput: 6,
   });
-
-  useEffect(() => {
-    console.log('pagination: ', pagination);
-  }, [pagination]);
 
   const policies = useSelector((state) => state.getIn(['property', 'policy']));
 
@@ -65,6 +61,7 @@ export const Policies = (props) => {
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
+          onClickPolicy={() => {}}
         />
       </Box>
     </DashboardLayoutContainer>

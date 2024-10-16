@@ -1,4 +1,3 @@
-import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +8,7 @@ import {
 } from 'store/actions/invoiceActions';
 import { InvoiceTable } from 'components/InvoiceTable';
 
-export const Invoice = (props) => {
+export const InvoiceTab = ({ building }) => {
   const dispatch = useDispatch();
 
   const [filter, setFilter] = useState({
@@ -34,6 +33,7 @@ export const Invoice = (props) => {
   useEffect(() => {
     dispatch(
       getInvoiceListAction({
+        buildingId: building.building_id,
         filter,
         offset: pagination.pageNumber * pagination.rowsPerPage,
         limit: pagination.rowsPerPage,
@@ -41,27 +41,25 @@ export const Invoice = (props) => {
     );
   }, [filter, pagination]);
 
-  if (!invoices) return <DashboardLayoutContainer />;
+  if (!invoices) return null;
 
   const invoicesJSON = invoices.toJS();
 
   return (
-    <DashboardLayoutContainer>
-      <Box>
-        <InvoiceTable
-          invoices={invoicesJSON.invoiceData}
-          filter={filter}
-          onChangeFilter={setFilter}
-          pagination={{
-            ...pagination,
-            totalItems: invoicesJSON.invoiceData.length,
-            totalPages: Math.ceil(invoicesJSON.invoiceData.length / pagination.rowsPerPage),
-          }}
-          onChangePagination={setPagination}
-          sortOptions={sortOptions}
-          onChangeSort={setSortOptions}
-        />
-      </Box>
-    </DashboardLayoutContainer>
+    <Box>
+      <InvoiceTable
+        invoices={invoicesJSON.invoiceData}
+        filter={filter}
+        onChangeFilter={setFilter}
+        pagination={{
+          ...pagination,
+          totalItems: invoicesJSON.invoiceData.length,
+          totalPages: Math.ceil(invoicesJSON.invoiceData.length / pagination.rowsPerPage),
+        }}
+        onChangePagination={setPagination}
+        sortOptions={sortOptions}
+        onChangeSort={setSortOptions}
+      />
+    </Box>
   );
 };

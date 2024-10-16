@@ -8,14 +8,13 @@ import { UpdatePassword } from './Auth/UpdatePassword';
 
 import { Dashboard } from './Dashboard';
 import { Buildings } from './Property/Buildings';
-import { BuildingDetail } from './Property/Buildings/BuildingDetail';
+import { BuildingDetail } from './Property/Buildings/Details/BuildingDetail';
 import { Applications } from './Property/Applications';
-import { ApplicationsDetail } from './Property/Applications/ApplicationDetail';
+import { ApplicationDetail } from './Property/Applications/Details';
 import { Policies } from './Property/Policies';
 import { FlaggedCancellations } from './Property/FlaggedCancellations';
 import { FlaggedCancellationsDetail } from './Property/FlaggedCancellations';
-// import { Claims } from './Property/Claims';
-import { Claims } from './Property/Claims/Claims';
+import { Claims } from './Property/Claims';
 import { Invoice } from './Invoice';
 import { Treeview } from './User/Treeview';
 import { UserByRole } from './User/UserByRole';
@@ -54,7 +53,7 @@ const AppRoutes = () => {
         <Route exact path="buildings" element={<Buildings />} />
         <Route exact path="buildings/detail" element={<BuildingDetail />} />
         <Route exact path="applications" element={<Applications />} />
-        <Route exact path="applications/detail" element={<ApplicationsDetail />} />
+        <Route exact path="applications/detail" element={<ApplicationDetail />} />
         <Route exact path="policies" element={<Policies />} />
         <Route exact path="cancel-policies" element={<FlaggedCancellations />} />
         <Route exact path="cancel-policies/detail" element={<FlaggedCancellationsDetail />} />

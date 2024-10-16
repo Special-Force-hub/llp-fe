@@ -8,7 +8,7 @@ import {
   // setBuildingAction,
 } from 'store/actions/propertyActions';
 import { openDetails } from 'store/actions/uiActions';
-import { BuildingTable } from 'components/Property/BuildingTable';
+import { BuildingTable } from 'components/Tables/BuildingTable';
 import { useNavigate } from 'react-router-dom';
 
 export const Buildings = (props) => {
@@ -43,20 +43,23 @@ export const Buildings = (props) => {
         limit: pagination.rowsPerPage,
       }),
     );
-  }, [filter, pagination]);
+  }, [filter, pagination, dispatch]);
 
-  const onClickBuilding = useCallback((building) => {
-    dispatch(
-      openDetails({
-        type: 'building',
-        data: building,
-      }),
-    );
+  const onClickBuilding = useCallback(
+    (building) => {
+      dispatch(
+        openDetails({
+          type: 'building',
+          data: building,
+        }),
+      );
 
-    setTimeout(() => {
-      navigate('/property/buildings/detail');
-    });
-  }, []);
+      setTimeout(() => {
+        navigate('/property/buildings/detail');
+      });
+    },
+    [dispatch, navigate],
+  );
 
   if (!buildings) return <DashboardLayoutContainer />;
 

@@ -10,8 +10,8 @@ export const getApp = async (payload) => {
   return response.data;
 };
 
-export const getClaim = async (buildingId) => {
-  const response = await api.get('/property/claim?buildingId=' + buildingId, getAuthHeader());
+export const getClaim = async (payload) => {
+  const response = await api.post('/property/claim', payload, getAuthHeader());
   return response.data;
 };
 
