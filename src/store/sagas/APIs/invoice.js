@@ -5,8 +5,8 @@ export const getQBOAuth = async () => {
   return response.data;
 };
 
-export const getInvoiceList = async () => {
-  const response = await api.get('/invoice/list', getAuthHeader());
+export const getInvoiceList = async (payload) => {
+  const response = await api.post('/invoice/list', payload, getAuthHeader());
   return response.data;
 };
 
