@@ -88,7 +88,7 @@ export const primaryMenu = [
       {
         key: 'invite-new-user',
         name: 'Invite New User',
-        link: '/invite-user',
+        link: '/user/invite-new-user',
         icon: 'Users.User',
       },
     ],
