@@ -11,6 +11,7 @@ import {
 import { APP_STAGE, APP_TYPE } from 'data/constants/common_constants';
 import { useNavigate } from 'react-router-dom';
 import { ApplicationTable } from 'components/Tables/ApplicationTable';
+import { openDetails } from 'store/actions/uiActions';
 
 export const Applications = (props) => {
   const dispatch = useDispatch();
@@ -47,7 +48,16 @@ export const Applications = (props) => {
   }, [filter, pagination]);
 
   const onClickApplication = useCallback((application) => {
-    navigate('/property/applications/detail');
+    dispatch(
+      openDetails({
+        type: 'application',
+        data: application,
+      }),
+    );
+
+    setTimeout(() => {
+      navigate('/property/applications/detail');
+    });
   }, []);
 
   if (!applications) return <DashboardLayoutContainer />;

@@ -1,48 +1,60 @@
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
-import { Typography, Badge } from '@leapeasy/ui-kit';
+import { Typography, Avatar } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
 
-export const UserTable = ({
-  title,
-  role,
-  users,
+export const LandlordTable = ({
+  landlords,
   filter,
   onChangeFilter,
   pagination,
   onChangePagination,
   sortOptions,
   onChangeSort,
-  onClickUser,
+  onClickLandlord,
 }) => {
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
   useEffect(() => {
     const data = [];
-    if (users) {
-      users.forEach((user) => {
+    if (landlords) {
+      landlords.forEach((landlord) => {
+        const address =
+          (landlord.billingStreet || '') +
+          ' ' +
+          (landlord.billingCity || '') +
+          ' ' +
+          (landlord.billingState || '') +
+          ' ' +
+          (landlord.billingPostalCode || '');
+        const image = landlord.user ? landlord.user.image : null;
+
         data.push([
-          isDemo ? null : user.accepter.image,
-          isDemo ? getDemoData('username') : user.accepter.username,
-          isDemo ? getDemoData('phone') : user.accepter.phone,
-          user.accepter.job_title,
-          isDemo ? getDemoData('email') : user.accepter_email,
-          user.property.length,
-          new Date(user.createdAt).toISOString().slice(0, 10),
+          image,
+          isDemo ? getDemoData('landlord-name') : landlord.name,
+          isDemo ? getDemoData('primary-contact') : landlord.primary_contact,
+          isDemo ? getDemoData('address') : address,
+          isDemo ? getDemoData('email') : landlord.email_address,
+          isDemo ? getDemoData('phone') : landlord.phone,
+          new Date(landlord.sf_createdDate).toISOString().slice(0, 10),
+          landlord.total_buildings ? landlord.total_buildings : 0,
+          landlord.total_units ? landlord.total_units : 0,
+          landlord.id,
+          landlord.id,
         ]);
       });
 
       setTableData(data);
     }
-  }, [users, isDemo]);
+  }, [landlords, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-    const selectedUser = users.find((user) => user.id === tableMeta[tableMeta.length - 1]);
+    const selectedLandlord = landlords.find((ll) => ll.id === tableMeta[tableMeta.length - 1]);
 
-    if (selectedUser) {
-      onClickUser(selectedUser);
+    if (selectedLandlord) {
+      onClickLandlord(selectedLandlord);
     }
   };
 
@@ -53,30 +65,36 @@ export const UserTable = ({
           name: '',
           options: {
             flex: '5px 1 1',
+            customBodyRenderer: (value) => (
+              <Avatar
+                size="medium"
+                iconImage={value ? <img src={value} /> : <IconGraphy icon="Users.User" />}
+              />
+            ),
           },
-          key: '',
+          key: 'image',
         },
         {
-          name: 'Name',
+          name: 'Landlord Name',
           options: {
             sort: true,
           },
-          key: 'name',
+          key: 'landlord_name',
         },
         {
-          name: 'Phone Number',
+          name: 'Primary Contact',
           options: {
             sort: true,
           },
-          key: 'phone_number',
+          key: 'primary_contact',
         },
         {
-          name: 'Job Title',
+          name: 'Address',
           options: {
             flex: '210px 1 1',
             sort: true,
           },
-          key: 'job_title',
+          key: 'address',
         },
         {
           name: 'Email Address',
@@ -87,21 +105,30 @@ export const UserTable = ({
           key: 'email_address',
         },
         {
-          name: 'Num of Building',
+          name: 'Phone Number',
           options: {
             sort: true,
-            customBodyRender: (value) => (
-              <Typography align="center" variant="body1">
-                {value.toLocaleString('en-US')}
-              </Typography>
-            ),
           },
-          key: 'num_of_building',
+          key: 'phone',
         },
         {
-          name: 'Invited Date',
+          name: 'Create date',
           options: {},
-          key: 'invited_date',
+          key: 'create_date',
+        },
+        {
+          name: 'No. of Building',
+          options: {
+            flex: '5px 1 1',
+          },
+          key: 'number_of_buildings',
+        },
+        {
+          name: 'N/Units',
+          options: {
+            flex: '5px 1 1',
+          },
+          key: 'number_of_units',
         },
         {
           name: 'Details',
@@ -121,21 +148,8 @@ export const UserTable = ({
           name: '',
           options: {
             flex: '5px 1 1',
-            customBodyRenderer: (value, tableMeta) => (
-              <IconGraphy icon={'EditorLayout.Colorize'} style={{ color: '#702572' }} />
-            ),
           },
-          key: '',
-        },
-        {
-          name: '',
-          options: {
-            flex: '5px 1 1',
-            customBodyRenderer: (value, tableMeta) => (
-              <IconGraphy icon={'General.Delete'} style={{ color: '#702572' }} />
-            ),
-          },
-          key: '',
+          key: 'actions',
         },
       ]}
       data={tableData}
@@ -153,7 +167,7 @@ export const UserTable = ({
       sortOptions={sortOptions}
       onChangeSort={onChangeSort}
       style={{ width: '100%' }}
-      title={title}
+      title="Landlord"
     />
   );
 };

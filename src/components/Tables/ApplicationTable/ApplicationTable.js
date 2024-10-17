@@ -3,6 +3,7 @@ import { Badge } from '@leapeasy/ui-kit';
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
+import { Box } from '@mui/material';
 import { setDocTitleAction, setDocFileAction } from 'store/actions/documentActions';
 
 export const ApplicationTable = ({
@@ -77,7 +78,9 @@ export const ApplicationTable = ({
             },
           ],
           customBodyRenderer: (value) => (
-            <Badge background="#F3F1F4" color="sunglow" label={value} rounded textSize="medium" />
+            <Box textAlign="center">
+              <Badge background="#F3F1F4" color="sunglow" label={value} rounded textSize="medium" />
+            </Box>
           ),
         },
         key: 'stage',
@@ -100,13 +103,15 @@ export const ApplicationTable = ({
           ],
           customBodyRenderer: (value) =>
             value && (
-              <Badge
-                background="#F3F1F4"
-                color="warmBlue"
-                label={value}
-                rounded
-                textSize="medium"
-              />
+              <Box textAlign="center">
+                <Badge
+                  background="#F3F1F4"
+                  color="warmBlue"
+                  label={value}
+                  rounded
+                  textSize="medium"
+                />
+              </Box>
             ),
         },
         key: 'type',

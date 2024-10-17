@@ -2,21 +2,22 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
+import { getActiveLandlordAction } from 'store/actions/userActions';
 import { useNavigate } from 'react-router-dom';
-import { getPolicyCancelAction } from 'store/actions/propertyActions';
-import { openDetails } from 'store/actions/uiActions';
-import { FlaggedCancellationTable } from 'components/Tables/FlaggedCancellation';
+import { LandlordTable } from 'components/Tables/LandlordTable';
 
-export const FlaggedCancellations = () => {
+export const Landlord = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search ...',
+    searchPlaceholder: 'Search Landlord...',
   });
 
   const [sortOptions, setSortOptions] = useState({});
+
   const [pagination, setPagination] = useState({
     pageNumber: 0,
     rowsPerPage: 12,
@@ -28,47 +29,47 @@ export const FlaggedCancellations = () => {
     showPageNumberInput: 6,
   });
 
-  const flaggedCancellations = useSelector((state) => state.getIn(['property', 'policy-cancel']));
+  const landlords = useSelector((state) => state.getIn(['user', 'active_landlord']));
 
   useEffect(() => {
     dispatch(
-      getPolicyCancelAction({
+      getActiveLandlordAction({
         filter,
-        offset: pagination.pageNumber * pagination.rowsPerPage,
-        limit: pagination.rowsPerPage,
+        pagination,
+        sortOptions,
       }),
     );
-  }, [filter, pagination]);
+  }, [filter, pagination, sortOptions, dispatch]);
 
-  const onClickCancelPolicies = useCallback((flaggedCancellation) => {
-    // dispatch(
-    //   openDetails({
-    //     type: 'flagged-cancellation',
-    //     data: flaggedCancellation,
-    //   }),
-    // );
-  }, []);
+  const onClickLandlord = useCallback(
+    (ll) => {
+      console.log('landlord', ll);
+    },
+    [dispatch, navigate],
+  );
 
-  if (!flaggedCancellations) return <DashboardLayoutContainer />;
+  if (!landlords) return <DashboardLayoutContainer />;
 
-  const flaggedCancellationsJSON = flaggedCancellations.toJS();
+  const landlordsJSON = landlords.toJS();
 
   return (
     <DashboardLayoutContainer>
       <Box>
-        <FlaggedCancellationTable
-          flaggedCancellations={flaggedCancellationsJSON.data}
+        <LandlordTable
+          landlords={landlordsJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: flaggedCancellationsJSON.total,
-            totalPages: Math.ceil(flaggedCancellationsJSON.total / pagination.rowsPerPage),
+            totalItems: landlordsJSON.total || landlordsJSON.data.length,
+            totalPages: Math.ceil(
+              (landlordsJSON.total || landlordsJSON.data.length) / pagination.rowsPerPage,
+            ),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
-          onClickCancelPolicies={onClickCancelPolicies}
+          onClickLandlord={onClickLandlord}
         />
       </Box>
     </DashboardLayoutContainer>

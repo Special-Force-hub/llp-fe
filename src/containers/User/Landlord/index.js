@@ -1,0 +1,1 @@
+export { Landlord } from './Landlord';
