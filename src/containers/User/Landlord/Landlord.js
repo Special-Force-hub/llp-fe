@@ -2,22 +2,22 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getVPAction } from 'store/actions/userActions';
-import { openDetails } from 'store/actions/uiActions';
-import { FullPortfolioTable } from 'components/Tables/UserTable';
+import { getActiveLandlordAction } from 'store/actions/userActions';
+import { useNavigate } from 'react-router-dom';
+import { LandlordTable } from 'components/Tables/LandlordTable';
 
-export const FullPortfolio = () => {
-
+export const Landlord = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search Building..',
+    searchPlaceholder: 'Search Landlord...',
   });
 
   const [sortOptions, setSortOptions] = useState({});
+
   const [pagination, setPagination] = useState({
     pageNumber: 0,
     rowsPerPage: 12,
@@ -28,51 +28,48 @@ export const FullPortfolio = () => {
     },
     showPageNumberInput: 6,
   });
-  const users = useSelector((state) => state.getIn(['user', 'vp']));
+
+  const landlords = useSelector((state) => state.getIn(['user', 'active_landlord']));
+
   useEffect(() => {
     dispatch(
-      getVPAction({
-        // filter,
-        // offset: pagination.pageNumber * pagination.rowsPerPage,
-        // limit: pagination.rowsPerPage,
+      getActiveLandlordAction({
+        filter,
+        pagination,
+        sortOptions,
       }),
     );
-  }, [filter, pagination, dispatch]);
+  }, [filter, pagination, sortOptions, dispatch]);
 
-  const onClickUser = useCallback(
-    (user) => {
-      dispatch(
-        openDetails({
-          type: 'user',
-          data: user,
-        }),
-      );
-
-      setTimeout(() => {
-        navigate('/property/full-portfolio/detail');
-      });
+  const onClickLandlord = useCallback(
+    (ll) => {
+      console.log('landlord', ll);
     },
     [dispatch, navigate],
   );
-  if (!users) return <DashboardLayoutContainer />;
 
-  const usersJSON = users.toJS();
+  if (!landlords) return <DashboardLayoutContainer />;
+
+  const landlordsJSON = landlords.toJS();
+
   return (
     <DashboardLayoutContainer>
       <Box>
-        <FullPortfolioTable
-          users={usersJSON.data}
+        <LandlordTable
+          landlords={landlordsJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: buildingsJSON.total,
-            totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
+            totalItems: landlordsJSON.total || landlordsJSON.data.length,
+            totalPages: Math.ceil(
+              (landlordsJSON.total || landlordsJSON.data.length) / pagination.rowsPerPage,
+            ),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
-          onClickUser={onClickUser}
+          onClickLandlord={onClickLandlord}
         />
       </Box>
     </DashboardLayoutContainer>

@@ -8,14 +8,13 @@ import { UserTable } from 'components/Tables/UserTable';
 import { useNavigate } from 'react-router-dom';
 
 export const UserByRole = ({ role, title }) => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
-    searchPlaceholder: 'Search Building..',
+    searchPlaceholder: 'Search User...',
   });
 
   const [sortOptions, setSortOptions] = useState({});
@@ -44,8 +43,6 @@ export const UserByRole = ({ role, title }) => {
           }),
         );
         break;
-      case 'll':
-        break;
       case 'rm':
         dispatch(
           getRMAction({
@@ -65,7 +62,7 @@ export const UserByRole = ({ role, title }) => {
         );
         break;
     }
-  }, [filter, pagination, dispatch]);
+  }, [filter, pagination, dispatch, role]);
 
   const onClickUser = useCallback(
     (user) => {
@@ -98,8 +95,10 @@ export const UserByRole = ({ role, title }) => {
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: usersJSON.total,
-            totalPages: Math.ceil(usersJSON.total / pagination.rowsPerPage),
+            totalItems: usersJSON.total || usersJSON.data.length,
+            totalPages: Math.ceil(
+              (usersJSON.total || usersJSON.data.length) / pagination.rowsPerPage,
+            ),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}

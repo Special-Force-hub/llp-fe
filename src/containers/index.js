@@ -20,6 +20,7 @@ import { Treeview } from './User/Treeview';
 import { UserByRole } from './User/UserByRole';
 import { InviteNewUser } from './User/InviteNewUser';
 import { LandlordInvite } from './LandlordInvite';
+import { Landlord } from './User/Landlord';
 import { Email } from './Email';
 import { NotificationFrom } from './Notification/NotificationFrom';
 import { NotificationTo } from './Notification/NotificationTo';
@@ -65,8 +66,12 @@ const AppRoutes = () => {
       {/** user pages */}
       <Route path="/user">
         <Route exact path="treeview" element={<Treeview />} />
-        <Route exact path="landlord" element={<UserByRole role="ll" />} />
-        <Route exact path="full-portfolio" element={<UserByRole role="vp" title="Full Portfolio" />} />
+        <Route exact path="landlord" element={<Landlord />} />
+        <Route
+          exact
+          path="full-portfolio"
+          element={<UserByRole role="vp" title="Full Portfolio" />}
+        />
         <Route exact path="multi-site" element={<UserByRole role="rm" title="Multi-Site" />} />
         <Route exact path="property" element={<UserByRole role="pm" title="Property Manager" />} />
         <Route exact path="invite-new-user" element={<InviteNewUser />} />
