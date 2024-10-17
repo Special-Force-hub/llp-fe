@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box, Grid } from '@mui/material';
 import { IconGraphy, Typography, colors } from '@leapeasy/ui-kit';
-<<<<<<< HEAD
-import { DetailCard } from 'elements/ReportCard/DetailCard';
-=======
 import { DetailCard } from 'containers/Property/Buildings/Details/DetailCard';
->>>>>>> dev
 
 export const FlaggedCancellationsDetail = (props) => {
   const navigate = useNavigate();

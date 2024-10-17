@@ -2,12 +2,11 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getVPAction, getRMAction, getPMAction } from 'store/actions/userActions';
+import { getVPAction } from 'store/actions/userActions';
 import { openDetails } from 'store/actions/uiActions';
-import { UserTable } from 'components/Tables/UserTable';
-import { useNavigate } from 'react-router-dom';
+import { FullPortfolioTable } from 'components/Tables/UserTable';
 
-export const UserByRole = ({ role, title }) => {
+export const FullPortfolio = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,43 +28,15 @@ export const UserByRole = ({ role, title }) => {
     },
     showPageNumberInput: 6,
   });
-
-  const users = useSelector((state) => state.getIn(['user', role]));
-
+  const users = useSelector((state) => state.getIn(['user', 'vp']));
   useEffect(() => {
-    switch (role) {
-      case 'vp':
-        dispatch(
-          getVPAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
-          }),
-        );
-        break;
-      case 'll':
-        break;
-      case 'rm':
-        dispatch(
-          getRMAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
-          }),
-        );
-        break;
-      case 'pm':
-        dispatch(
-          getPMAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
-          }),
-        );
-        break;
-    }
-
-
+    dispatch(
+      getVPAction({
+        // filter,
+        // offset: pagination.pageNumber * pagination.rowsPerPage,
+        // limit: pagination.rowsPerPage,
+      }),
+    );
   }, [filter, pagination, dispatch]);
 
   const onClickUser = useCallback(
@@ -89,16 +60,14 @@ export const UserByRole = ({ role, title }) => {
   return (
     <DashboardLayoutContainer>
       <Box>
-        <UserTable
-          title={title}
-          role={role}
+        <FullPortfolioTable
           users={usersJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: usersJSON.total,
-            totalPages: Math.ceil(usersJSON.total / pagination.rowsPerPage),
+            totalItems: buildingsJSON.total,
+            totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}
