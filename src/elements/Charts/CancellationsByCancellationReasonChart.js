@@ -226,8 +226,8 @@ export const CancellationsByCancellationReasonChart = ({ data }) => {
           gap="20px"
         >
           <CustomDonutChart
-            chartWidth={250}
-            chartHeight={250}
+            chartWidth={200}
+            chartHeight={200}
             data={cancellationReasonList
               .filter((reason) => reason.stage !== 'Total')
               .map((reason) => ({

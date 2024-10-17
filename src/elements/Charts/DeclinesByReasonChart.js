@@ -216,8 +216,8 @@ export const DeclinesByReasonChart = ({ data }) => {
           gap="20px"
         >
           <CustomDonutChart
-            chartWidth={250}
-            chartHeight={250}
+            chartWidth={200}
+            chartHeight={200}
             data={declinesList
               .filter((decline) => decline.stage !== 'Total')
               .map((decline) => ({
