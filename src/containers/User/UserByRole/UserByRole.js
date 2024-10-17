@@ -19,6 +19,7 @@ export const UserByRole = ({ role, title }) => {
   });
 
   const [sortOptions, setSortOptions] = useState({});
+
   const [pagination, setPagination] = useState({
     pageNumber: 0,
     rowsPerPage: 12,
@@ -37,9 +38,9 @@ export const UserByRole = ({ role, title }) => {
       case 'vp':
         dispatch(
           getVPAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
+            filter,
+            offset: pagination.pageNumber * pagination.rowsPerPage,
+            limit: pagination.rowsPerPage,
           }),
         );
         break;
@@ -48,24 +49,22 @@ export const UserByRole = ({ role, title }) => {
       case 'rm':
         dispatch(
           getRMAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
+            filter,
+            offset: pagination.pageNumber * pagination.rowsPerPage,
+            limit: pagination.rowsPerPage,
           }),
         );
         break;
       case 'pm':
         dispatch(
           getPMAction({
-            // filter,
-            // offset: pagination.pageNumber * pagination.rowsPerPage,
-            // limit: pagination.rowsPerPage,
+            filter,
+            offset: pagination.pageNumber * pagination.rowsPerPage,
+            limit: pagination.rowsPerPage,
           }),
         );
         break;
     }
-
-
   }, [filter, pagination, dispatch]);
 
   const onClickUser = useCallback(
@@ -83,9 +82,11 @@ export const UserByRole = ({ role, title }) => {
     },
     [dispatch, navigate],
   );
+
   if (!users) return <DashboardLayoutContainer />;
 
   const usersJSON = users.toJS();
+
   return (
     <DashboardLayoutContainer>
       <Box>

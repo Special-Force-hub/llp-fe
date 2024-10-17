@@ -2,6 +2,9 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { Grid, TableBody, TableFooter, Avatar, IconGraphy, Button, Dropdown, Tab, Typography, colors, DropDownList, Input, Badge } from '@leapeasy/ui-kit';
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getEmailAction } from 'store/actions/emailActions';
+
 const TABS = [
   {
     title: 'All Mails',
@@ -21,6 +24,7 @@ const columns = [
   {
     name: 'Type',
     options: {
+      flex: '40px 1 1',
       customBodyRenderer: (value) => (
         <Badge
           background="#F3F1F4"
@@ -30,7 +34,6 @@ const columns = [
           textSize="medium"
         />
       ),
-      flex: '40px 1 1',
     },
   },
   {
@@ -60,19 +63,7 @@ const columns = [
   },
   {
     name: 'N/Building',
-    options: {
-      filter: true,
-      filterOptions: [
-        {
-          text: '1',
-          value: 1,
-        },
-        {
-          text: '2',
-          value: 2,
-        },
-      ],
-    },
+
   },
   {
     name: 'Updated date',
@@ -115,46 +106,12 @@ const columns = [
   },
 ];
 
-const data = [
-  [
-    '',
-    'Darlene Robert',
-    '8502 Preston',
-    'jackson.qwqw@example.com',
-    '(307) 555-0133',
-    '01/09/2024',
-    54896,
-    54896,
-    '',
-    '',
-  ],
-  [
-    '',
-    'Darlene Robert',
-    '8502 Preston',
-    'jackson.qwqw@example.com',
-    '(307) 555-0133',
-    '01/09/2024',
-    54896,
-    54896,
-    '',
-    '',
-  ],
-  [
-    '',
-    'Darlene Robert',
-    '8502 Preston',
-    'jackson.qwqw@example.com',
-    '(307) 555-0133',
-    '01/09/2024',
-    54896,
-    54896,
-    '',
-    '',
-  ],
-]
-
 export const Email = () => {
+  const dispatch = useDispatch();
+
+  const [tableData, setTableData] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState('all');
 
   const [filter, setFilter] = useState({
     options: {},
@@ -164,6 +121,47 @@ export const Email = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [filterOpen, setFilterOpen] = useState(false);
   const [filterOptions, setFilterOptions] = useState(filter.options);
+
+  useEffect(() => {
+    dispatch(getEmailAction());
+  }, []);
+
+  const emails = useSelector((state) => state.getIn(['email', 'data']));
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const userEmail = currentUser['email'];
+
+  useEffect(() => {
+    if (emails) {
+      const emailData = [];
+      emails.toJS().data.forEach((email) => {
+        emailData.push([
+          // email.id,
+          "",
+          email.request_type,
+          email.request_status,
+          email.accepter_email,
+          email.accepter_role,
+          email.requestor_email,
+          email.requestor_role,
+          email.requestor ? email.requestor.username : '',
+          email.property.length,
+          new Date(email.updatedAt).toISOString().slice(0, 10),
+          email.property,
+          email.decline_reason,
+          email.request_status,
+        ]);
+      });
+      const sortedData = emailData.sort((a, b) => new Date(b[4]) - new Date(a[4]));
+      if (currentPage === 'all') {
+        setTableData(sortedData);
+      } else if (currentPage === 'sent') {
+        setTableData(sortedData.filter((item) => item[5] === userEmail));
+      } else if (currentPage === 'inbox') {
+        setTableData(sortedData.filter((item) => item[3] === userEmail));
+      }
+    }
+  }, [emails, currentPage]);
+
   return (
     <DashboardLayoutContainer>
       <Box>
@@ -402,7 +400,7 @@ export const Email = () => {
         <Box marginTop="20px">
           {selectedTab === 0 && (
             <TableBody
-              data={data}
+              data={tableData}
               allColumns={columns}
               visibleColumns={columns}
               overflowEllipsis={true}
@@ -412,10 +410,26 @@ export const Email = () => {
             />
           )}
           {selectedTab === 1 && (
-            <p>Inbox</p>
+            <TableBody
+              data={tableData}
+              allColumns={columns}
+              visibleColumns={columns}
+              overflowEllipsis={true}
+              sortOptions={{}}
+              onChangeSort={() => { }}
+              onClickRow={() => { }}
+            />
           )}
           {selectedTab === 2 && (
-            <p>Sent</p>
+            <TableBody
+              data={tableData}
+              allColumns={columns}
+              visibleColumns={columns}
+              overflowEllipsis={true}
+              sortOptions={{}}
+              onChangeSort={() => { }}
+              onClickRow={() => { }}
+            />
           )}
         </Box>
       </Box>
