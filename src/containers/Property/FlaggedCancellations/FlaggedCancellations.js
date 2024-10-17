@@ -40,19 +40,13 @@ export const FlaggedCancellations = () => {
     );
   }, [filter, pagination]);
 
-  const onClickCancelPolicies = useCallback((FlaggedCancellation) => {
-    dispatch(
-      openDetails({
-        type: 'flagged-cancellation',
-        data: FlaggedCancellation,
-      }),
-    );
-
-    setTimeout(() => {
-      console.log('/property/cancel-policies/detail');
-
-      navigate('/property/cancel-policies/detail');
-    });
+  const onClickCancelPolicies = useCallback((flaggedCancellation) => {
+    // dispatch(
+    //   openDetails({
+    //     type: 'flagged-cancellation',
+    //     data: flaggedCancellation,
+    //   }),
+    // );
   }, []);
 
   if (!flaggedCancellations) return <DashboardLayoutContainer />;
