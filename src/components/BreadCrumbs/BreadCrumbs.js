@@ -53,6 +53,10 @@ export const BreadCrumbs = () => {
         return {
           name: detailsJSON.data.doc_number,
         };
+      case "user":
+        return {
+          name: detailsJSON.data.accepter.username,
+        };
     }
 
     return null;
@@ -85,12 +89,12 @@ export const BreadCrumbs = () => {
           onClickItem={onClickItem}
         />
       )) || (
-        <BreadCrumbsComponent
-          items={menuItems}
-          currentItem={currentItem}
-          onClickItem={onClickItem}
-        />
-      )}
+          <BreadCrumbsComponent
+            items={menuItems}
+            currentItem={currentItem}
+            onClickItem={onClickItem}
+          />
+        )}
     </Box>
   );
 };

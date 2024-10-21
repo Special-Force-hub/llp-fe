@@ -1,8 +1,10 @@
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
-import { Typography, Badge } from '@leapeasy/ui-kit';
+import { Typography, Badge, Avatar } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
+import { getUserBuildingAction } from 'store/actions/userActions';
+import { useDispatch } from 'react-redux';
 
 export const UserTable = ({
   title,
@@ -16,6 +18,7 @@ export const UserTable = ({
   onChangeSort,
   onClickUser,
 }) => {
+  const dispatch = useDispatch();
   const [tableData, setTableData] = useState([]);
   const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
@@ -31,6 +34,7 @@ export const UserTable = ({
           isDemo ? getDemoData('email') : user.accepter_email,
           user.property.length,
           new Date(user.createdAt).toISOString().slice(0, 10),
+          user.id
         ]);
       });
 
@@ -41,6 +45,7 @@ export const UserTable = ({
   const goDetailPage = (tableMeta) => {
     const selectedUser = users.find((user) => user.id === tableMeta[tableMeta.length - 1]);
 
+    dispatch(getUserBuildingAction({ id: selectedUser.property }));
     if (selectedUser) {
       onClickUser(selectedUser);
     }
@@ -53,8 +58,14 @@ export const UserTable = ({
           name: '',
           options: {
             flex: '5px 1 1',
+            customBodyRenderer: (value) => (
+              <Avatar
+                size="medium"
+                iconImage={value ? <img src={value} /> : <IconGraphy icon="Users.User" />}
+              />
+            ),
           },
-          key: '',
+          key: 'image',
         },
         {
           name: 'Name',

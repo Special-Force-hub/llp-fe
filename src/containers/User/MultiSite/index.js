@@ -1,1 +1,0 @@
-export { FullPortfolio } from './FullPortfolio';

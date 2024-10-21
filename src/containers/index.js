@@ -17,6 +17,8 @@ import { Claims } from './Property/Claims';
 import { Invoice } from './Invoice';
 import { Treeview } from './User/Treeview';
 import { UserByRole } from './User/UserByRole';
+import { UserDetail } from './User/UserByRole/UserDetail';
+import { DetailBuilding } from './User/UserByRole/UserDetail/BuildingDetail';
 import { InviteNewUser } from './User/InviteNewUser';
 import { LandlordInvite } from './LandlordInvite';
 import { Landlord } from './User/Landlord';
@@ -68,10 +70,16 @@ const AppRoutes = () => {
         <Route
           exact
           path="full-portfolio"
-          element={<UserByRole role="vp" title="Full Portfolio" />}
+          element={<UserByRole role="vp" title="Full Portfolio" route="full-portfolio" />}
         />
-        <Route exact path="multi-site" element={<UserByRole role="rm" title="Multi-Site" />} />
-        <Route exact path="property" element={<UserByRole role="pm" title="Property Manager" />} />
+        <Route exact path="multi-site" element={<UserByRole role="rm" title="Multi-Site" route="multi-site" />} />
+        <Route exact path="property" element={<UserByRole role="pm" title="Property Manager" route="property" />} />
+        <Route exact path="full-portfolio/detail" element={<UserDetail route="full-portfolio" />} />
+        <Route exact path="multi-site/detail" element={<UserDetail route="multi-site" />} />
+        <Route exact path="property/detail" element={<UserDetail route="property" />} />
+        <Route exact path="full-portfolio/detail/buildingDetail" element={<DetailBuilding />} />
+        <Route exact path="multi-site/detail/buildingDetail" element={<DetailBuilding />} />
+        <Route exact path="property/detail/buildingDetail" element={<DetailBuilding />} />
         <Route exact path="invite-new-user" element={<InviteNewUser />} />
       </Route>
 
