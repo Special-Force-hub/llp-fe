@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { getActiveLandlordAction } from 'store/actions/userActions';
 import { useNavigate } from 'react-router-dom';
 import { LandlordTable } from 'components/Tables/LandlordTable';
+import { openDetails } from 'store/actions/uiActions';
 
 export const Landlord = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,16 @@ export const Landlord = () => {
   const onClickLandlord = useCallback(
     (ll) => {
       console.log('landlord', ll);
+      dispatch(
+        openDetails({
+          type: 'landlord',
+          data: ll,
+        }),
+      );
+
+      setTimeout(() => {
+        navigate('/user/landlord/detail');
+      });
     },
     [dispatch, navigate],
   );

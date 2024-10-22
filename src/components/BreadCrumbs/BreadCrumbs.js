@@ -53,9 +53,13 @@ export const BreadCrumbs = () => {
         return {
           name: detailsJSON.data.doc_number,
         };
+      case "landlord":
+        return {
+          name: detailsJSON.name
+        }
       case "user":
         return {
-          name: detailsJSON.data.accepter.username,
+          name: detailsJSON.accepter.username,
         };
     }
 

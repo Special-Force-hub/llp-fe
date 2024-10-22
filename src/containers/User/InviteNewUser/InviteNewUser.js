@@ -2,9 +2,9 @@ import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
-import { getInvitePropertyAction, inviteUserAction } from 'store/actions/inviteActions';
 import { openDetails } from 'store/actions/uiActions';
 import { InviteNewUserTable } from 'components/Tables/InviteNewUserTable';
+import { getActiveLandlordAction } from 'store/actions/userActions';
 import { useNavigate } from 'react-router-dom';
 
 export const InviteNewUser = (props) => {
@@ -31,58 +31,59 @@ export const InviteNewUser = (props) => {
 
   const [role, setRole] = useState('');
 
-  const buildings = useSelector((state) => state.getIn(['invite', 'inviteProperty']));
-  console.log("buildingsbuildings", buildings);
+  const landlords = useSelector((state) => state.getIn(['user', 'active_landlord']));
+  console.log("landlordslandlords", landlords);
 
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const currentUserRole = currentUser['role'];
 
   useEffect(() => {
-    if (currentUserRole === 'rm') {
-      setRole('pm');
-      dispatch(getInvitePropertyAction({ inviteRole: 'pm' }));
-    } else {
-      dispatch(getInvitePropertyAction({ inviteRole: role }));
-    }
-  }, []);
+    dispatch(
+      getActiveLandlordAction({
+        filter,
+        pagination,
+        sortOptions,
+      }),
+    );
+  }, [filter, pagination, sortOptions, dispatch]);
 
-  const onClickBuilding = useCallback(
-    (building) => {
+  const onClickLandlord = useCallback(
+    (ll) => {
       dispatch(
         openDetails({
-          type: 'building',
-          data: building,
+          type: 'landlord',
+          data: ll,
         }),
       );
 
       setTimeout(() => {
-        navigate('/property/invite-new-user/detail');
+        navigate('/user/invite-new-user/detail');
       });
     },
     [dispatch, navigate],
   );
 
-  if (!buildings) return <DashboardLayoutContainer />;
+  if (!landlords) return <DashboardLayoutContainer />;
 
-  const buildingsJSON = buildings.toJS();
+  const landlordsJSON = landlords.toJS();
 
   return (
     <DashboardLayoutContainer>
       <Box>
         <InviteNewUserTable
-          role={role}
-          buildings={buildingsJSON.data}
+          // role={role}
+          landlords={landlordsJSON.data}
           filter={filter}
           onChangeFilter={setFilter}
           pagination={{
             ...pagination,
-            totalItems: buildingsJSON.total,
-            totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
+            totalItems: landlordsJSON.total,
+            totalPages: Math.ceil(landlordsJSON.total / pagination.rowsPerPage),
           }}
           onChangePagination={setPagination}
           sortOptions={sortOptions}
           onChangeSort={setSortOptions}
-          onClickBuilding={onClickBuilding}
+          onClickLandlord={onClickLandlord}
         />
       </Box>
     </DashboardLayoutContainer>

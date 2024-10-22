@@ -20,8 +20,11 @@ import { UserByRole } from './User/UserByRole';
 import { UserDetail } from './User/UserByRole/UserDetail';
 import { DetailBuilding } from './User/UserByRole/UserDetail/BuildingDetail';
 import { InviteNewUser } from './User/InviteNewUser';
+import { InviteUserDetail } from './User/InviteNewUser/Detail';
+import { InvitePage } from './User/InviteNewUser/InvitePage';
 import { LandlordInvite } from './LandlordInvite';
 import { Landlord } from './User/Landlord';
+import { LandlordDetail } from './User/Landlord/LandlordDetail';
 import { Email } from './Email';
 import { NotificationFrom } from './Notification/NotificationFrom';
 import { NotificationTo } from './Notification/NotificationTo';
@@ -67,6 +70,7 @@ const AppRoutes = () => {
       <Route path="/user">
         <Route exact path="treeview" element={<Treeview />} />
         <Route exact path="landlord" element={<Landlord />} />
+        <Route exact path="landlord/detail" element={<LandlordDetail />} />
         <Route
           exact
           path="full-portfolio"
@@ -81,6 +85,8 @@ const AppRoutes = () => {
         <Route exact path="multi-site/detail/buildingDetail" element={<DetailBuilding />} />
         <Route exact path="property/detail/buildingDetail" element={<DetailBuilding />} />
         <Route exact path="invite-new-user" element={<InviteNewUser />} />
+        <Route exact path="invite-new-user/detail" element={<InviteUserDetail />} />
+        <Route exact path="invite-new-user/invite" element={<InvitePage />} />
       </Route>
 
       <Route exact path="/landlord-invite" element={<LandlordInvite />} />

@@ -1,54 +1,69 @@
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
-import { Typography, Badge, Button } from '@leapeasy/ui-kit';
+import { Typography, Badge, Button, Avatar } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDemoData } from 'utils/helpers';
+import { useNavigate } from 'react-router-dom';
 
 export const InviteNewUserTable = ({
-  role,
-  buildings,
+  // role,
+  landlords,
   filter,
   onChangeFilter,
   pagination,
   onChangePagination,
   sortOptions,
   onChangeSort,
-  onClickBuilding,
+  onClickLandlord,
 }) => {
+  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
-  console.log("buildingbuildingbuilding", buildings);
+  const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
 
   useEffect(() => {
     const data = [];
-    if (buildings) {
-      buildings.forEach((building) => {
+    if (landlords) {
+      landlords.forEach((landlord) => {
+        const address =
+          (landlord.billingStreet || '') +
+          ' ' +
+          (landlord.billingCity || '') +
+          ' ' +
+          (landlord.billingState || '') +
+          ' ' +
+          (landlord.billingPostalCode || '');
+        const image = landlord.user ? landlord.user.image : null;
         data.push([
-          building.name,
-          building.building_type,
-          building.phone,
-          building.billingStreet,
-          building.email_address,
-          building.total_of_units,
-          building.student_housing,
-          building.dispositioned.toString(),
-          building.landlord_name,
-          building.building_id,
+          image,
+          isDemo ? getDemoData('landlord-name') : landlord.name,
+          isDemo ? getDemoData('phone') : landlord.phone,
+          isDemo ? getDemoData('primary-contact') : landlord.primary_contact,
+          isDemo ? getDemoData('address') : address,
+          isDemo ? getDemoData('email') : landlord.email_address,
+          landlord.total_buildings ? landlord.total_buildings : 0,
+          landlord.total_units ? landlord.total_units : 0,
+          new Date(landlord.sf_createdDate).toISOString().slice(0, 10),
+          landlord.id,
         ]);
       });
       setTableData(data);
     }
-  }, [buildings, role]);
+  }, [landlords, isDemo]);
 
   const goDetailPage = (tableMeta) => {
 
-    const selectedBuilding = buildings.find(
-      (building) => building.id === tableMeta[tableMeta.length - 1],
+    const selectedBuilding = landlords.find(
+      (landlord) => landlord.id === tableMeta[tableMeta.length - 1],
     );
 
     if (selectedBuilding) {
-      onClickBuilding(selectedBuilding);
+      onClickLandlord(selectedBuilding);
     }
   };
+
+  const goInvitePage = () => {
+    navigate("/user/invite-new-user/invite")
+  }
 
   return (
     <Table
@@ -56,9 +71,15 @@ export const InviteNewUserTable = ({
         {
           name: '',
           options: {
-            flex: "5px 1 1"
+            flex: "5px 1 1",
+            customBodyRenderer: (value) => (
+              <Avatar
+                size="medium"
+                iconImage={value ? <img src={value} /> : <IconGraphy icon="Users.User" />}
+              />
+            ),
           },
-          key: '',
+          key: 'avatar',
         },
         {
           name: 'Name',
@@ -87,7 +108,7 @@ export const InviteNewUserTable = ({
         {
           name: 'Create date',
           options: {
-            flex: '40px 1 1',
+            flex: '80px 1 1',
           },
           key: 'create_date',
         },
@@ -110,7 +131,7 @@ export const InviteNewUserTable = ({
           options: {
             sort: true,
             customBodyRenderer: (value) => (
-              <Button variant='secondary' iconSuffix='EditorLayout.Send'>
+              <Button variant='secondary' iconSuffix='EditorLayout.Send' onClick={() => goInvitePage()}>
                 Send
               </Button>
             ),
@@ -120,6 +141,7 @@ export const InviteNewUserTable = ({
         {
           name: '',
           options: {
+            flex: '5px 1 1',
             sort: true,
             customBodyRenderer: (value, tableMeta) => (
               <IconGraphy

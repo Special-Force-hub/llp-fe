@@ -117,9 +117,8 @@ export const LandlordTable = ({
           key: 'create_date',
         },
         {
-          name: 'No. of Building',
+          name: 'Num. of Building',
           options: {
-            flex: '5px 1 1',
           },
           key: 'number_of_buildings',
         },
@@ -148,6 +147,9 @@ export const LandlordTable = ({
           name: '',
           options: {
             flex: '5px 1 1',
+            customBodyRenderer: (value, tableMeta) => (
+              <IconGraphy icon={'General.Delete'} style={{ color: '#702572' }} />
+            ),
           },
           key: 'actions',
         },
