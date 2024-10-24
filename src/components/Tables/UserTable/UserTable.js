@@ -86,6 +86,21 @@ export const UserTable = ({
           options: {
             flex: '210px 1 1',
             sort: true,
+            filter: true,
+            filterOptions: [
+              {
+                text: "Manager",
+                value: "Manager"
+              },
+              {
+                text: "Supervisor",
+                value: "Supervisor"
+              },
+              {
+                text: "Staff",
+                value: "Staff"
+              },
+            ]
           },
           key: 'job_title',
         },
@@ -106,12 +121,28 @@ export const UserTable = ({
                 {value.toLocaleString('en-US')}
               </Typography>
             ),
+            filter: true,
+            filterOptions: [
+              {
+                text: "1",
+                value: "1"
+              },
+              {
+                text: "2",
+                value: "2"
+              },
+              {
+                text: "3",
+                value: "3"
+              },
+            ]
           },
           key: 'num_of_building',
         },
         {
           name: 'Invited Date',
-          options: {},
+          options: {
+          },
           key: 'invited_date',
         },
         {

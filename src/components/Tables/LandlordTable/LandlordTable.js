@@ -119,6 +119,21 @@ export const LandlordTable = ({
         {
           name: 'Num. of Building',
           options: {
+            filter: true,
+            filterOptions: [
+              {
+                text: "1",
+                value: "1"
+              },
+              {
+                text: "2",
+                value: "2"
+              },
+              {
+                text: "3",
+                value: "3"
+              },
+            ]
           },
           key: 'number_of_buildings',
         },
@@ -126,6 +141,21 @@ export const LandlordTable = ({
           name: 'N/Units',
           options: {
             flex: '5px 1 1',
+            filter: true,
+            filterOptions: [
+              {
+                text: "1",
+                value: "1"
+              },
+              {
+                text: "2",
+                value: "2"
+              },
+              {
+                text: "3",
+                value: "3"
+              },
+            ]
           },
           key: 'number_of_units',
         },

@@ -1,0 +1,1 @@
+export { EmailBuildingDetail } from './EmailBuildingDetail';

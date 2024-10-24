@@ -59,7 +59,11 @@ export const BreadCrumbs = () => {
         }
       case "user":
         return {
-          name: detailsJSON.accepter.username,
+          name: detailsJSON.accepter && detailsJSON.accepter.username,
+        };
+      case "email":
+        return {
+          name: detailsJSON.requestor && detailsJSON.requestor.username,
         };
     }
 

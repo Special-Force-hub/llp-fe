@@ -32,6 +32,8 @@ import { PolicyCancelLog } from './PolicyCancelLog';
 import { PortalGuide } from './PortalGuide';
 import { ActivityLog } from './ActivityLog';
 import { NotFound } from './NotFound';
+import { EmailDetail } from './Email/Detail';
+import { EmailBuildingDetail } from './Email/Detail/BuildingDetail';
 
 const AppRoutes = () => {
   return (
@@ -91,6 +93,8 @@ const AppRoutes = () => {
 
       <Route exact path="/landlord-invite" element={<LandlordInvite />} />
       <Route exact path="/email" element={<Email />} />
+      <Route exact path="/email/detail" element={<EmailDetail />} />
+      <Route exact path="/email/detail/buildingDetail" element={<EmailBuildingDetail />} />
 
       {/** notification pages */}
       <Route path="/notification">

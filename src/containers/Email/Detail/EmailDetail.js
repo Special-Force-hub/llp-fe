@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { DashboardLayoutContainer } from "components/Layouts/DashboardLayout";
-import { Box } from "@mui/material";
-import { Grid, IconGraphy, Tab, Typography, colors, Table, Badge } from '@leapeasy/ui-kit';
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { DashboardLayoutContainer } from "components/Layouts/DashboardLayout"
+import { Box } from "@mui/material"
+import { Grid, IconGraphy, Tab, Typography, colors, Button, Table, Badge } from "@leapeasy/ui-kit"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import React, { useCallback, useEffect, useState } from "react"
 
-import { openDetails } from "store/actions/uiActions";
-import { DetailCard } from "./DetailCard";
+import { openDetails } from "store/actions/uiActions"
+import { DetailEmailCard } from "./DetailEmailCard"
+export const EmailDetail = () => {
 
-export const UserDetail = ({ route }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -31,17 +31,16 @@ export const UserDetail = ({ route }) => {
     showPageNumberInput: 6,
   });
 
-  const buildings = useSelector((state) => state.getIn(['property', 'building']));
-  const buildingsJSON = buildings ? buildings.toJS().data : null;
-  const isDemo = useSelector((state) => state.getIn(['ui', 'demo']));
   const details = useSelector((state) => state.getIn(['ui', 'details'])) || null;
   const detailsJSON = details ? details.toJS() : null;
+  const buildings = useSelector((state) => state.getIn(['property', 'building']));
+  const buildingsJSON = buildings ? buildings.toJS().data : null;
 
   const onClickBack = useCallback(() => {
     dispatch(openDetails(null));
 
     setTimeout(() => {
-      navigate(-1);
+      navigate('/email');
     });
   }, []);
 
@@ -57,7 +56,7 @@ export const UserDetail = ({ route }) => {
         data: selectedBuilding,
       }),
     );
-    navigate(`/user/${route}/detail/buildingDetail`);
+    navigate(`/email/detail/buildingDetail`);
   }
 
   useEffect(() => {
@@ -72,7 +71,6 @@ export const UserDetail = ({ route }) => {
           building.email_address,
           building.total_of_units,
           building.student_housing,
-          building.dispositioned.toString(),
           building.id,
         ]);
       });
@@ -82,17 +80,18 @@ export const UserDetail = ({ route }) => {
 
   useEffect(() => {
     const detailsJSON = details ? details.toJS() : null;
-    if (!details || detailsJSON.type !== 'user') {
+    if (!details || detailsJSON.type !== 'email') {
       onClickBack();
       return;
     }
+
     // dispatch(getBuildingDelegationAction(buildingId));
     // dispatch(getBuildingInvoiceAction(buildingId));
   }, [onClickBack, details]);
 
   if (!detailsJSON) return <DashboardLayoutContainer />;
 
-  const user = detailsJSON.data;
+  const email = detailsJSON.data;
 
   return (
     <DashboardLayoutContainer shouldShowCard={false}>
@@ -105,24 +104,50 @@ export const UserDetail = ({ route }) => {
         sx={{ background: 'white' }}
         borderRadius="12px"
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '15px',
-          }}
-        >
-          <Box sx={{ cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
-            <IconGraphy icon="Arrow.ArrowBack" onClick={onClickBack} />
-          </Box>
-          <Typography
-            variant="h3"
-            style={{ color: colors.purple[900], fontWeight: '500', padding: '5px 5px 5px 15px' }}
+        <Box display={"flex"} alignItems={"center"} mb={"15px"} justifyContent={"space-between"}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
           >
-            {user.accepter.username}
-          </Typography>
+            <Box sx={{ cursor: 'pointer', '&:hover': { opacity: 0.75 } }}>
+              <IconGraphy icon="Arrow.ArrowBack" onClick={onClickBack} />
+            </Box>
+            <Typography
+              variant="h3"
+              style={{ color: colors.purple[900], fontWeight: '500', padding: '5px 5px 5px 15px' }}
+            >
+              {email.requestor.username}
+            </Typography>
+          </Box>
+
+          <Box display={'flex'}>
+            <Button
+              iconPrefix="General.Delete"
+              onClick={() => { }}
+              size="medium"
+              style={{
+                width: '160px',
+                marginRight: '15px'
+              }}
+              variant="secondary"
+            >
+              Delete Email
+            </Button>
+            <Button
+              iconPrefix="EditorLayout.Send"
+              onClick={() => { }}
+              size="medium"
+              style={{
+                width: '160px',
+              }}
+            >
+              Resend
+            </Button>
+          </Box>
         </Box>
-        <DetailCard user={user} isDemo={isDemo} />
+        <DetailEmailCard email={email} />
       </Box>
       <Table
         columns={[
@@ -142,33 +167,11 @@ export const UserDetail = ({ route }) => {
                 <Badge
                   background="rgba(243, 241, 244, 1)"
                   color={value ? 'purple' : 'tomato'}
-                  label={
-                    !value
-                      ? 'undefined'
-                      : value === 'Auto Enroll'
-                        ? 'AE'
-                        : value === 'Event Process'
-                          ? 'EP'
-                          : 'AE EP'
-                  }
+                  label={value}
                   rounded
                   textSize="medium"
                 />
               ),
-              filterOptions: [
-                {
-                  text: 'Auto Enroll',
-                  value: 'Auto Enroll',
-                },
-                {
-                  text: 'Event Process',
-                  value: 'Event Process',
-                },
-                {
-                  text: 'Event Process;Auto Enroll',
-                  value: 'Event Process;Auto Enroll',
-                },
-              ],
               sort: true,
             },
             key: 'building_type',
