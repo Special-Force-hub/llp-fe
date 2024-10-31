@@ -23,6 +23,7 @@ import { InviteNewUser } from './User/InviteNewUser';
 import { InviteUserDetail } from './User/InviteNewUser/Detail';
 import { InvitePage } from './User/InviteNewUser/InvitePage';
 import { LandlordInvite } from './LandlordInvite';
+import { InviteLandlordDetail } from './LandlordInvite/Detail';
 import { Landlord } from './User/Landlord';
 import { LandlordDetail } from './User/Landlord/LandlordDetail';
 import { Email } from './Email';
@@ -92,6 +93,7 @@ const AppRoutes = () => {
       </Route>
 
       <Route exact path="/landlord-invite" element={<LandlordInvite />} />
+      <Route exact path="/landlord-invite/detail" element={<InviteLandlordDetail />} />
       <Route exact path="/email" element={<Email />} />
       <Route exact path="/email/detail" element={<EmailDetail />} />
       <Route exact path="/email/detail/buildingDetail" element={<EmailBuildingDetail />} />

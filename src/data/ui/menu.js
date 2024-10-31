@@ -139,12 +139,12 @@ export const primaryMenu = [
       },
     ],
   },
-  {
-    key: 'cancellationlog',
-    name: 'Policy Cancel Log',
-    icon: 'FileFolder.IntegrationInstructions',
-    link: '/cancellation-log',
-  },
+  // {
+  //   key: 'cancellationlog',
+  //   name: 'Policy Cancel Log',
+  //   icon: 'FileFolder.IntegrationInstructions',
+  //   link: '/cancellation-log',
+  // },
 ];
 
 export const secondaryMenu = [

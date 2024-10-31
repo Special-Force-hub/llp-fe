@@ -65,6 +65,10 @@ export const BreadCrumbs = () => {
         return {
           name: detailsJSON.requestor && detailsJSON.requestor.username,
         };
+      case "message":
+        return {
+          name: "Notification Title placeholder",
+        };
     }
 
     return null;

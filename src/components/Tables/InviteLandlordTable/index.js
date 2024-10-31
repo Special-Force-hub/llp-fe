@@ -1,0 +1,1 @@
+export { InviteLandlordTable } from './InviteLandlordTable';

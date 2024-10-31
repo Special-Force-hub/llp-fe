@@ -32,7 +32,6 @@ export const InviteNewUser = (props) => {
   const [role, setRole] = useState('');
 
   const landlords = useSelector((state) => state.getIn(['user', 'active_landlord']));
-  console.log("landlordslandlords", landlords);
 
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const currentUserRole = currentUser['role'];

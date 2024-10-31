@@ -251,8 +251,6 @@ export const Email = () => {
             >
               All Mails
             </Typography>
-
-            {/* {totalResult && ( */}
             <Typography
               variant='body2'
               style={{ fontWeight: '500', color: colors.neutral[900] }}
