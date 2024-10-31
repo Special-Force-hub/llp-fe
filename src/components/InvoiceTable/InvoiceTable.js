@@ -54,15 +54,12 @@ export const InvoiceTable = ({
           '',
         ]);
       });
-      console.log('invoice_data', data);
       setTableData(data);
     }
   }, [invoices, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-    console.log('tableMeta', tableMeta);
 
-    // navigate(`/property/buildings/Chelsea Apartment`);
   };
 
   return (
@@ -161,8 +158,6 @@ export const InvoiceTable = ({
           name: 'Due Date',
           options: {
             flex: '30px 1 1',
-            filter: true,
-            filterOptions: [],
             sort: true,
           },
           key: 'due_date',
@@ -254,7 +249,7 @@ export const InvoiceTable = ({
               <IconGraphy
                 icon={'FileFolder.Description'}
                 style={{ color: '#702572' }}
-                onClick={() => goDetailPage(tableMeta)}
+              // onClick={() => goDetailPage(tableMeta)}
               />
             ),
           },

@@ -46,6 +46,7 @@ export const Buildings = (props) => {
   }, [filter, pagination, dispatch]);
 
   const onClickBuilding = useCallback(
+
     (building) => {
       dispatch(
         openDetails({

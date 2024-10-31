@@ -54,11 +54,11 @@ export const FlaggedCancellationTable = ({
     <Table
       columns={[
         {
-          name: <Checkbox description="" indeterminate label="" onClick={() => {}} readonly />,
+          name: <Checkbox description="" indeterminate label="" onClick={() => { }} readonly />,
           options: {
             flex: '5px 1 1',
             sort: true,
-            customBodyRenderer: (value) => <Checkbox description="" label="" onClick={() => {}} />,
+            customBodyRenderer: (value) => <Checkbox description="" label="" onClick={() => { }} />,
           },
           key: '',
         },
@@ -67,6 +67,16 @@ export const FlaggedCancellationTable = ({
           options: {
             flex: '120px 1 1',
             filter: true,
+            filterOptions: [
+              {
+                text: 'Possible Claim',
+                value: 'Possible Claim',
+              },
+              {
+                text: 'Possible Cancellation',
+                value: 'Possible Cancellation',
+              },
+            ],
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
@@ -85,6 +95,16 @@ export const FlaggedCancellationTable = ({
           options: {
             flex: '30px 1 1',
             filter: true,
+            filterOptions: [
+              {
+                text: 'Active',
+                value: 'Active',
+              },
+              {
+                text: 'Cancelled',
+                value: 'Cancelled',
+              },
+            ],
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
@@ -156,7 +176,6 @@ export const FlaggedCancellationTable = ({
           options: {
             flex: '40px 1 1',
             sort: true,
-            filter: true,
             customBodyRenderer: (value) => (
               <Badge
                 background="#F3F1F4"
@@ -166,6 +185,17 @@ export const FlaggedCancellationTable = ({
                 textSize="medium"
               />
             ),
+            filter: true,
+            filterOptions: [
+              {
+                text: "LDR Commercial",
+                value: "LDR Commercial"
+              },
+              {
+                text: "Auto Enroll",
+                value: "Auto Enroll"
+              }
+            ]
           },
           key: 'building_type',
         },
@@ -193,7 +223,7 @@ export const FlaggedCancellationTable = ({
               <IconGraphy
                 icon={'EditorLayout.MoreVert'}
                 style={{ color: '#702572' }}
-                // onClick={() => goDetailPage(tableMeta)}
+              // onClick={() => goDetailPage(tableMeta)}
               />
             ),
           },

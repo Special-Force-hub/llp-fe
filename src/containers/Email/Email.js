@@ -3,8 +3,10 @@ import { Box } from '@mui/material';
 import { Grid, TableBody, TableFooter, Avatar, IconGraphy, Button, Dropdown, Tab, Typography, colors, DropDownList, Input, Badge } from '@leapeasy/ui-kit';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getEmailAction } from 'store/actions/emailActions';
-
+import { openDetails } from 'store/actions/uiActions';
+import { getUserBuildingAction } from 'store/actions/userActions';
 const TABS = [
   {
     title: 'All Mails',
@@ -20,95 +22,11 @@ const TABS = [
   },
 
 ];
-const columns = [
-  {
-    name: 'Type',
-    options: {
-      flex: '40px 1 1',
-      customBodyRenderer: (value) => (
-        <Badge
-          background="#F3F1F4"
-          color={value === 'invite' ? 'purple' : 'tomato'}
-          label="Invite"
-          rounded
-          textSize="medium"
-        />
-      ),
-    },
-  },
-  {
-    name: 'From Email',
-    options: {
-      sort: true,
-    },
-  },
-  {
-    name: 'To Role',
-    options: {
-      sort: true,
-    },
-  },
-  {
-    name: 'To Email',
-    options: {
-      sort: true,
-      flex: '225px 1 1',
-    },
-  },
-  {
-    name: 'From Role',
-  },
-  {
-    name: 'Name',
-  },
-  {
-    name: 'N/Building',
 
-  },
-  {
-    name: 'Updated date',
-    options: {
-      filter: true,
-      filterOptions: [
-        {
-          text: '1',
-          value: 1,
-        },
-        {
-          text: '2',
-          value: 2,
-        },
-      ],
-    },
-  },
-  {
-    name: 'Status',
-    options: {
-
-    },
-  },
-  {
-    name: 'Action',
-    options: {
-    },
-  },
-  {
-    name: 'Detail',
-    options: {
-      customBodyRenderer: () => <IconGraphy icon='FileFolder.StickyNote2' style={{ color: '#702572' }} />,
-    },
-  },
-  {
-    name: '',
-    options: {
-      customBodyRenderer: () => <IconGraphy icon='General.Delete' />,
-    },
-  },
-];
 
 export const Email = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
 
   const [currentPage, setCurrentPage] = useState('all');
@@ -135,10 +53,8 @@ export const Email = () => {
       const emailData = [];
       emails.toJS().data.forEach((email) => {
         emailData.push([
-          // email.id,
-          "",
           email.request_type,
-          email.request_status,
+          // email.request_status,
           email.accepter_email,
           email.accepter_role,
           email.requestor_email,
@@ -146,9 +62,11 @@ export const Email = () => {
           email.requestor ? email.requestor.username : '',
           email.property.length,
           new Date(email.updatedAt).toISOString().slice(0, 10),
-          email.property,
-          email.decline_reason,
+          // email.property,
+          // email.decline_reason,
           email.request_status,
+          "",
+          email.id,
         ]);
       });
       const sortedData = emailData.sort((a, b) => new Date(b[4]) - new Date(a[4]));
@@ -162,6 +80,166 @@ export const Email = () => {
     }
   }, [emails, currentPage]);
 
+  const goDetailPage = (tableMeta) => {
+    const selectedBuilding = emails.toJS().data.find(
+      (email) => email.id === tableMeta[tableMeta.length - 1],
+    );
+    console.log("selectedBuilding", selectedBuilding);
+    dispatch(getUserBuildingAction({ id: selectedBuilding.property }));
+
+    if (selectedBuilding) {
+      dispatch(
+        openDetails({
+          type: "email",
+          data: selectedBuilding,
+        })
+      )
+      navigate("/email/detail")
+    }
+  }
+  const columns = [
+    {
+      name: 'Type',
+      options: {
+        flex: '40px 1 1',
+        customBodyRenderer: (value) => (
+          <Badge
+            background="#F3F1F4"
+            color={value === 'invite' ? 'purple' : 'tomato'}
+            label="Invite"
+            rounded
+            textSize="medium"
+          />
+        ),
+      },
+      key: "type"
+    },
+    {
+      name: 'From Email',
+      options: {
+        sort: true,
+
+      },
+      key: "from_email"
+    },
+    {
+      name: 'To Role',
+      options: {
+        sort: true,
+        customBodyRenderer: (value) =>
+        (
+          <Badge
+            background="rgba(243, 241, 244, 1)"
+            color={'tomato'}
+            label={value}
+            rounded
+            textSize="medium"
+          />
+        ),
+        key: "to_role"
+      },
+    },
+    {
+      name: 'To Email',
+      options: {
+        sort: true,
+        flex: '225px 1 1',
+      },
+      key: "to_email"
+    },
+    {
+      name: 'From Role',
+      options: {
+        customBodyRenderer: (value) =>
+        (
+          <Badge
+            background="rgba(243, 241, 244, 1)"
+            color={'tomato'}
+            label={value}
+            rounded
+            textSize="medium"
+          />
+        ),
+      },
+      key: "from_role"
+    },
+    {
+      name: 'Name',
+      options: {
+
+      },
+      key: "name"
+    },
+    {
+      name: 'N/Building',
+      options: {
+
+      },
+      key: "n_building"
+    },
+    {
+      name: 'Updated date',
+      options: {
+        filter: true,
+        filterOptions: [
+          {
+            text: '1',
+            value: 1,
+          },
+          {
+            text: '2',
+            value: 2,
+          },
+        ],
+      },
+      key: "updated_date"
+    },
+    {
+      name: 'Status',
+      options: {
+        customBodyRenderer: (value) =>
+        (
+          <Badge
+            background="rgba(243, 241, 244, 1)"
+            color={'tomato'}
+            label={value}
+            rounded
+            textSize="medium"
+          />
+        ),
+      },
+      key: "status"
+    },
+    {
+      name: 'Action',
+      options: {
+        customBodyRenderer: (value) => (
+          <Button variant='secondary' iconSuffix='EditorLayout.Send' >
+            Send
+          </Button>
+        ),
+      },
+      key: "action"
+    },
+    {
+      name: 'Detail',
+      options: {
+        flex: '20px 1 1',
+        customBodyRenderer: (value, tableMeta) =>
+          <IconGraphy icon='FileFolder.StickyNote2' style={{ color: '#702572' }}
+            onClick={() => goDetailPage(tableMeta)}
+          />,
+      },
+      key: "detail"
+    },
+    {
+      name: '',
+      options: {
+        flex: '10px 1 1',
+        customBodyRenderer: () => <IconGraphy icon='General.Delete' />,
+      },
+    },
+  ];
   return (
     <DashboardLayoutContainer>
       <Box>
@@ -173,8 +251,6 @@ export const Email = () => {
             >
               All Mails
             </Typography>
-
-            {/* {totalResult && ( */}
             <Typography
               variant='body2'
               style={{ fontWeight: '500', color: colors.neutral[900] }}

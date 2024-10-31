@@ -1,0 +1,1 @@
+export { InviteLandlordDetail } from './InviteLandlordDetail';

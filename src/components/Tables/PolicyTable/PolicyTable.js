@@ -64,7 +64,6 @@ export const PolicyTable = ({
         name: 'Stage',
         options: {
           flex: '40px 1 1',
-          filter: true,
           customBodyRenderer: (value) => (
             <Badge
               color={value ? 'sunglow' : 'tomato'}
@@ -73,13 +72,6 @@ export const PolicyTable = ({
               textSize="medium"
             />
           ),
-
-          filterOptions: [
-            {
-              text: '05 - Policy Issued',
-              value: '05 - Policy Issued',
-            },
-          ],
           sort: true,
         },
         key: 'stage',
@@ -215,6 +207,21 @@ export const PolicyTable = ({
         options: {
           flex: '30px 1 1',
           sort: true,
+          filter: true,
+          filterOptions: [
+            {
+              text: "1",
+              value: "1"
+            },
+            {
+              text: "2",
+              value: "2"
+            },
+            {
+              text: "3",
+              value: "3"
+            },
+          ]
         },
         key: 'total_number_of_tenants',
       },

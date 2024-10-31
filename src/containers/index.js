@@ -17,9 +17,15 @@ import { Claims } from './Property/Claims';
 import { Invoice } from './Invoice';
 import { Treeview } from './User/Treeview';
 import { UserByRole } from './User/UserByRole';
+import { UserDetail } from './User/UserByRole/UserDetail';
+import { DetailBuilding } from './User/UserByRole/UserDetail/BuildingDetail';
 import { InviteNewUser } from './User/InviteNewUser';
+import { InviteUserDetail } from './User/InviteNewUser/Detail';
+import { InvitePage } from './User/InviteNewUser/InvitePage';
 import { LandlordInvite } from './LandlordInvite';
+import { InviteLandlordDetail } from './LandlordInvite/Detail';
 import { Landlord } from './User/Landlord';
+import { LandlordDetail } from './User/Landlord/LandlordDetail';
 import { Email } from './Email';
 import { NotificationFrom } from './Notification/NotificationFrom';
 import { NotificationTo } from './Notification/NotificationTo';
@@ -27,6 +33,8 @@ import { PolicyCancelLog } from './PolicyCancelLog';
 import { PortalGuide } from './PortalGuide';
 import { ActivityLog } from './ActivityLog';
 import { NotFound } from './NotFound';
+import { EmailDetail } from './Email/Detail';
+import { EmailBuildingDetail } from './Email/Detail/BuildingDetail';
 
 const AppRoutes = () => {
   return (
@@ -65,18 +73,30 @@ const AppRoutes = () => {
       <Route path="/user">
         <Route exact path="treeview" element={<Treeview />} />
         <Route exact path="landlord" element={<Landlord />} />
+        <Route exact path="landlord/detail" element={<LandlordDetail />} />
         <Route
           exact
           path="full-portfolio"
-          element={<UserByRole role="vp" title="Full Portfolio" />}
+          element={<UserByRole role="vp" title="Full Portfolio" route="full-portfolio" />}
         />
-        <Route exact path="multi-site" element={<UserByRole role="rm" title="Multi-Site" />} />
-        <Route exact path="property" element={<UserByRole role="pm" title="Property Manager" />} />
+        <Route exact path="multi-site" element={<UserByRole role="rm" title="Multi-Site" route="multi-site" />} />
+        <Route exact path="property" element={<UserByRole role="pm" title="Property Manager" route="property" />} />
+        <Route exact path="full-portfolio/detail" element={<UserDetail route="full-portfolio" />} />
+        <Route exact path="multi-site/detail" element={<UserDetail route="multi-site" />} />
+        <Route exact path="property/detail" element={<UserDetail route="property" />} />
+        <Route exact path="full-portfolio/detail/buildingDetail" element={<DetailBuilding />} />
+        <Route exact path="multi-site/detail/buildingDetail" element={<DetailBuilding />} />
+        <Route exact path="property/detail/buildingDetail" element={<DetailBuilding />} />
         <Route exact path="invite-new-user" element={<InviteNewUser />} />
+        <Route exact path="invite-new-user/detail" element={<InviteUserDetail />} />
+        <Route exact path="invite-new-user/invite" element={<InvitePage />} />
       </Route>
 
       <Route exact path="/landlord-invite" element={<LandlordInvite />} />
+      <Route exact path="/landlord-invite/detail" element={<InviteLandlordDetail />} />
       <Route exact path="/email" element={<Email />} />
+      <Route exact path="/email/detail" element={<EmailDetail />} />
+      <Route exact path="/email/detail/buildingDetail" element={<EmailBuildingDetail />} />
 
       {/** notification pages */}
       <Route path="/notification">

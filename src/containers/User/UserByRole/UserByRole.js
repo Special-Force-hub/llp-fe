@@ -7,7 +7,7 @@ import { openDetails } from 'store/actions/uiActions';
 import { UserTable } from 'components/Tables/UserTable';
 import { useNavigate } from 'react-router-dom';
 
-export const UserByRole = ({ role, title }) => {
+export const UserByRole = ({ role, title, route }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,6 +65,7 @@ export const UserByRole = ({ role, title }) => {
   }, [filter, pagination, dispatch, role]);
 
   const onClickUser = useCallback(
+
     (user) => {
       dispatch(
         openDetails({
@@ -74,7 +75,7 @@ export const UserByRole = ({ role, title }) => {
       );
 
       setTimeout(() => {
-        navigate('/property/full-portfolio/detail');
+        navigate(`/user/${route}/detail`);
       });
     },
     [dispatch, navigate],

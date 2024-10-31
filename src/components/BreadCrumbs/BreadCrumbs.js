@@ -53,6 +53,22 @@ export const BreadCrumbs = () => {
         return {
           name: detailsJSON.data.doc_number,
         };
+      case "landlord":
+        return {
+          name: detailsJSON.name
+        }
+      case "user":
+        return {
+          name: detailsJSON.accepter && detailsJSON.accepter.username,
+        };
+      case "email":
+        return {
+          name: detailsJSON.requestor && detailsJSON.requestor.username,
+        };
+      case "message":
+        return {
+          name: "Notification Title placeholder",
+        };
     }
 
     return null;
@@ -85,12 +101,12 @@ export const BreadCrumbs = () => {
           onClickItem={onClickItem}
         />
       )) || (
-        <BreadCrumbsComponent
-          items={menuItems}
-          currentItem={currentItem}
-          onClickItem={onClickItem}
-        />
-      )}
+          <BreadCrumbsComponent
+            items={menuItems}
+            currentItem={currentItem}
+            onClickItem={onClickItem}
+          />
+        )}
     </Box>
   );
 };

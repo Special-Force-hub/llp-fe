@@ -117,9 +117,23 @@ export const LandlordTable = ({
           key: 'create_date',
         },
         {
-          name: 'No. of Building',
+          name: 'Num. of Building',
           options: {
-            flex: '5px 1 1',
+            filter: true,
+            filterOptions: [
+              {
+                text: "1",
+                value: "1"
+              },
+              {
+                text: "2",
+                value: "2"
+              },
+              {
+                text: "3",
+                value: "3"
+              },
+            ]
           },
           key: 'number_of_buildings',
         },
@@ -127,6 +141,21 @@ export const LandlordTable = ({
           name: 'N/Units',
           options: {
             flex: '5px 1 1',
+            filter: true,
+            filterOptions: [
+              {
+                text: "1",
+                value: "1"
+              },
+              {
+                text: "2",
+                value: "2"
+              },
+              {
+                text: "3",
+                value: "3"
+              },
+            ]
           },
           key: 'number_of_units',
         },
@@ -148,6 +177,9 @@ export const LandlordTable = ({
           name: '',
           options: {
             flex: '5px 1 1',
+            customBodyRenderer: (value, tableMeta) => (
+              <IconGraphy icon={'General.Delete'} style={{ color: '#702572' }} />
+            ),
           },
           key: 'actions',
         },
