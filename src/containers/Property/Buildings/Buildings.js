@@ -10,6 +10,7 @@ import {
 import { openDetails } from 'store/actions/uiActions';
 import { BuildingTable } from 'components/Tables/BuildingTable';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from '@leapeasy/ui-kit';
 
 export const Buildings = (props) => {
   const dispatch = useDispatch();
@@ -61,28 +62,30 @@ export const Buildings = (props) => {
     },
     [dispatch, navigate],
   );
-
-  if (!buildings) return <DashboardLayoutContainer />;
-
-  const buildingsJSON = buildings.toJS();
-
+  const buildingsJSON = buildings && buildings.toJS();
+  console.log('buildingsJSON', buildings && buildings.toJS());
   return (
     <DashboardLayoutContainer>
       <Box>
-        <BuildingTable
-          buildings={buildingsJSON.data}
-          filter={filter}
-          onChangeFilter={setFilter}
-          pagination={{
-            ...pagination,
-            totalItems: buildingsJSON.total,
-            totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
-          }}
-          onChangePagination={setPagination}
-          sortOptions={sortOptions}
-          onChangeSort={setSortOptions}
-          onClickBuilding={onClickBuilding}
-        />
+        {
+          buildings ? (
+            <BuildingTable
+              buildings={buildingsJSON.data}
+              filter={filter}
+              onChangeFilter={setFilter}
+              pagination={{
+                ...pagination,
+                totalItems: buildingsJSON.total,
+                totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
+              }}
+              onChangePagination={setPagination}
+              sortOptions={sortOptions}
+              onChangeSort={setSortOptions}
+              onClickBuilding={onClickBuilding}
+            />
+          ) : <Loading size='medium' isPathVisible/>
+        }
+
       </Box>
     </DashboardLayoutContainer>
   );

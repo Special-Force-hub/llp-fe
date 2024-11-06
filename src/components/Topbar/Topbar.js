@@ -1,10 +1,16 @@
 import { IconGraphy, Avatar, Tooltip } from '@leapeasy/ui-kit';
 import { Box } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import styled from 'styled-components';
+
+import { UserContext } from 'context/context';
 
 const elem = document.documentElement;
 
 export const Topbar = () => {
+
+  const user = useContext(UserContext);
+
   const [fullScreen, setFullScreen] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem('user'));
 
@@ -55,26 +61,38 @@ export const Topbar = () => {
     >
       {/** actions */}
       <Box display="flex">
-        <Tooltip
-          placement="bottom"
-          showCarot={false}
-          title={fullScreen ? 'Exit Full Screen' : 'Full Screen'}
-          variant="contained"
-        >
-          <Box
-            sx={{ color: '#3C393D', cursor: 'pointer', '&:hover': { opacity: 0.9 } }}
-            onClick={() => {
-              fullScreen ? closeFullScreen() : openFullScreen();
-            }}
+        <TopBarContainer>
+          <Tooltip
+            placement="bottom"
+            showCarot={false}
+            title={'Show sidebar'}
+            variant="contained"
+          >
+            <IconGraphy 
+              icon={'EditorLayout.MenuOpen'}
+              onClick={() => {
+                user.setMenuOpenInMobile(true);
+              }}
+            />
+          </Tooltip>
+
+          <Tooltip
+            placement="bottom"
+            showCarot={false}
+            title={fullScreen ? 'Exit Full Screen' : 'Full Screen'}
+            variant="contained"
           >
             <IconGraphy
               icon={!fullScreen ? 'EditorLayout.Fullscreen' : 'EditorLayout.FullscreenExit'}
               width={16}
               height={16}
               forceColor={true}
+              onClick={() => {
+                fullScreen ? closeFullScreen() : openFullScreen();
+              }}
             />
-          </Box>
-        </Tooltip>
+          </Tooltip>
+        </TopBarContainer>
       </Box>
 
       {/** profile */}
@@ -101,3 +119,23 @@ export const Topbar = () => {
     </Box>
   );
 };
+
+
+const TopBarContainer = styled.div`
+  color: #3C393D;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  /* &:hover: { opacity: 0.9 } */
+  .sidebar-tooltip {
+    border: 1px solid red;
+  }
+
+  @media screen and (min-width: 1280px) {
+    & > div:nth-of-type(1) {
+      display: none;
+    }
+  }
+`
