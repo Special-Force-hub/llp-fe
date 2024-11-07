@@ -1,6 +1,21 @@
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
-import { Grid, TableBody, TableFooter, Avatar, IconGraphy, Button, Dropdown, Tab, Typography, colors, DropDownList, Input, Badge } from '@leapeasy/ui-kit';
+import {
+  Grid,
+  TableBody,
+  Modal,
+  TableFooter,
+  Avatar,
+  IconGraphy,
+  Button,
+  Dropdown,
+  Tab,
+  Typography,
+  colors,
+  DropDownList,
+  Input,
+  Badge
+} from '@leapeasy/ui-kit';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -22,13 +37,27 @@ const TABS = [
   },
 
 ];
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 export const Email = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [tableData, setTableData] = useState([]);
-
+  ///////////////////////
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDelete,setIsOpenDelete] = useState(false);
+  ////////////////////////
   const [currentPage, setCurrentPage] = useState('all');
 
   const [filter, setFilter] = useState({
@@ -214,9 +243,10 @@ export const Email = () => {
       name: 'Action',
       options: {
         customBodyRenderer: (value) => (
-          <Button variant='secondary' iconSuffix='EditorLayout.Send' >
+          <Button variant='secondary' iconSuffix='EditorLayout.Send' onClick={() => setIsOpen(true)}>
             Send
           </Button>
+
         ),
       },
       key: "action"
@@ -236,7 +266,7 @@ export const Email = () => {
       name: '',
       options: {
         flex: '10px 1 1',
-        customBodyRenderer: () => <IconGraphy icon='General.Delete' />,
+        customBodyRenderer: () => <IconGraphy icon='General.Delete' onClick = {() => {setIsOpenDelete(true)}}/>,
       },
     },
   ];
@@ -245,6 +275,100 @@ export const Email = () => {
       <Box>
         <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="30px" height="32px">
           <Box display="flex" alignItems="center" gap="8px">
+            <Modal
+              open={isOpen}
+              onClose={() => setIsOpen(false)}
+            >
+              <Box sx={{  width: 311,height:251 }}>
+                <img src="./plane.png" width='311px'height='100px'></img>
+                <Typography variant="h6" component="h2" align="center" 
+                  style={{
+                    marginTop: '12px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    lineHeight: '23.1px',
+                    opacity: 1,
+                    color: '#2E0F40',
+                    height: '23px'
+                    }}>
+                  Are you sure to resend this email?
+                </Typography>
+                <Typography align="center"       
+                  style={{
+                    marginTop: '8px',
+                    fontWeight: 400,
+                    fontSize: '12px',
+                    lineHeight: '19.8px',
+                    opacity: 0.9,
+                    color: '#6A5E71',
+                    height: '40px'
+                  }}>
+                  The Disputed icon will turn Green when your invoice has been updated.
+                </Typography>
+                <Box display="flex" gap={2} style={{marginTop:'24px'}}>
+                  <Button onClick={()=>{}}   
+                    variant = 'tertiary'
+                    size = 'medium'
+                    >
+                    Discard
+                  </Button>
+                  <Button 
+                    onClick={()=>{}}
+                    variant = 'primary'
+                    size = 'medium'>
+                    Yes
+                  </Button>
+                </Box>
+              </Box> 
+            </Modal>
+            <Modal
+              open={isOpenDelete}
+              onClose={() => setIsOpenDelete(false)}
+            >
+              <Box sx={{  width: 311,height:251 }}>
+                <img src="./mail.png" width='311px'height='100px'></img>
+                <Typography variant="h6" component="h2" align="center" 
+                  style={{
+                    marginTop: '12px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    lineHeight: '23.1px',
+                    opacity: 1,
+                    color: '#2E0F40',
+                    height: '23px'
+                    }}>
+                  Are you sure to delete this email?
+                </Typography>
+                <Typography align="center"       
+                  style={{
+                    marginTop: '8px',
+                    fontWeight: 400,
+                    fontSize: '12px',
+                    lineHeight: '19.8px',
+                    opacity: 0.9,
+                    color: '#6A5E71',
+                    height: '40px'
+                  }}>
+                  The Disputed icon will turn Green when your invoice has been updated.
+                </Typography>
+                <Box display="flex" gap={2} style={{marginTop:'24px'}}>
+                  <Button onClick={()=>{}}   
+                    variant = 'tertiary'
+                    size = 'medium'
+                    >
+                    Discard
+                  </Button>
+                  <Button 
+                    onClick={()=>{}}
+                    style={{backgroundColor:'#F03933',
+                      border:'none'
+                    }}
+                    size = 'medium'>
+                    Yes,Delete
+                  </Button>
+                </Box>
+              </Box> 
+            </Modal>
             <Typography
               variant='h3'
               style={{ fontWeight: '500', color: colors.purple[900] }}

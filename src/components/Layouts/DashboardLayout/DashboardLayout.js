@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 import { styles, colors } from '@leapeasy/ui-kit';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from 'components/Sidebar';
@@ -9,9 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { primaryMenu, secondaryMenu } from 'data/ui/menu';
 import { openMenuItem } from 'store/actions/uiActions';
 
+// Context
+import { UserContext } from 'context/context';
+
 export default ({ children, shouldShowCard = true }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const user = useContext(UserContext);
 
   const token = localStorage.getItem('token');
   const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -57,9 +63,8 @@ export default ({ children, shouldShowCard = true }) => {
   if (!currentUser) return null;
 
   return (
-    <Box display="flex" sx={{ width: '100%', minHeight: '100vh' }}>
+    <Container >
       <Sidebar />
-
       <Box
         sx={{ flexGrow: 1, background: colors.purple[100], minHeight: '100%' }}
         display="flex"
@@ -74,17 +79,62 @@ export default ({ children, shouldShowCard = true }) => {
             margin: '0px 8px 8px 8px',
             ...(shouldShowCard
               ? {
-                  padding: '20px 28px',
-                  borderRadius: `${styles.borderRadius.large}px`,
-                  background: 'white',
-                  border: `1px solid ${colors.black[300]}`,
-                }
+                padding: '20px 28px',
+                borderRadius: `${styles.borderRadius.large}px`,
+                background: 'white',
+                border: `1px solid ${colors.black[300]}`,
+              }
               : {}),
           }}
         >
           {children}
         </Box>
       </Box>
-    </Box>
+      {
+        user.menuOpenInMobile &&
+          <MobileSidebar id={'cover-div'} onClick={(e) => {
+            e.target.id == 'cover-div' && user.setMenuOpenInMobile(false)
+          }}>
+            <Sidebar />
+          </MobileSidebar>
+      }
+    </Container >
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  /* min-height: 100vh; */
+
+  & > div:nth-of-type(2) {
+   /* height: 100vh; */
+   /* overflow: auto; */
+  }
+  @media screen and (max-width: 1280px) {
+    & > div:nth-of-type(1) {
+      display: none;
+    }
+  }
+`;
+
+const MobileSidebar = styled.div`
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+
+  @media screen and (min-width: 1280px) {
+    display: none;
+  }
+`

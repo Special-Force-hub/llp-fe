@@ -175,7 +175,7 @@ export const BuildingTable = ({
               <IconGraphy
                 icon={'FileFolder.Description'}
                 style={{ color: '#702572' }}
-                onClick={() => goDetailPage(tableMeta)}
+                // onClick={() => goDetailPage(tableMeta)}
               />
             ),
           },
