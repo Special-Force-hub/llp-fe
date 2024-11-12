@@ -1,15 +1,16 @@
 import { IconGraphy, Avatar, Tooltip } from '@leapeasy/ui-kit';
+import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useState, useContext } from 'react';
-import styled from 'styled-components';
 
+// Context
 import { UserContext } from 'context/context';
 
 const elem = document.documentElement;
 
 export const Topbar = () => {
 
-  const user = useContext(UserContext);
+  const userContext = useContext(UserContext);
 
   const [fullScreen, setFullScreen] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -61,38 +62,43 @@ export const Topbar = () => {
     >
       {/** actions */}
       <Box display="flex">
-        <TopBarContainer>
-          <Tooltip
-            placement="bottom"
-            showCarot={false}
-            title={'Show sidebar'}
-            variant="contained"
-          >
-            <IconGraphy 
-              icon={'EditorLayout.MenuOpen'}
-              onClick={() => {
-                user.setMenuOpenInMobile(true);
-              }}
-            />
-          </Tooltip>
 
+        <IconContainer>
           <Tooltip
             placement="bottom"
             showCarot={false}
             title={fullScreen ? 'Exit Full Screen' : 'Full Screen'}
             variant="contained"
           >
-            <IconGraphy
-              icon={!fullScreen ? 'EditorLayout.Fullscreen' : 'EditorLayout.FullscreenExit'}
-              width={16}
-              height={16}
-              forceColor={true}
+            <div
               onClick={() => {
                 fullScreen ? closeFullScreen() : openFullScreen();
               }}
-            />
+            >
+              <IconGraphy
+                icon={!fullScreen ? 'EditorLayout.Fullscreen' : 'EditorLayout.FullscreenExit'}
+                width={16}
+                height={16}
+                forceColor={true}
+              />
+            </div>
           </Tooltip>
-        </TopBarContainer>
+
+          <Tooltip
+            placement="bottom"
+            showCarot={false}
+            title={'Show sidebar'}
+            variant="contained"
+          >
+            <div
+              onClick={() => userContext.setMenuOpenInMobile(!userContext.menuOpenInMobile)} 
+            >
+              <IconGraphy
+                icon={'EditorLayout.MenuOpen'}
+              />
+            </div>
+          </Tooltip>
+        </IconContainer>
       </Box>
 
       {/** profile */}
@@ -120,22 +126,19 @@ export const Topbar = () => {
   );
 };
 
-
-const TopBarContainer = styled.div`
+const IconContainer = styled.div`
   color: #3C393D;
   cursor: pointer;
-
+  &:hover { opacity: 0.9 };
   display: flex;
   align-items: center;
   gap: 20px;
-  /* &:hover: { opacity: 0.9 } */
-  .sidebar-tooltip {
-    border: 1px solid red;
-  }
+  justify-content: center;
 
-  @media screen and (min-width: 1280px) {
-    & > div:nth-of-type(1) {
-      display: none;
+  & > div:nth-of-type(2) {
+    display: none;
+    @media screen and (max-width: ${(props) => props.theme['2xl']}) {
+      display: block;
     }
   }
 `

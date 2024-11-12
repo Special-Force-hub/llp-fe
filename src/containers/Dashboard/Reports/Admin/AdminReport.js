@@ -1,3 +1,5 @@
+import React from 'react';
+import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { AllApplicationsChart } from 'elements/Charts/AllApplicationsChart';
 import { AppTypeChart } from 'elements/Charts/AppTypeChart';
@@ -18,35 +20,41 @@ import { useNavigate } from 'react-router-dom';
 export const AdminReport = ({ data }) => {
   const navigate = useNavigate();
 
+  console.log({data})
+
   return (
     <Box display="flex" flexDirection="column" gap="24px">
-      <Box display="flex" justifyContent="space-between" gap="20px">
-        <Box flex="1 1 0%">
+      <Type1ChartContainer>
+        <PirChartContainer flex="1 1 0%">
           <AllApplicationsChart
             data={data}
             onClickItem={(stage) => {
               navigate('/property/applications');
             }}
           />
-        </Box>
-
-        <Box flex="1 1 0%">
+        </PirChartContainer>
+        <PirChartContainer flex="1 1 0%">
           <AppTypeChart
             data={data}
             onClickItem={(type) => {
               navigate('/property/applications');
             }}
           />
-        </Box>
-      </Box>
+        </PirChartContainer>
+      </Type1ChartContainer>
 
       <AppPerformanceReview data={data} />
       <AppDistribution data={data} />
-      <TotalClaimChart data={data} />
-      <ClaimPaymentsChart data={data} />
-      <ClaimFileStatusChart data={data} />
+      {
+        data.claimCountsByMonth && 
+          <React.Fragment>
+            <TotalClaimChart data={data} />
+            {/* <ClaimPaymentsChart data={data} />
+            <ClaimFileStatusChart data={data} /> */}
+          </React.Fragment>
+      }
 
-      <Box display="flex" justifyContent="space-between" gap="20px">
+      <Type2ChartContainer>
         <Box flex="1 1 0%">
           <ExpiringPoliciesChart data={data} onClickItem={() => navigate('/property/policies')} />
         </Box>
@@ -54,13 +62,108 @@ export const AdminReport = ({ data }) => {
         <Box flex="1 1 0%">
           <CoverageChart data={data} />
         </Box>
-      </Box>
+      </Type2ChartContainer>
 
-      <GrossRentChart data={data} />
-      <ApplicationVolume6MonthsChart data={data} />
+      {/* <GrossRentChart data={data} /> */}
+      {/* <ApplicationVolume6MonthsChart data={data} />
       <ApplicationStageChart data={data} />
       <DeclinesByReasonChart data={data} />
-      <CancellationsByCancellationReasonChart data={data} />
+      <CancellationsByCancellationReasonChart data={data} /> */}
     </Box>
   );
 };
+
+const Type1ChartContainer = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  @media screen and (max-width: ${({ theme }) => theme['lg']}) {
+    flex-direction: column;
+  }
+`
+
+export const PirChartContainer = styled.div`
+  flex: 1;
+  & > div {
+    & > div:nth-of-type(2) {
+      @media screen and (max-width: ${({ theme }) => theme['md']}) {
+        padding: 16px 6px !important;
+        & > div {
+          flex-direction: column !important;
+          & > div:nth-of-type(2) {
+            width: 100%;
+            * {
+              box-sizing: border-box;
+            }
+          }
+        }
+      }
+    }
+
+    & > div:nth-of-type(3) {
+      @media screen and (max-width: ${({ theme }) => theme['md']}) {
+        flex-direction: column;
+      }
+    }
+  }
+`
+
+export const Type2ChartContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  @media screen and (max-width: ${({ theme }) => theme['xl']}) {
+    flex-direction: column;
+  }
+
+  & > div:nth-of-type(1) {
+    & > div {
+      & > div:nth-of-type(3) {
+        @media screen and (max-width: ${({ theme }) => theme['md']}) {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+
+        @media screen and (max-width: ${({ theme }) => theme['sm']}) {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    }
+  }
+
+  & > div:nth-of-type(2) {
+    & > div {
+
+      & > div:nth-of-type(2) {
+        @media screen and (max-width: ${({ theme }) => theme['sm']}) {
+          padding: 16px 6px !important;
+        }
+        & > div {
+          @media screen and (max-width: ${({ theme }) => theme['sm']}) {
+            flex-direction: column;
+            * {
+              box-sizing: border-box;
+            }
+            & > div:nth-of-type(2) {
+              width: 100%;
+            }
+          }
+        }
+      }
+      & > div:nth-of-type(3) {
+        @media screen and (max-width: ${({ theme }) => theme['md']}) {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+
+        @media screen and (max-width: ${({ theme }) => theme['sm']}) {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    }
+  }
+`

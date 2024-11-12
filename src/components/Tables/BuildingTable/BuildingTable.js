@@ -12,6 +12,7 @@ export const BuildingTable = ({
   onChangePagination,
   sortOptions,
   onChangeSort,
+  dropFilter,
   onClickBuilding,
 }) => {
   const [tableData, setTableData] = useState([]);
@@ -36,7 +37,6 @@ export const BuildingTable = ({
           building.id,
         ]);
       });
-
       setTableData(data);
     }
   }, [buildings, isDemo]);
@@ -65,7 +65,7 @@ export const BuildingTable = ({
         {
           name: 'Building Type',
           options: {
-            flex: '30px 1 1',
+            flex: '90px 1 1',
             filter: true,
             customBodyRenderer: (value) => (
               <Badge
@@ -112,7 +112,7 @@ export const BuildingTable = ({
         {
           name: 'Address',
           options: {
-            flex: '210px 1 1',
+            // flex: '210px 1 1',
             sort: true,
           },
           key: 'billingStreet',
@@ -120,7 +120,7 @@ export const BuildingTable = ({
         {
           name: 'Email Address',
           options: {
-            flex: '210px 1 1',
+            // flex: '210px 1 1',
             sort: true,
           },
           key: 'email_address',
@@ -141,7 +141,7 @@ export const BuildingTable = ({
         {
           name: 'Student Housing',
           options: {
-            flex: '40px 1 1',
+            flex: '60px 1 1',
             filter: true,
             sort: true,
             customBodyRenderer: (value) => (
@@ -169,13 +169,13 @@ export const BuildingTable = ({
         {
           name: 'Detail',
           options: {
-            flex: '5px 1 1',
+            flex: '20px 1 1',
             sort: true,
             customBodyRenderer: (value, tableMeta) => (
               <IconGraphy
                 icon={'FileFolder.Description'}
                 style={{ color: '#702572' }}
-                // onClick={() => goDetailPage(tableMeta)}
+                onClick={() => goDetailPage(tableMeta)}
               />
             ),
           },
@@ -183,7 +183,9 @@ export const BuildingTable = ({
         },
       ]}
       data={tableData}
+      mobileWidth={960}
       filter={filter}
+      dropFilter={dropFilter}
       onChangeFilter={onChangeFilter}
       onChangeRowsPerPage={(value) =>
         onChangePagination({

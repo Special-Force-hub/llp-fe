@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 import {
   CustomBarChart,
   CustomDonutChart,
@@ -35,18 +36,11 @@ export const AppPerformanceReview = ({ data }) => {
     data.stage04;
 
   return (
-    <Box
-      sx={{
-        boxShadow: styles.boxShadow.sm,
-        borderRadius: `${styles.borderRadius.large}px`,
-        border: `1px solid ${colors.black[300]}`,
-        width: '100%',
-        padding: '16px',
-        boxSizing: 'border-box',
-      }}
-      display="flex"
-      flexDirection="column"
-      gap="12px"
+    <AppPerformanceReviewContainer
+      boxShadow={styles.boxShadow.sm}
+      borderRadius={`${styles.borderRadius.large}px`}
+      border={`1px solid ${colors.black[300]}`}
+
     >
       <Box display="flex" gap="16px">
         <Avatar size="large" iconImage={<IconGraphy icon="Chart.TableChartView" />} />
@@ -73,6 +67,7 @@ export const AppPerformanceReview = ({ data }) => {
         display="flex"
         gap="20px"
       >
+        {/* First graph */}
         <Box
           sx={{
             flex: '1.8 1 0%',
@@ -148,7 +143,7 @@ export const AppPerformanceReview = ({ data }) => {
             }}
           />
         </Box>
-
+        {/* second graph */}
         <Box
           sx={{
             flex: '1 1 0%',
@@ -196,6 +191,62 @@ export const AppPerformanceReview = ({ data }) => {
           />
         </Box>
       </Box>
-    </Box>
+    </AppPerformanceReviewContainer>
   );
 };
+
+
+const AppPerformanceReviewContainer = styled.div`
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: ${(props) => props.boxShadow};
+  border-radius: ${(props => props.borderRadius)};
+  border: ${(props) => props.border};
+  @media screen and (max-width: ${({theme}) => theme.sm}) {
+    & > div:nth-of-type(2) {
+      padding: 0;
+    }
+  }
+
+  & > div:nth-of-type(2) {
+    @media screen and (max-width: ${({theme}) => theme.lg}) {
+      flex-direction: column;
+    }
+    & > div:nth-of-type(1) {
+      @media screen and (max-width: ${({theme}) => theme.md}) {
+        & > div:nth-of-type(1) {
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 20px;
+          & > div {
+            width: 100%;
+          }
+        }
+      }
+
+      @media screen and (max-width: ${({theme}) => theme.sm}) {
+        padding: 10px;
+        & > div:nth-of-type(1) {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          & > div {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    & > div:nth-of-type(2) {
+      @media screen and (max-width: ${({theme}) => theme.sm}) {
+        & > div {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+`

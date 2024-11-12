@@ -56,7 +56,7 @@ export const CoverageChart = ({ data, onClickItem }) => {
                 </Typography>
               </Box>
             }
-            onClick={() => onClickItem('00 - Entrata')}
+            // onClick={() => onClickItem('00 - Entrata')}
           />
 
           <ChartFooterChard

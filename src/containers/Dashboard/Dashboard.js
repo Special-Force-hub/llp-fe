@@ -1,5 +1,6 @@
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 import { Typography, colors, Loading } from '@leapeasy/ui-kit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,11 +50,10 @@ export const Dashboard = () => {
 
         {((!userCount || !buildingCount) && <Loading size="medium" isPathVisible />) || (
           <>
-            <Box display="flex" flexDirection="column" gap="20px">
+            <TotalInfoContainer display="flex" flexDirection="column" gap="20px">
               <UserCount data={userCount.toJS().data} />
               <BuildingCount data={buildingCount.toJS().data} />
-            </Box>
-
+            </TotalInfoContainer>
             {adminReportData && <AdminReport data={adminReportData.toJS().data} />}
           </>
         )}
@@ -61,3 +61,28 @@ export const Dashboard = () => {
     </DashboardLayoutContainer>
   );
 };
+
+
+const TotalInfoContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media screen and (max-width: ${({ theme }) => theme['lg']}) {
+    & > div {
+      flex-direction: column;
+    }
+
+    @media screen and (max-width: ${({ theme }) => theme['md']}) {
+      & > div:nth-of-type(2) {
+        & > div {
+          & > div:nth-of-type(2) {
+            flex-direction: column;
+          }
+          /* border: 1px solid red !important; */
+        }
+      }
+    }
+
+  }
+`

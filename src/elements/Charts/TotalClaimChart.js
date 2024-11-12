@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 import {
   CustomBarChart,
   CustomDonutChart,
@@ -13,9 +14,7 @@ import { useState } from 'react';
 
 export const TotalClaimChart = ({ data }) => {
   const [year, setYear] = useState(new Date().getFullYear());
-
   const monthlyAggregates = data.claimCountsByMonth;
-
   let closedClaims = 0;
   let openClaims = 0;
 
@@ -48,18 +47,10 @@ export const TotalClaimChart = ({ data }) => {
   }
 
   return (
-    <Box
-      sx={{
-        boxShadow: styles.boxShadow.sm,
-        borderRadius: `${styles.borderRadius.large}px`,
-        border: `1px solid ${colors.black[300]}`,
-        width: '100%',
-        padding: '16px',
-        boxSizing: 'border-box',
-      }}
-      display="flex"
-      flexDirection="column"
-      gap="12px"
+    <TotalClaimChartContainer
+      boxShadow={styles.boxShadow.sm}
+      borderRadius={`${styles.borderRadius.large}px`}
+      border={`1px solid ${colors.black[300]}`}
     >
       <Box display="flex" gap="16px">
         <Avatar size="large" iconImage={<IconGraphy icon="FileFolder.Contract" />} />
@@ -181,6 +172,19 @@ export const TotalClaimChart = ({ data }) => {
           />
         </Box>
       </Box>
-    </Box>
+    </TotalClaimChartContainer>
   );
 };
+
+
+const TotalClaimChartContainer = styled.div`
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: ${(props) => props.boxShadow};
+  border-radius: ${(props) => props.borderRadius};
+  border: ${(props) => props.border};
+`

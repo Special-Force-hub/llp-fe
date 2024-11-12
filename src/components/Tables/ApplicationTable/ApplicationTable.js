@@ -1,4 +1,4 @@
-import { IconGraphy, Table } from '@leapeasy/ui-kit';
+import { IconGraphy, Loading, Table } from '@leapeasy/ui-kit';
 import { Badge } from '@leapeasy/ui-kit';
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
@@ -59,6 +59,8 @@ export const ApplicationTable = ({
       onClickApplication(selectedApplication);
     }
   };
+
+
 
   const columns = useMemo(() => {
     const columns = [
@@ -134,14 +136,17 @@ export const ApplicationTable = ({
       {
         name: 'Name',
         key: 'name',
+        options: {},
       },
       {
         name: 'Rent/M',
         key: 'rent',
+        options: {},
       },
       {
         name: 'Create date',
         key: 'created_date',
+        options: {},
       },
       {
         name: 'L/Start Date',
@@ -232,7 +237,7 @@ export const ApplicationTable = ({
         options: {
           flex: '57px 1 1',
           sort: true,
-          customBodyRenderer: (_) => (
+          customBodyRenderer: () => (
             <IconGraphy
               icon={'EditorLayout.MoreVert'}
               style={{ color: '#702572' }}
@@ -250,25 +255,218 @@ export const ApplicationTable = ({
     return columns;
   }, [shouldShowBuildingName]);
 
+  useEffect(() => {
+    console.log({
+      tableData, columns
+    })
+  }, [tableData, columns])
+
   return (
-    <Table
-      columns={columns}
-      data={tableData}
-      filter={filter}
-      onChangeFilter={onChangeFilter}
-      onChangeRowsPerPage={(value) =>
-        onChangePagination({
-          ...pagination,
-          rowsPerPage: value,
-          pageNumber: 0,
-        })
-      }
-      pagination={pagination}
-      rowsPerPageOptions={[12, 15, 20]}
-      sortOptions={sortOptions}
-      onChangeSort={onChangeSort}
-      style={{ width: '100%' }}
-      title="Applications"
-    />
+    tableData ? (
+      <Loading size={'Large'} label={'loading'} />
+    ) : 
+      <Table
+        columns={[
+          {
+            name: 'Stage',
+            options: {
+              flex: '125px 1 1',
+              filter: true,
+              filterOptions: [
+                {
+                  text: '1',
+                  value: 1,
+                },
+                {
+                  text: '2',
+                  value: 2,
+                },
+              ],
+              customBodyRenderer: (value) => (
+                <Box textAlign="center">
+                  <Badge background="#F3F1F4" color="sunglow" label={value} rounded textSize="medium" />
+                </Box>
+              ),
+            },
+            key: 'stage',
+          },
+          {
+            name: 'Type',
+            flex: '62px 1 1',
+            options: {
+              sort: true,
+              filter: true,
+              filterOptions: [
+                {
+                  text: '1',
+                  value: 1,
+                },
+                {
+                  text: '2',
+                  value: 2,
+                },
+              ],
+              customBodyRenderer: (value) =>
+                value && (
+                  <Box textAlign="center">
+                    <Badge
+                      background="#F3F1F4"
+                      color="warmBlue"
+                      label={value}
+                      rounded
+                      textSize="medium"
+                    />
+                  </Box>
+                ),
+            },
+            key: 'type',
+          },
+          {
+            name: 'Building Name',
+            options: {
+              flex: '225px 1 1',
+              sort: true,
+            },
+            key: 'building_name',
+          },
+          {
+            name: 'Policy ID',
+            options: {
+              sort: true,
+            },
+            key: 'rider_id',
+          },
+          {
+            name: 'Name',
+            key: 'name',
+            options: {},
+          },
+          {
+            name: 'Rent/M',
+            key: 'rent',
+            options: {},
+          },
+          {
+            name: 'Create date',
+            key: 'created_date',
+            options: {},
+          },
+          {
+            name: 'L/Start Date',
+            options: {
+              filter: true,
+              filterOptions: [
+                {
+                  date: '1',
+                  value: 1,
+                },
+                {
+                  text: '2',
+                  value: 2,
+                },
+              ],
+            },
+            key: 'lease_start_date',
+          },
+          {
+            name: 'L/End Date',
+            options: {
+              filter: true,
+              filterOptions: [
+                {
+                  text: '1',
+                  value: 1,
+                },
+                {
+                  text: '2',
+                  value: 2,
+                },
+              ],
+            },
+            key: 'lease_end_date',
+          },
+          {
+            name: 'L/Active',
+            options: {
+              filter: false,
+              filterOptions: [],
+              customBodyRenderer: (value) => (
+                <Badge
+                  background="#F3F1F4"
+                  color="parisGreen"
+                  label={value}
+                  rounded
+                  textSize="medium"
+                />
+              ),
+            },
+            key: 'active_lease',
+          },
+          {
+            name: 'Tenants',
+            options: {
+              flex: '40px 1 1',
+              filter: true,
+              filterOptions: [
+                {
+                  text: '1',
+                  value: 1,
+                },
+                {
+                  text: '2',
+                  value: 2,
+                },
+              ],
+            },
+            key: 'tenants',
+          },
+          {
+            name: 'Detail',
+            options: {
+              flex: '57px 1 1',
+              sort: false,
+              customBodyRenderer: (_, tableMeta) => (
+                <IconGraphy
+                  icon={'FileFolder.Description'}
+                  style={{ color: '#702572' }}
+                  onClick={() => goDetailPage(tableMeta)}
+                />
+              ),
+            },
+            key: 'detail',
+          },
+          {
+            name: '',
+            options: {
+              flex: '57px 1 1',
+              sort: true,
+              customBodyRenderer: () => (
+                <IconGraphy
+                  icon={'EditorLayout.MoreVert'}
+                  style={{ color: '#702572' }}
+                  onClick={() => {}}
+                />
+              ),
+            },
+            key: 'actions',
+          },
+        ]}
+        data={tableData}
+        filter={filter}
+        onChangeFilter={onChangeFilter}
+        onChangeRowsPerPage={(value) =>
+          onChangePagination({
+            ...pagination,
+            rowsPerPage: value,
+            pageNumber: 0,
+          })
+        }
+        pagination={pagination}
+        rowsPerPageOptions={[12, 15, 20]}
+        sortOptions={sortOptions}
+        onChangeSort={onChangeSort}
+        style={{ width: '100%' }}
+        title="Applications"
+      />
   );
 };

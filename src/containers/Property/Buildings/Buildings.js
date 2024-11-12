@@ -1,4 +1,5 @@
 import { DashboardLayoutContainer } from 'components/Layouts/DashboardLayout';
+import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -10,18 +11,20 @@ import {
 import { openDetails } from 'store/actions/uiActions';
 import { BuildingTable } from 'components/Tables/BuildingTable';
 import { useNavigate } from 'react-router-dom';
-import { Loading } from '@leapeasy/ui-kit';
+import { Button, Dropdown, Loading } from '@leapeasy/ui-kit';
+import { NoBuildingData } from 'components/common/NoBuildingData';
 
 export const Buildings = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [filter, setFilter] = useState({
     options: {},
     searchText: '',
     searchPlaceholder: 'Search Building..',
   });
-
+  const [selectedBType, selSelectedBType] = useState([]);
+  const [isSHouse, setIsSHouse] = useState([]);
+  
   const [sortOptions, setSortOptions] = useState({});
   const [pagination, setPagination] = useState({
     pageNumber: 0,
@@ -35,19 +38,38 @@ export const Buildings = (props) => {
   });
 
   const buildings = useSelector((state) => state.getIn(['property', 'building']));
+  const buildingsJSON = buildings && buildings.toJS();
 
-  useEffect(() => {
+  const handleDispatch = () => {
     dispatch(
       getBuildingAction({
         filter,
         offset: pagination.pageNumber * pagination.rowsPerPage,
         limit: pagination.rowsPerPage,
+        sortOptions: sortOptions,
+        selectedBType: selectedBType,
+        isSHouse: isSHouse
       }),
     );
-  }, [filter, pagination, dispatch]);
+
+    
+  }
+
+  useEffect(() => {
+    // handleDispatch();
+    dispatch(
+      getBuildingAction({
+        filter,
+        offset: pagination.pageNumber * pagination.rowsPerPage,
+        limit: pagination.rowsPerPage,
+        sortOptions: sortOptions,
+        selectedBType: selectedBType,
+        isSHouse: isSHouse
+      }),
+    );
+  }, [filter, pagination, dispatch, sortOptions]);
 
   const onClickBuilding = useCallback(
-
     (building) => {
       dispatch(
         openDetails({
@@ -55,38 +77,117 @@ export const Buildings = (props) => {
           data: building,
         }),
       );
-
       setTimeout(() => {
         navigate('/property/buildings/detail');
       });
     },
     [dispatch, navigate],
   );
-  const buildingsJSON = buildings && buildings.toJS();
-  console.log('buildingsJSON', buildings && buildings.toJS());
+  const resetFunc = () => {
+    selSelectedBType([])
+    setIsSHouse([])
+    handleDispatch()
+  }
+  const applyFunc = () => {
+    handleDispatch()
+  }
+  
   return (
     <DashboardLayoutContainer>
-      <Box>
-        {
-          buildings ? (
-            <BuildingTable
-              buildings={buildingsJSON.data}
-              filter={filter}
-              onChangeFilter={setFilter}
-              pagination={{
-                ...pagination,
-                totalItems: buildingsJSON.total,
-                totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
-              }}
-              onChangePagination={setPagination}
-              sortOptions={sortOptions}
-              onChangeSort={setSortOptions}
-              onClickBuilding={onClickBuilding}
-            />
-          ) : <Loading size='medium' isPathVisible/>
-        }
+      {
+        buildings ?
+          <React.Fragment>
+            <Box>
+              <BuildingTable
+                buildings={buildingsJSON.data}
+                filter={filter}
+                onChangeFilter={setFilter}
+                dropFilter={
+                  {
+                    component: (
+                      <DropFilterContainer>
+                        <Dropdown
+                          onChange={(e) => {
+                            selSelectedBType(e.target.value);
+                          }}
+                          options={[
+                            {
+                              text: 'Guarantor Waiver+LDR',
+                              value: 'Event Process;Auto Enroll'
+                            },
+                            {
+                              text: 'Rent Guaranty',
+                              value: 'Auto Enroll'
+                            }
+                          ]}
+                          value={selectedBType}
+                          multiselect={true}
+                          showSearch={false}
+                          placeholder='Building Type'
+                          label="Building Type"
+                          style={{
+                            width: '100%'
+                          }}
+                        />
 
-      </Box>
+                        <Dropdown
+                          onChange={(e) => {
+                            setIsSHouse(e.target.value);
+                          }}
+                          options={[
+                            {
+                              text: 'True',
+                              value: 'true'
+                            },
+                            {
+                              text: 'False',
+                              value: 'false'
+                            }
+                          ]}
+                          value={isSHouse}
+                          multiselect={true}
+                          showSearch={false}
+                          placeholder='Student Housing'
+                          label="Student Housing"
+                          style={{
+                            width: '100%'
+                          }}
+                        />
+                      </DropFilterContainer>
+                    ),
+                    resetFunc: resetFunc,
+                    applyFunc: applyFunc
+                  }
+                }
+                pagination={{
+                  ...pagination,
+                  totalItems: buildingsJSON.total,
+                  totalPages: Math.ceil(buildingsJSON.total / pagination.rowsPerPage),
+                }}
+                onChangePagination={setPagination}
+                sortOptions={sortOptions}
+                onChangeSort={setSortOptions}
+                onClickBuilding={onClickBuilding}
+              />
+            </Box>
+            {
+              buildingsJSON.data.length === 0 && <NoBuildingData />
+            }
+          </React.Fragment>
+        : (
+          <Loading size={'large'} />
+        )
+      }
     </DashboardLayoutContainer>
   );
 };
+
+const DropFilterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  * {
+    box-sizing: border-box;
+  }
+`;

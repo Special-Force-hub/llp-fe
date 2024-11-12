@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Grid } from '@mui/material';
+import styled from 'styled-components';
 import logo from 'assets/logo_horizontal.png';
 import { Typography, styles } from '@leapeasy/ui-kit';
 import Background from './Background';
@@ -46,22 +47,8 @@ export default ({ children, showGrayLogo = false }) => {
           margin: 'auto',
         }}
       >
-        <Grid
-          container
-          justifyContent="space-between"
-          alignItems="stretch"
-          sx={{ marginTop: '12vh' }}
-        >
-          <Grid
-            item
-            md={6}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '70vh',
-            }}
-          >
+        <Container>
+          <InfoContainer>
             <img
               src={logo}
               style={{
@@ -81,22 +68,15 @@ export default ({ children, showGrayLogo = false }) => {
                 enhance portfolio performance
               </Typography>
             </Box>
-          </Grid>
-
+          </InfoContainer>
           <Grid item md={0.5} />
-          <Grid item md={5.5} sx={{ minHeight: '70vh' }}>
-            <Box
+          <LoginContainer>
+            <LoginInnerDiv
+              boxShadow={styles.boxShadow.md}
+              borderRadius={styles.borderRadius.large}
+              padding={styles.spacing.space12}
               sx={{
-                boxShadow: styles.boxShadow.md,
-                background: 'white',
-                borderRadius: `${styles.borderRadius.large}px`,
-                padding: `${styles.spacing.space12}px`,
-                boxSizing: 'border-box',
-                minHeight: '100%',
-                width: '90%',
-                margin: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
+                
               }}
             >
               {children}
@@ -110,12 +90,63 @@ export default ({ children, showGrayLogo = false }) => {
                   </Box>
                 </>
               )}
-            </Box>
-          </Grid>
-        </Grid>
+            </LoginInnerDiv>
+          </LoginContainer>
+        </Container>
       </Box>
-
       <Background />
     </Box>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  min-height: 70vh;
+  align-items: stretch;
+  margin-top: 12vh;
+  width: 100%;
+`
+
+
+const InfoContainer = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  
+  @media screen and (max-width: ${({theme}) => theme['2xl']}) {
+    display: none;
+  }
+`
+
+const LoginContainer = styled.div`
+  width: 50%;
+  min-height: 70vh;
+
+  @media screen and (max-width: ${({theme}) => theme['2xl']}) {
+    width:100%;
+  }
+`
+
+const LoginInnerDiv = styled.div`
+  box-shadow: ${(props) => props.boxShadow};
+  border-radius: ${(props) => props.borderRadius + 'px'};
+  padding: ${(props) => props.padding+'px'};
+  background: white;
+  box-sizing: border-box;
+  min-height: 100%;
+  width: 80%;
+  @media screen and (max-width: ${({theme}) => theme['2xl']}) {
+    width:100%;
+  }
+  @media screen and (max-width: ${({theme}) => theme['sm']}) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  max-width: 480px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+`

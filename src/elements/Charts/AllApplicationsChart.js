@@ -1,6 +1,7 @@
 import { Chart, ChartFooterChard, Typography, colors, IconGraphy } from '@leapeasy/ui-kit';
 
 export const AllApplicationsChart = ({ data, onClickItem }) => {
+
   const sum =
     data.stage00 + data.stage02A + data.stage04 + data.stage05 + data.stage06 + data.cancelledCount;
 
@@ -41,6 +42,13 @@ export const AllApplicationsChart = ({ data, onClickItem }) => {
         colors.sunglow[100],
         colors.tomato[100],
       ]}
+      breakpoints={{
+        xs: 0,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+      }}
       title="All Applications"
       description="Here is an overview of the current status of all applications."
       icon={<IconGraphy icon="FileFolder.TextSnippet" />}

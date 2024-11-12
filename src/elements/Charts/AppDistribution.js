@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import styled from 'styled-components';
 import {
   CustomBarChart,
   Typography,
@@ -11,11 +12,11 @@ import {
 import { useState } from 'react';
 
 export const AppDistribution = ({ data }) => {
-  const total = data.stage00 + data.stage02 + data.stage02A + data.stage04 + data.stage05;
+  const total = data.stage01 + data.stage02 + data.stage02A + data.stage04 + data.stage05;
 
   const items = [
     {
-      value: data.stage00,
+      value: data.stage01,
       title: 'Tenant Evaluation / Application Received',
       label: 'Stage 00',
       color: colors.purpleIrish[100],
@@ -57,7 +58,7 @@ export const AppDistribution = ({ data }) => {
       (month) => ({
         year: 2024,
         month,
-        stage00: 10,
+        stage01: 10,
         stage02: 20,
         stage02A: 30,
         stage04: 40,
@@ -77,18 +78,10 @@ export const AppDistribution = ({ data }) => {
   }
 
   return (
-    <Box
-      sx={{
-        boxShadow: styles.boxShadow.sm,
-        borderRadius: `${styles.borderRadius.large}px`,
-        border: `1px solid ${colors.black[300]}`,
-        width: '100%',
-        padding: '16px',
-        boxSizing: 'border-box',
-      }}
-      display="flex"
-      flexDirection="column"
-      gap="12px"
+    <AppDistributionContainer
+      boxShadow={styles.boxShadow.sm}
+      borderRadius={`${styles.borderRadius.large}px`}
+      border={`1px solid ${colors.black[300]}`}
     >
       <Box display="flex" gap="16px">
         <Avatar size="large" iconImage={<IconGraphy icon="EditorLayout.Dashboard" />} />
@@ -230,7 +223,7 @@ export const AppDistribution = ({ data }) => {
                   name: aggregate.month,
                 }))}
               colors={{
-                stage00: colors.purpleIrish[100],
+                stage01: colors.purpleIrish[100],
                 stage02: colors.parisGreen[100],
                 stage02A: colors.magentaRed[100],
                 stage04: colors.warmBlue[100],
@@ -240,6 +233,42 @@ export const AppDistribution = ({ data }) => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </AppDistributionContainer>
   );
 };
+
+const AppDistributionContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+
+  box-shadow: ${(props) => props.boxShadow};
+  border-radius: ${(props => props.borderRadius)};
+  border: ${(props) => props.border};
+
+  & > div:nth-of-type(2) {
+    @media screen and (max-width: ${({theme}) => theme.lg}) {
+      flex-direction: column;
+    }
+    @media screen and (max-width: ${({theme}) => theme.sm}) {
+      padding: 0;
+    }
+    & > div:nth-of-type(2) {
+      & > div:nth-of-type(1) {
+        @media screen and (max-width: ${({theme}) => theme.md}) {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+
+      & > div:nth-of-type(2) {
+        @media screen and (max-width: ${({theme}) => theme.md}) {
+          padding: 0;
+        }
+      }
+    }
+  }
+`

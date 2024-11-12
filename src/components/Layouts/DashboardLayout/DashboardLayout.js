@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { primaryMenu, secondaryMenu } from 'data/ui/menu';
 import { openMenuItem } from 'store/actions/uiActions';
 
+
 // Context
 import { UserContext } from 'context/context';
 
@@ -65,10 +66,9 @@ export default ({ children, shouldShowCard = true }) => {
   return (
     <Container >
       <Sidebar />
-      <Box
-        sx={{ flexGrow: 1, background: colors.purple[100], minHeight: '100%' }}
-        display="flex"
-        flexDirection="column"
+
+      <MainContainer
+        background={colors.purple[100]}
       >
         <Topbar />
         <BreadCrumbs />
@@ -79,17 +79,17 @@ export default ({ children, shouldShowCard = true }) => {
             margin: '0px 8px 8px 8px',
             ...(shouldShowCard
               ? {
-                padding: '20px 28px',
-                borderRadius: `${styles.borderRadius.large}px`,
-                background: 'white',
-                border: `1px solid ${colors.black[300]}`,
-              }
+                  padding: '20px 28px',
+                  borderRadius: `${styles.borderRadius.large}px`,
+                  background: 'white',
+                  border: `1px solid ${colors.black[300]}`,
+                }
               : {}),
           }}
         >
           {children}
         </Box>
-      </Box>
+      </MainContainer>
       {
         user.menuOpenInMobile &&
           <MobileSidebar id={'cover-div'} onClick={(e) => {
@@ -98,15 +98,15 @@ export default ({ children, shouldShowCard = true }) => {
             <Sidebar />
           </MobileSidebar>
       }
-    </Container >
+    </Container>
   );
 };
+
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   /* min-height: 100vh; */
-
   & > div:nth-of-type(2) {
    /* height: 100vh; */
    /* overflow: auto; */
@@ -117,9 +117,7 @@ const Container = styled.div`
     }
   }
 `;
-
 const MobileSidebar = styled.div`
-
   position: fixed;
   top: 0;
   right: 0;
@@ -132,9 +130,18 @@ const MobileSidebar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-
-
   @media screen and (min-width: 1280px) {
     display: none;
   }
+`
+
+const MainContainer = styled.div`
+  flex-grow: 1;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: ${(props) => props.background};
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
 `

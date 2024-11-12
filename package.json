@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@lagunovsky/redux-react-router": "^4.3.2",
-    "@leapeasy/ui-kit": "^0.1.32",
+    "@leapeasy/ui-kit": "^0.1.33",
     "@mui/material": "^5.16.7",
     "@mui/styles": "^6.1.6",
     "@testing-library/jest-dom": "^5.17.0",
