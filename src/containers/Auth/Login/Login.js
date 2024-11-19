@@ -37,8 +37,8 @@ export const Login = () => {
   const navigate = useNavigate();
   const captchaEl = useRef();
   const [captcha, setCaptcha] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin@leapeasy.com');
+  const [password, setPassword] = useState('admin');
 
   const isEmailValid = validator.isEmail(email);
 

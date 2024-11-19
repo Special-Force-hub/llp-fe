@@ -77,9 +77,6 @@ export const BuildingDetail = () => {
       onClickBack();
       return;
     }
-
-    // dispatch(getBuildingDelegationAction(buildingId));
-    // dispatch(getBuildingInvoiceAction(buildingId));
   }, [onClickBack, details]);
 
   if (!detailsJSON) return <DashboardLayoutContainer />;

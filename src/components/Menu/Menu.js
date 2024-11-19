@@ -5,38 +5,37 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { openMenuItem } from 'store/actions/uiActions';
 
-const MenuItem = ({ data, isActive, hasChildren, level, onClick }) => {
+const MenuItem = ({ data, isActive, hasChildren, level, onClick, collapsed, toggleparent}) => {
   const fontWeight = isActive ? (hasChildren ? 500 : 600) : 400;
-
   return (
     <Box
+      component='li'
       sx={{
         cursor: 'pointer',
         padding: '8px 12px',
         borderRadius: '8px',
         color: 'white',
-
         display: 'flex',
         gap: '12px',
         alignItems: 'center',
         opacity: level === 0 ? 1 : 0.75,
         fontWeight: fontWeight,
 
-        ...(isActive
+        ...((isActive || (collapsed && toggleparent))
           ? {
+            color: colors.purple[900],
+            background: colors.black[100],
+            opacity: 1,
+            fontWeight: Math.min(fontWeight + 100, 600),
+          }
+          : {
+            '&:hover': {
               color: colors.purple[900],
               background: colors.black[100],
-              opacity: 1,
+              opacity: 0.75,
               fontWeight: Math.min(fontWeight + 100, 600),
-            }
-          : {
-              '&:hover': {
-                color: colors.purple[900],
-                background: colors.black[100],
-                opacity: 0.75,
-                fontWeight: Math.min(fontWeight + 100, 600),
-              },
-            }),
+            },
+          }),
       }}
       onClick={onClick}
     >
@@ -48,12 +47,13 @@ const MenuItem = ({ data, isActive, hasChildren, level, onClick }) => {
 
       <Typography
         variant={level === 0 ? 'body1' : 'body3'}
-        style={{ flexGrow: 1, userSelect: 'none' }}
+        style={{ flexGrow: 1, userSelect: 'none', opacity: collapsed ? 0 : 1, zIndex: collapsed ? -3 : 1, transition: 'all 0.4s ease', whiteSpace: 'nowrap', }}
       >
         {data.name}
       </Typography>
 
-      {hasChildren && (
+
+      {hasChildren && !collapsed && (
         <Box display="flex" alignItems="center" sx={{ opacity: 0.6 }}>
           <IconGraphy icon={isActive ? 'Arrow.ExpandLess' : 'Arrow.ExpandMore'} />
         </Box>
@@ -62,7 +62,7 @@ const MenuItem = ({ data, isActive, hasChildren, level, onClick }) => {
   );
 };
 
-const getMenuItems = (menuArray, role, level, selectedMenu, selectedParentMenu, onSelectMenu) =>
+const getMenuItems = (menuArray, role, level, selectedMenu, selectedParentMenu, onSelectMenu, collapsed) =>
   menuArray.map((item) => {
     switch (role) {
       case 'admin':
@@ -125,17 +125,32 @@ const getMenuItems = (menuArray, role, level, selectedMenu, selectedParentMenu, 
         break;
     }
 
+    //Toggle parent Select
+    let toggleparent=false;
+    if(item.child){
+      item.child.map((childMenu) => {
+        if(selectedMenu.indexOf(childMenu.key) !== -1) {
+          toggleparent=true;
+        }
+      })
+    } 
+      
+       
+    
+
     return (
-      <Box key={item.key}>
+      <Box key={item.key} className='parentItem'>
         <MenuItem
           data={item}
           isActive={item.key === selectedMenu}
           hasChildren={Boolean(item.child)}
           level={level}
           onClick={() => onSelectMenu(item.key, item)}
+          collapsed={collapsed}
+          toggleparent={toggleparent}
         />
 
-        {item.child && (
+        {!collapsed && item.child && (
           <Collapse
             sx={{ pl: '32px', pt: '4px' }}
             component="div"
@@ -144,6 +159,7 @@ const getMenuItems = (menuArray, role, level, selectedMenu, selectedParentMenu, 
             unmountOnExit
           >
             {item.child.map((childMenu) => (
+
               <MenuItem
                 key={childMenu.key}
                 data={childMenu}
@@ -155,11 +171,30 @@ const getMenuItems = (menuArray, role, level, selectedMenu, selectedParentMenu, 
             ))}
           </Collapse>
         )}
+        {
+          collapsed && item.child && (
+            <div className='submenu'>
+              {item.child.map((childMenu) => (
+
+                <MenuItem
+                  key={childMenu.key}
+                  data={childMenu}
+                  isActive={`${item.key}.${childMenu.key}` === selectedMenu}
+                  hasChildren={Boolean(childMenu.child)}
+                  onClick={() => onSelectMenu(`${item.key}.${childMenu.key}`, childMenu)}
+                  level={level + 1}
+                />
+
+              ))}
+            </div>
+          )
+        }
       </Box>
     );
   });
 
-export const Menu = ({ data }) => {
+
+export const Menu = ({ data, collapsed }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -198,7 +233,7 @@ export const Menu = ({ data }) => {
 
   return (
     <Box display="flex" flexDirection="column" gap="12px">
-      {getMenuItems(data, role, 0, activeMenu, selectedParentMenu, onSelectMenu)}
+      {getMenuItems(data, role, 0, activeMenu, selectedParentMenu, onSelectMenu, collapsed)}
     </Box>
   );
 };

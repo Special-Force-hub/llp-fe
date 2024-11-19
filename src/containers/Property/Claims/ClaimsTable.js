@@ -38,7 +38,6 @@ export const ClaimsTable = ({
         ]);
       });
       setTableData(data);
-      console.log('data:', data);
     }
   }, [claims, isDemo]);
 

@@ -346,7 +346,6 @@ function* onFindInvite() {
 function* setUserThemeSaga({ payload }) {
   try {
     const response = yield setUserTheme({ payload });
-    console.log(response);
     const userData = {
       name: response.data.username,
       email: response.data.email,

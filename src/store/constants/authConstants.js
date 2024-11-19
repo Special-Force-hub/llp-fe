@@ -27,6 +27,7 @@ const authActionTypes = {
   MFA_SENT: 'MFA_SENT',
   GET_CAPTCHA_STATUS: 'GET_CAPTCHA_STATUS',
   SET_CAPTCHA_REQUIRED: 'SET_CAPTCHA_REQUIRED',
+  SET_COLLAPSED: 'SET_COLLAPSED'
 };
 
 export default authActionTypes;

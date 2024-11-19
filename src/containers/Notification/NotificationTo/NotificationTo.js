@@ -62,7 +62,6 @@ export const NotificationTo = () => {
   if (!messages) return <DashboardLayoutContainer />;
 
   const messagesJSON = messages.toJS();
-  console.log("messagesJSON", messagesJSON);
 
   return (
     <DashboardLayoutContainer>

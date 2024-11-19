@@ -113,7 +113,6 @@ export const Email = () => {
     const selectedBuilding = emails.toJS().data.find(
       (email) => email.id === tableMeta[tableMeta.length - 1],
     );
-    console.log("selectedBuilding", selectedBuilding);
     dispatch(getUserBuildingAction({ id: selectedBuilding.property }));
 
     if (selectedBuilding) {

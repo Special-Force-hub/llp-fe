@@ -11,7 +11,7 @@ import {
 import { openDetails } from 'store/actions/uiActions';
 import { BuildingTable } from 'components/Tables/BuildingTable';
 import { useNavigate } from 'react-router-dom';
-import { Button, Dropdown, Loading } from '@leapeasy/ui-kit';
+import { Dropdown, Loading } from '@leapeasy/ui-kit';
 import { NoBuildingData } from 'components/common/NoBuildingData';
 
 export const Buildings = (props) => {
@@ -51,22 +51,10 @@ export const Buildings = (props) => {
         isSHouse: isSHouse
       }),
     );
-
-    
   }
 
   useEffect(() => {
-    // handleDispatch();
-    dispatch(
-      getBuildingAction({
-        filter,
-        offset: pagination.pageNumber * pagination.rowsPerPage,
-        limit: pagination.rowsPerPage,
-        sortOptions: sortOptions,
-        selectedBType: selectedBType,
-        isSHouse: isSHouse
-      }),
-    );
+    handleDispatch()
   }, [filter, pagination, dispatch, sortOptions]);
 
   const onClickBuilding = useCallback(

@@ -6,6 +6,7 @@ import { getDemoData } from 'utils/helpers';
 
 export const FlaggedCancellationTable = ({
   flaggedCancellations,
+  dropFilter,
   filter,
   onChangeFilter,
   pagination,
@@ -50,8 +51,28 @@ export const FlaggedCancellationTable = ({
     }
   };
 
+  
+
   return (
     <Table
+      data={tableData}
+      filter={filter}
+      dropFilter={dropFilter}
+      onChangeFilter={onChangeFilter}
+      onChangeRowsPerPage={(value) =>
+        onChangePagination({
+          ...pagination,
+          rowsPerPage: value,
+          pageNumber: 0,
+        })
+      }
+      pagination={pagination}
+      rowsPerPageOptions={[12, 15, 20]}
+      sortOptions={sortOptions}
+      onChangeSort={onChangeSort}
+      style={{ width: '100%' }}
+      title="Flagged Cancellations"
+
       columns={[
         {
           name: <Checkbox description="" indeterminate label="" onClick={() => { }} readonly />,
@@ -93,7 +114,7 @@ export const FlaggedCancellationTable = ({
         {
           name: 'Policy Status',
           options: {
-            flex: '30px 1 1',
+            flex: '60px 1 1',
             filter: true,
             filterOptions: [
               {
@@ -230,22 +251,6 @@ export const FlaggedCancellationTable = ({
           key: '',
         },
       ]}
-      data={tableData}
-      filter={filter}
-      onChangeFilter={onChangeFilter}
-      onChangeRowsPerPage={(value) =>
-        onChangePagination({
-          ...pagination,
-          rowsPerPage: value,
-          pageNumber: 0,
-        })
-      }
-      pagination={pagination}
-      rowsPerPageOptions={[12, 15, 20]}
-      sortOptions={sortOptions}
-      onChangeSort={onChangeSort}
-      style={{ width: '100%' }}
-      title="Flagged Cancellations"
     />
   );
 };

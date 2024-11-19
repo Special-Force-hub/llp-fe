@@ -5,9 +5,80 @@ import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { getDemoData } from 'utils/helpers';
 
+const BADGE_CLAIM_FILE_STATUS = [
+  {
+    value: "",
+    badge: 'Open',
+  },
+  {
+    value: 'Closed - Partial denial',
+    badge: 'Closed',
+  },
+  {
+    value: 'Closed Claim - Duplicate',
+    badge: 'Duplicated',
+  },
+  {
+    value: 'Incident Only',
+    badge: 'Incident Only',
+  },
+  {
+    value: 'Closed - Claim Paid',
+    badge: 'Paid',
+  },
+  {
+    value: 'Closed - Claim Denied',
+    badge: 'Denied',
+  },
+  {
+    value: 'Open Claim - Test Claim',
+    badge: 'Test',
+  },
+  {
+    value: 'Open - Pending Payment',
+    badge: 'Pending',
+  },
+  {
+    value: 'Closed Claim - Inactive',
+    badge: 'Inactive',
+  },
+  {
+    value: 'Open - Pending Decision',
+    badge: 'Pending',
+  },
+  {
+    value: 'Closed - Incident Only',
+    badge: '',
+  },
+]
+
+const APP_TYPES = [
+  {
+    value: '',
+    label: 'GWP',
+  },
+  {
+    value: 'Auto Enroll',
+    label: 'AE'
+  },
+  {
+    value: 'LDR',
+    label: 'LDR'
+  },
+  {
+    value: 'LDR Commercial',
+    label: 'LDR-C'
+  },
+  {
+    value: 'Rent Guaranty',
+    label: 'RG'
+  }
+]
+
 export const ClaimTable = ({
   claims,
   filter,
+  dropFilter,
   onChangeFilter,
   pagination,
   onChangePagination,
@@ -39,7 +110,6 @@ export const ClaimTable = ({
         ]);
       });
       setTableData(data);
-      console.log('data:', data);
     }
   }, [claims, isDemo]);
 
@@ -57,7 +127,7 @@ export const ClaimTable = ({
         {
           name: 'Status',
           options: {
-            flex: '45px 1 1',
+            flex: '85px 1 1',
             customBodyRenderer: (value) => (
               <Badge
                 background="rgba(243, 241, 244, 1)"
@@ -80,35 +150,12 @@ export const ClaimTable = ({
                 <Badge
                   background="#F3F1F4"
                   color={value == 'Open - Pending Decision' ? 'sunglow' : 'neutral'}
-                  label={value}
+                  label={BADGE_CLAIM_FILE_STATUS.filter((item) => item.value === value)[0].badge}
                   rounded
                   textSize="medium"
                 />
               </Box>
             ),
-            filterOptions: [
-              {
-                text: 'N/A',
-                value: '',
-              },
-              {
-                text: 'Closed - Claim Denied',
-                value: '',
-              },
-              {
-                text: 'Closed - Claim Paid',
-                value: '',
-              },
-              {
-                text: 'Closed - Incident Only',
-                value: '',
-              },
-              {
-                text: 'Closed - Partial Denial',
-                value: '',
-              },
-            ],
-            sort: true,
           },
           key: 'claim_file_status',
         },
@@ -116,49 +163,25 @@ export const ClaimTable = ({
           name: 'Claim Num.',
           options: {
             flex: '80px 1 1',
-
             sort: true,
-            filter: true,
-            filterOptions: [
-              {
-                text: '1',
-                value: '',
-              },
-              {
-                text: '2',
-                value: '',
-              },
-            ],
           },
           key: 'claim_name',
         },
         {
-          name: 'App. Type',
+          name: 'AppType',
           options: {
-            sort: true,
             flex: '80px 1 1',
             customBodyRenderer: (value) => (
               <Box textAlign="center">
                 <Badge
                   background="rgba(243, 241, 244, 1)"
                   color="purpleIrish"
-                  label={value}
+                  label={APP_TYPES.filter((item) => item.value === value)[0].label}
                   rounded
                   textSize="medium"
                 />
               </Box>
             ),
-            filter: true,
-            filterOptions: [
-              {
-                text: '1',
-                value: '',
-              },
-              {
-                text: '2',
-                value: '',
-              },
-            ],
           },
           key: 'app_type',
         },
@@ -173,7 +196,6 @@ export const ClaimTable = ({
           name: 'Account',
           options: {
             filter: false,
-            sort: true,
             customBodyRender: (value) => (
               <Typography align="center" variant="body1">
                 {value}
@@ -202,7 +224,6 @@ export const ClaimTable = ({
         {
           name: 'Rent/M',
           options: {
-            sort: true,
             customBodyRender: (value) => (
               <Typography align="center" variant="body1">
                 {value}
@@ -237,7 +258,7 @@ export const ClaimTable = ({
           options: {
             sort: true,
           },
-          key: 'landlord',
+          key: 'landlord_name',
         },
         {
           name: '',
@@ -257,6 +278,7 @@ export const ClaimTable = ({
       ]}
       data={tableData}
       filter={filter}
+      dropFilter={dropFilter}
       onChangeFilter={onChangeFilter}
       onChangeRowsPerPage={(value) =>
         onChangePagination({

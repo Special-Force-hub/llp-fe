@@ -173,9 +173,9 @@ function* updateUserPropertySaga({ payload }) {
   }
 }
 
-function* getActiveLandlordSaga() {
+function* getActiveLandlordSaga({payload}) {
   try {
-    const data = yield getActiveLandlord();
+    const data = yield getActiveLandlord(payload);
     yield put(setActiveLandlordAction(data));
   } catch (error) {
     failedNotif(error.response.message);

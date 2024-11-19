@@ -6,6 +6,7 @@ import { getActiveLandlordAction } from 'store/actions/userActions';
 import { useNavigate } from 'react-router-dom';
 import { LandlordTable } from 'components/Tables/LandlordTable';
 import { openDetails } from 'store/actions/uiActions';
+import { Loading } from '@leapeasy/ui-kit';
 
 export const Landlord = () => {
   const dispatch = useDispatch();
@@ -34,11 +35,7 @@ export const Landlord = () => {
 
   useEffect(() => {
     dispatch(
-      getActiveLandlordAction({
-        filter,
-        pagination,
-        sortOptions,
-      }),
+      getActiveLandlordAction(),
     );
   }, [filter, pagination, sortOptions, dispatch]);
 
@@ -59,30 +56,47 @@ export const Landlord = () => {
     [dispatch, navigate],
   );
 
-  if (!landlords) return <DashboardLayoutContainer />;
+  const applyFunc = () => {
+    
+  }
 
-  const landlordsJSON = landlords.toJS();
+  const resetFunc = () => {
+
+  }
+
+  const landlordsJSON = landlords && landlords.toJS();
 
   return (
     <DashboardLayoutContainer>
-      <Box>
-        <LandlordTable
-          landlords={landlordsJSON.data}
-          filter={filter}
-          onChangeFilter={setFilter}
-          pagination={{
-            ...pagination,
-            totalItems: landlordsJSON.total || landlordsJSON.data.length,
-            totalPages: Math.ceil(
-              (landlordsJSON.total || landlordsJSON.data.length) / pagination.rowsPerPage,
-            ),
-          }}
-          onChangePagination={setPagination}
-          sortOptions={sortOptions}
-          onChangeSort={setSortOptions}
-          onClickLandlord={onClickLandlord}
-        />
-      </Box>
+      {
+        landlords ? (
+          <Box>
+            <LandlordTable
+              landlords={landlordsJSON.data}
+              filter={filter}
+              dropFilter={{
+                component: (
+                  <div>Landlord</div>
+                ),
+                applyFunc: applyFunc,
+                resetFunc: resetFunc,
+              }}
+              onChangeFilter={setFilter}
+              pagination={{
+                ...pagination,
+                totalItems: landlordsJSON.total || landlordsJSON.data.length,
+                totalPages: Math.ceil(
+                  (landlordsJSON.total || landlordsJSON.data.length) / pagination.rowsPerPage,
+                ),
+              }}
+              onChangePagination={setPagination}
+              sortOptions={sortOptions}
+              onChangeSort={setSortOptions}
+              onClickLandlord={onClickLandlord}
+            />
+          </Box>
+        ) : <Loading size='large' label=''/>
+      }
     </DashboardLayoutContainer>
   );
 };

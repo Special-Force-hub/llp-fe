@@ -2,6 +2,7 @@ import { IconGraphy, Avatar, Tooltip } from '@leapeasy/ui-kit';
 import styled from 'styled-components';
 import { Box } from '@mui/material';
 import { useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 // Context
 import { UserContext } from 'context/context';
@@ -10,6 +11,7 @@ const elem = document.documentElement;
 
 export const Topbar = () => {
 
+  const collapsed = useSelector((state) => state.getIn(['ui', 'collapsed']));
   const userContext = useContext(UserContext);
 
   const [fullScreen, setFullScreen] = useState(false);
@@ -58,7 +60,12 @@ export const Topbar = () => {
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      sx={{ padding: '12px 32px', background: 'white' }}
+      sx={{ padding: '12px 32px', 
+            background: 'white', 
+            paddingLeft: {md: '32px'}, 
+            paddingLeft: (collapsed? '64px' : '32px'),
+            transition: 'all 0.5s ease',
+          }}
     >
       {/** actions */}
       <Box display="flex">

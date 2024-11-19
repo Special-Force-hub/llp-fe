@@ -9,3 +9,8 @@ export const openDetails = (details) => ({
   type: types.OPEN_DETAILS,
   payload: details,
 });
+
+export const collapsedAction = (data) => ({
+  type: types.SET_COLLAPSED,
+  payload: data,
+});

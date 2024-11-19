@@ -42,11 +42,10 @@ export const BuildingTable = ({
   }, [buildings, isDemo]);
 
   const goDetailPage = (tableMeta) => {
-
+    
     const selectedBuilding = buildings.find(
       (building) => building.id === tableMeta[tableMeta.length - 1],
     );
-
     if (selectedBuilding) {
       onClickBuilding(selectedBuilding);
     }
@@ -84,28 +83,12 @@ export const BuildingTable = ({
                 textSize="medium"
               />
             ),
-            filterOptions: [
-              {
-                text: 'Auto Enroll',
-                value: 'Auto Enroll',
-              },
-              {
-                text: 'Event Process',
-                value: 'Event Process',
-              },
-              {
-                text: 'Event Process;Auto Enroll',
-                value: 'Event Process;Auto Enroll',
-              },
-            ],
-            sort: true,
           },
           key: 'building_type',
         },
         {
           name: 'Phone Number',
           options: {
-            sort: true,
           },
           key: 'phone',
         },
@@ -121,7 +104,6 @@ export const BuildingTable = ({
           name: 'Email Address',
           options: {
             // flex: '210px 1 1',
-            sort: true,
           },
           key: 'email_address',
         },
@@ -129,7 +111,6 @@ export const BuildingTable = ({
           name: 'Tot. Active Leap Units',
           options: {
             filter: false,
-            sort: true,
             customBodyRender: (value) => (
               <Typography align="center" variant="body1">
                 {value.toLocaleString('en-US')}
@@ -143,7 +124,6 @@ export const BuildingTable = ({
           options: {
             flex: '60px 1 1',
             filter: true,
-            sort: true,
             customBodyRenderer: (value) => (
               <Badge
                 background="#F3F1F4"
@@ -170,7 +150,6 @@ export const BuildingTable = ({
           name: 'Detail',
           options: {
             flex: '20px 1 1',
-            sort: true,
             customBodyRenderer: (value, tableMeta) => (
               <IconGraphy
                 icon={'FileFolder.Description'}
@@ -183,7 +162,6 @@ export const BuildingTable = ({
         },
       ]}
       data={tableData}
-      mobileWidth={960}
       filter={filter}
       dropFilter={dropFilter}
       onChangeFilter={onChangeFilter}

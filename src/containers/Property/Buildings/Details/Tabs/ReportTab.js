@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography } from '@leapeasy/ui-kit';
+import { Typography, Loading } from '@leapeasy/ui-kit';
 import { Box } from '@mui/material';
 import { AllApplicationsChart } from 'elements/Charts/AllApplicationsChart';
 import { AppTypeChart } from 'elements/Charts/AppTypeChart';
@@ -38,8 +38,6 @@ export const ReportTab = ({ building, onNavigateToApplications }) => {
   useEffect(() => {
     dispatch(getAppReportAction({ buildingId: building.building_id }));
   }, [building.building_id]);
-
-  if (!buildingReportData) return;
 
   return (
     <>

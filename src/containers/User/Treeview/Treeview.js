@@ -23,10 +23,6 @@ export const Treeview = () => {
     dispatch(getLandlordTreeAction());
   }, []);
 
-  useEffect(() => {
-    console.log("landlordTree: ", landlordTree);
-  }, [landlordTree])
-
   return (
     <DashboardLayoutContainer>
       <Box>

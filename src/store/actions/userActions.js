@@ -75,8 +75,9 @@ export const updateUserPropertyAction = (data) => ({
   payload: data,
 });
 
-export const getActiveLandlordAction = () => ({
+export const getActiveLandlordAction = (data) => ({
   type: types.GET_ACTIVE_LL,
+  payload: data
 });
 
 export const setActiveLandlordAction = (data) => ({

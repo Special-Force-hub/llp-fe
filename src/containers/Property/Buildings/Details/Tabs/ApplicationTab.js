@@ -1,8 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box } from '@mui/material';
 import { getAppAction, setAppAction } from 'store/actions/propertyActions';
 import { ApplicationTable } from 'components/Tables/ApplicationTable';
+
+import { DatePickerInput, Dropdown, Loading } from '@leapeasy/ui-kit';
 
 export const ApplicationTab = ({ building }) => {
   const dispatch = useDispatch();
@@ -38,7 +40,12 @@ export const ApplicationTab = ({ building }) => {
 
   const applications = useSelector((state) => state.getIn(['property', 'application']));
 
+  const resetFunc = () => {
+  }
+  const applyFunc = () => {
+  }
   if (!applications) return null;
+
 
   const applicationsJSON = applications.toJS();
   return (
@@ -52,10 +59,15 @@ export const ApplicationTab = ({ building }) => {
           totalItems: applicationsJSON.total,
           totalPages: Math.ceil(applicationsJSON.total / pagination.rowsPerPage),
         }}
+        dropFilter={{
+          component: <div>Application</div>,
+          resetFunc: resetFunc,
+          applyFunc: applyFunc
+        }}
         onChangePagination={setPagination}
         sortOptions={sortOptions}
         onChangeSort={setSortOptions}
-        shouldShowBuildingName={false}
+        // shouldShowBuildingName={false}
         onClickApplication={() => {}}
       />
     </Box>

@@ -8,6 +8,7 @@ import { getDemoData } from 'utils/helpers';
 export const PolicyTable = ({
   policies,
   filter,
+  dropFilter,
   onChangeFilter,
   pagination,
   onChangePagination,
@@ -58,21 +59,45 @@ export const PolicyTable = ({
     }
   };
 
+
+  const APP_TYPES = [
+    {
+      value: '',
+      label: 'GWP',
+    },
+    {
+      value: 'Auto Enroll',
+      label: 'AE'
+    },
+    {
+      value: 'LDR',
+      label: 'LDR'
+    },
+    {
+      value: 'LDR Commercial',
+      label: 'LDR-C'
+    },
+    {
+      value: 'Rent Guaranty',
+      label: 'RG'
+    }
+  ]
+
   const columns = useMemo(() => {
     const columns = [
       {
         name: 'Stage',
         options: {
-          flex: '40px 1 1',
+          flex: '60px 1 1',
           customBodyRenderer: (value) => (
-            <Badge
-              color={value ? 'sunglow' : 'tomato'}
-              label={!value ? 'undefined' : '2 issued'}
-              rounded
-              textSize="medium"
-            />
+            <div>{value}</div>
+            // <Badge
+            //   color={value ? 'sunglow' : 'tomato'}
+            //   label={!value ? 'undefined' : '2 issued'}
+            //   rounded
+            //   textSize="medium"
+            // />
           ),
-          sort: true,
         },
         key: 'stage',
       },
@@ -84,15 +109,7 @@ export const PolicyTable = ({
           customBodyRenderer: (value) => (
             <Badge
               color={value ? 'purpleIrish' : 'tomato'}
-              label={
-                !value
-                  ? 'undefined'
-                  : value == 'Auto Enroll'
-                    ? 'AE'
-                    : value == 'Event Process'
-                      ? 'EP'
-                      : 'AE EP'
-              }
+              label={APP_TYPES.filter(app => app.value == value)[0].label}
               rounded
               textSize="medium"
             />
@@ -112,7 +129,6 @@ export const PolicyTable = ({
               value: 'Event Process;Auto Enroll',
             },
           ],
-          sort: true,
         },
         key: 'app_type',
       },
@@ -121,7 +137,7 @@ export const PolicyTable = ({
         options: {
           sort: true,
         },
-        key: 'building_name',
+        key: 'apartment_building_name',
       },
       {
         name: 'Policy ID',
@@ -135,13 +151,12 @@ export const PolicyTable = ({
         options: {
           sort: true,
         },
-        key: 'tenant_name',
+        key: 'tenant_1_name',
       },
       {
         name: 'Rent /M',
         options: {
           flex: '15px 1 1',
-          sort: true,
           customBodyRenderer: (value) => (
             <Typography align="center" variant="body2">
               ${value.toLocaleString('en-US')}
@@ -156,7 +171,7 @@ export const PolicyTable = ({
           flex: '80px 1 1',
           sort: true,
         },
-        key: 'create_date',
+        key: 'sf_createdDate',
       },
       {
         name: 'L/Start Date',
@@ -179,7 +194,6 @@ export const PolicyTable = ({
         options: {
           flex: '30px 1 1',
           filter: true,
-          sort: true,
           customBodyRenderer: (value) => (
             <Badge
               // background="#F3F1F4"
@@ -206,7 +220,6 @@ export const PolicyTable = ({
         name: 'Tenant',
         options: {
           flex: '30px 1 1',
-          sort: true,
           filter: true,
           filterOptions: [
             {
@@ -229,7 +242,6 @@ export const PolicyTable = ({
         name: 'Detail',
         options: {
           flex: '5px 1 1',
-          sort: true,
           customBodyRenderer: (value, tableMeta) => (
             <IconGraphy
               icon={'FileFolder.Description'}
@@ -244,7 +256,6 @@ export const PolicyTable = ({
         name: '',
         options: {
           flex: '5px 1 1',
-          sort: true,
           customBodyRenderer: () => (
             <IconGraphy
               icon={'EditorLayout.MoreVert'}
@@ -268,6 +279,7 @@ export const PolicyTable = ({
       columns={columns}
       data={tableData}
       filter={filter}
+      dropFilter={dropFilter}
       onChangeFilter={onChangeFilter}
       onChangeRowsPerPage={(value) =>
         onChangePagination({

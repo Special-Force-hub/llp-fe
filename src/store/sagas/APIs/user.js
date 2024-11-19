@@ -50,6 +50,7 @@ export const getInviteLandlord = async (payload) => {
 };
 
 export const getActiveLandlord = async () => {
+
   const response = await api.get('/user/active-landlords', getAuthHeader());
   return response.data;
 };

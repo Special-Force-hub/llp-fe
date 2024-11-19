@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Box } from '@mui/material';
 import styled from 'styled-components';
 import { styles, colors } from '@leapeasy/ui-kit';
@@ -15,6 +15,9 @@ import { openMenuItem } from 'store/actions/uiActions';
 import { UserContext } from 'context/context';
 
 export default ({ children, shouldShowCard = true }) => {
+  // const [collapsed, setCollapsed] = useState(false);
+  // console.log(collapsed);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -26,7 +29,7 @@ export default ({ children, shouldShowCard = true }) => {
   // update selected menu item when router changes
   const router = useSelector((state) => state.getIn(['router']));
   const activeMenu = useSelector((state) => state.getIn(['ui', 'menuItem'])) || 'dashboard';
-
+  const collapsed = useSelector((state) => state.getIn(['ui', 'collapsed']));
   useEffect(() => {
     for (const menuList of [primaryMenu, secondaryMenu]) {
       for (const menuItem of menuList) {
@@ -65,7 +68,8 @@ export default ({ children, shouldShowCard = true }) => {
 
   return (
     <Container >
-      <Sidebar />
+      <Sidebar collapsed={collapsed} /> 
+      {/* collapsed */}
 
       <MainContainer
         background={colors.purple[100]}
@@ -129,7 +133,7 @@ const MobileSidebar = styled.div`
   -webkit-tap-highlight-color: transparent;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-start;  
   @media screen and (min-width: 1280px) {
     display: none;
   }

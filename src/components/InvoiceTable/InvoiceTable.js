@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { IconGraphy, Table } from '@leapeasy/ui-kit';
 import { Typography, Badge, DatePickerInput } from '@leapeasy/ui-kit';
 import { useState, useEffect } from 'react';
@@ -8,6 +9,7 @@ import { getDemoData } from 'utils/helpers';
 export const InvoiceTable = ({
   invoices,
   filter,
+  dropFilter,
   onChangeFilter,
   pagination,
   onChangePagination,
@@ -19,9 +21,9 @@ export const InvoiceTable = ({
 
   useEffect(() => {
     const data = [];
-    if (invoices) {
+    if (invoices) { 
       const schedule_date = invoices.schedule_date;
-      invoices.forEach((invoice) => {
+      invoices.invoiceData.forEach((invoice) => {
         let update_status = null;
         if (new Date(invoice.createdAt) > new Date(new Date(schedule_date) - 86400000)) {
           update_status = 'New';
@@ -30,10 +32,10 @@ export const InvoiceTable = ({
         ) {
           update_status = 'Update';
         }
+        console.log(schedule_date, invoice.createdAt, invoice.lastUpdatedTime, update_status)
         let dispute_status = null;
         if (invoice.dispute) {
           dispute_status = 'dispute';
-
           if (invoice.dispute[invoice.dispute.length - 1].total_amount !== invoice.total_amount) {
             dispute_status = 'updated';
           }
@@ -64,6 +66,24 @@ export const InvoiceTable = ({
 
   return (
     <Table
+      
+      data={tableData}
+      filter={filter}
+      dropFilter={dropFilter}
+      onChangeFilter={onChangeFilter}
+      onChangeRowsPerPage={(value) =>
+        onChangePagination({
+          ...pagination,
+          rowsPerPage: value,
+          pageNumber: 0,
+        })
+      }
+      pagination={pagination}
+      rowsPerPageOptions={[12, 15, 20]}
+      sortOptions={sortOptions}
+      onChangeSort={onChangeSort}
+      style={{ width: '100%' }}
+      title="Invoice"
       columns={[
         {
           name: 'Invoice Num.',
@@ -71,13 +91,12 @@ export const InvoiceTable = ({
             flex: '15px 1 1',
             sort: true,
           },
-          key: 'invoice_number',
+          key: 'invoice_id',
         },
         {
           name: 'Payment',
           options: {
             flex: '15px 1 1',
-            filter: true,
             customBodyRenderer: (value) => (
               <Badge
                 color={'magentaRed'}
@@ -86,17 +105,6 @@ export const InvoiceTable = ({
                 textSize="medium"
               />
             ),
-            filterOptions: [
-              {
-                text: 'Paid',
-                value: 'true',
-              },
-              {
-                text: 'Unpaid',
-                value: 'false',
-              },
-            ],
-            sort: true,
           },
           key: 'payment_status',
         },
@@ -108,17 +116,6 @@ export const InvoiceTable = ({
             customBodyRenderer: (value) => (
               <Badge color={'neutral'} label={value} rounded textSize="medium" />
             ),
-            filterOptions: [
-              {
-                text: 'Viewed',
-                value: 'viewed',
-              },
-              {
-                text: 'Sent',
-                value: 'sent',
-              },
-            ],
-            sort: true,
           },
           key: 'invoice status',
         },
@@ -128,7 +125,7 @@ export const InvoiceTable = ({
             flex: '120px 1 1',
             sort: true,
           },
-          key: 'landlord_name',
+          key: 'sf_landlord_name',
         },
         {
           name: 'Building Name',
@@ -136,7 +133,7 @@ export const InvoiceTable = ({
             flex: '20px 1 1',
             sort: true,
           },
-          key: 'building_name',
+          key: 'sf_building_name',
         },
         {
           name: 'Total Amount',
@@ -167,27 +164,18 @@ export const InvoiceTable = ({
           options: {
             sort: true,
           },
-          key: 'last_updated_time',
+          key: 'lastUpdatedTime',
         },
         {
           name: 'Update Status',
           options: {
             flex: '20px 1 1',
             filter: true,
-            customBodyRenderer: (value) => (
-              <Badge color={'warmBlue'} label={value} rounded textSize="medium" />
-            ),
-            filterOptions: [
-              {
-                text: 'New',
-                value: 'new',
-              },
-              {
-                text: 'Undate',
-                value: 'update',
-              },
-            ],
-            sort: true,
+            customBodyRenderer: (value) => {
+              if (value) {
+                return <Badge color={'warmBlue'} label={value} rounded textSize="medium" />
+              } else <></>
+            },
           },
           key: 'update_status',
         },
@@ -204,39 +192,33 @@ export const InvoiceTable = ({
                 textSize="medium"
               />
             ),
-            filterOptions: [
-              {
-                text: 'dispute',
-                value: 'true',
-              },
-              {
-                text: 'updated',
-                value: 'false',
-              },
-            ],
-            sort: true,
           },
           key: 'disputed',
         },
         {
-          name: <IconGraphy icon={'EditorLayout.Link'} style={{ color: '#702572' }} />,
+          name: <IconContainer><IconGraphy icon={'EditorLayout.Link'} style={{ color: '#702572' }} /></IconContainer>,
           options: {
             flex: '0px 1 1',
-            sort: true,
-            customBodyRenderer: (value, tableMeta) =>
-              value ? (
-                <IconGraphy
-                  icon={'Arrow.North'}
-                  style={{ color: '#702572' }}
-                  onClick={() => goDetailPage(tableMeta)}
-                />
-              ) : (
-                <IconGraphy
-                  icon={'Arrow.NorthEast'}
-                  style={{ color: '#702572' }}
-                  onClick={() => goDetailPage(tableMeta)}
-                />
-              ),
+            customBodyRenderer: (value, tableMeta) => 
+              <IconContainer>
+                {
+                  value ? (
+                    <a href={value} target="blank">
+                      <IconGraphy
+                        icon={'Arrow.NorthEast'}
+                        style={{ color: '#702572' }}
+                        onClick={() => goDetailPage(tableMeta)}
+                      />
+                    </a>
+                  ) : (
+                    <IconGraphy
+                      icon={'Arrow.NorthEast'}
+                      style={{ color: '#702572' }}
+                      onClick={() => goDetailPage(tableMeta)}
+                    />
+                  )
+                }
+              </IconContainer>
           },
           key: 'link',
         },
@@ -244,7 +226,6 @@ export const InvoiceTable = ({
           name: 'Detail',
           options: {
             flex: '5px 1 1',
-            sort: true,
             customBodyRenderer: (value, tableMeta) => (
               <IconGraphy
                 icon={'FileFolder.Description'}
@@ -256,22 +237,13 @@ export const InvoiceTable = ({
           key: 'detail',
         },
       ]}
-      data={tableData}
-      filter={filter}
-      onChangeFilter={onChangeFilter}
-      onChangeRowsPerPage={(value) =>
-        onChangePagination({
-          ...pagination,
-          rowsPerPage: value,
-          pageNumber: 0,
-        })
-      }
-      pagination={pagination}
-      rowsPerPageOptions={[12, 15, 20]}
-      sortOptions={sortOptions}
-      onChangeSort={onChangeSort}
-      style={{ width: '100%' }}
-      title="Invoice"
     />
   );
 };
+
+
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

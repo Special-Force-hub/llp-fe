@@ -7,6 +7,7 @@ import { getDemoData } from 'utils/helpers';
 export const LandlordTable = ({
   landlords,
   filter,
+  dropFilter,
   onChangeFilter,
   pagination,
   onChangePagination,
@@ -60,6 +61,24 @@ export const LandlordTable = ({
 
   return (
     <Table
+      data={tableData}
+      filter={filter}
+      dropFilter={dropFilter}
+      onChangeFilter={onChangeFilter}
+      onChangeRowsPerPage={(value) =>
+        onChangePagination({
+          ...pagination,
+          rowsPerPage: value,
+          pageNumber: 0,
+        })
+      }
+      pagination={pagination}
+      rowsPerPageOptions={[12, 15, 20]}
+      sortOptions={sortOptions}
+      onChangeSort={onChangeSort}
+      style={{ width: '100%' }}
+      title="Landlord"
+
       columns={[
         {
           name: '',
@@ -184,22 +203,6 @@ export const LandlordTable = ({
           key: 'actions',
         },
       ]}
-      data={tableData}
-      filter={filter}
-      onChangeFilter={onChangeFilter}
-      onChangeRowsPerPage={(value) =>
-        onChangePagination({
-          ...pagination,
-          rowsPerPage: value,
-          pageNumber: 0,
-        })
-      }
-      pagination={pagination}
-      rowsPerPageOptions={[12, 15, 20]}
-      sortOptions={sortOptions}
-      onChangeSort={onChangeSort}
-      style={{ width: '100%' }}
-      title="Landlord"
     />
   );
 };
