@@ -1,1 +1,0 @@
-export { InviteUserDetail } from './InviteUserDetail';

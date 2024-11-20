@@ -1,1 +1,0 @@
-export { LandlordDetail } from './LandlordDetail';

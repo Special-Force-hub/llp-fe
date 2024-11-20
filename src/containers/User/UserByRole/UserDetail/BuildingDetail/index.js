@@ -1,1 +1,0 @@
-export { DetailBuilding } from './BuildingDetail';
